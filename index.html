@@ -463,7 +463,7 @@
 
     updatePresetList();
     try {
-      const cachedRaw = localStorage.getItem("yd3_doan_state_cache_v4");
+      const cachedRaw = localStorage.getItem("yd3_doan_state_cache_v5");
       if (cachedRaw) {
         const cachedObj = JSON.parse(cachedRaw);
         if (cachedObj && Array.isArray(cachedObj.classes)) {
@@ -624,7 +624,7 @@
           ...res,
           danhGiaTheoTuan: (res.danhGiaTheoTuan && typeof res.danhGiaTheoTuan === "object") ? res.danhGiaTheoTuan : {}
         };
-        try { localStorage.setItem("yd3_doan_state_cache_v4", JSON.stringify(STATE)); } catch (e) {}
+        try { localStorage.setItem("yd3_doan_state_cache_v5", JSON.stringify(STATE)); } catch (e) {}
         document.getElementById('lblHeader').innerText = `THEO DÕI ĐIỂM THI ĐUA ĐOÀN TRƯỜNG THPT YÊN DŨNG SỐ 3(${STATE.namHoc || "2026 - 2027"})`;
         const selW = Number(document.getElementById('selWeek').value || getAutoCurrentWeek());
         const ta = document.getElementById('txtDanhGiaTuan');
@@ -900,9 +900,24 @@
     document.getElementById('lblMyClassHistory').innerText = lop;
 
     const wLogs = (STATE.logs || []).filter(l => Number(l.tuan) === tuan);
+    const hasRealCoDo = (clsName) => {
+      const clsCd = wLogs.filter(l => l.lop === clsName && l.nguon === "Cờ đỏ");
+      if (!clsCd.length) return false;
+      const delta = clsCd.reduce((s, l) => s + toNum(l.thanhTien), 0);
+      const val = Number(Math.max(0, Math.min(MAX_CODO, MAX_CODO + delta)).toFixed(2));
+      return val > 0;
+    };
+    const hasRealHocTap = (clsName) => {
+      const clsHt = wLogs.filter(l => l.lop === clsName && l.nguon === "Điểm học tập");
+      if (!clsHt.length) return false;
+      const delta = clsHt.reduce((s, l) => s + toNum(l.thanhTien), 0);
+      const val = Number(Math.max(0, Math.min(MAX_HOCTAP, MAX_HOCTAP + delta)).toFixed(2));
+      return val > 0;
+    };
+
     document.getElementById('cbClassChips').innerHTML = STATE.classes.map(c => {
-      const hasCD = wLogs.some(l => l.lop === c && l.nguon === "Cờ đỏ");
-      const hasHT = wLogs.some(l => l.lop === c && l.nguon === "Điểm học tập");
+      const hasCD = hasRealCoDo(c);
+      const hasHT = hasRealHocTap(c);
       let stCls = "";
       if (hasCD && hasHT) stCls = "done";
       else if (hasCD || hasHT) stCls = "partial";
@@ -918,12 +933,13 @@
     const currentCoDo = cLogs.length === 0 ? 0 : Number(Math.max(0, Math.min(MAX_CODO, MAX_CODO + coDoDelta)).toFixed(2));
     const currentHocTap = hLogs.length === 0 ? 0 : Number(Math.max(0, Math.min(MAX_HOCTAP, MAX_HOCTAP + hocTapDelta)).toFixed(2));
 
-    document.getElementById('cbCoDoScore').value = cLogs.length === 0 ? "" : currentCoDo;
-    document.getElementById('cbHocTapScore').value = hLogs.length === 0 ? "" : currentHocTap;
+    const cdSubmitted = currentCoDo > 0;
+    const htSubmitted = currentHocTap > 0;
+
+    document.getElementById('cbCoDoScore').value = cdSubmitted ? currentCoDo : "";
+    document.getElementById('cbHocTapScore').value = htSubmitted ? currentHocTap : "";
 
     const weekLocked = isWeekLocked(tuan);
-    const cdSubmitted = cLogs.length > 0;
-    const htSubmitted = hLogs.length > 0;
 
     const lockCD = !ADMIN_UNLOCKED && (weekLocked || cdSubmitted);
     const lockHT = !ADMIN_UNLOCKED && htSubmitted;
@@ -986,8 +1002,10 @@
     const existingCD = (STATE.logs || []).find(l => Number(l.tuan) === tuan && String(l.lop || "").trim().toUpperCase() === lop && l.nguon === "Cờ đỏ");
     const existingHT = (STATE.logs || []).find(l => Number(l.tuan) === tuan && String(l.lop || "").trim().toUpperCase() === lop && l.nguon === "Điểm học tập");
 
-    const lockCD = !ADMIN_UNLOCKED && (weekLocked || Boolean(existingCD));
-    const lockHT = !ADMIN_UNLOCKED && Boolean(existingHT);
+    const existingCDVal = existingCD ? Number(Math.max(0, Math.min(MAX_CODO, MAX_CODO + toNum(existingCD.thanhTien))).toFixed(2)) : 0;
+    const existingHTVal = existingHT ? Number(Math.max(0, Math.min(MAX_HOCTAP, MAX_HOCTAP + toNum(existingHT.thanhTien))).toFixed(2)) : 0;
+    const lockCD = !ADMIN_UNLOCKED && (weekLocked || existingCDVal > 0);
+    const lockHT = !ADMIN_UNLOCKED && (existingHTVal > 0);
 
     const rawCD = document.getElementById('cbCoDoScore').value.trim();
     const rawHT = document.getElementById('cbHocTapScore').value.trim();
@@ -1056,12 +1074,50 @@
         resOk = resOk && (resHT && resHT.success);
       }
 
-      alert(`✅ Đã ghi nhận báo điểm lớp ${lop} Tuần ${tuan}:
-- Điểm cờ đỏ: ${scoreCD}/${MAX_CODO}đ
-- Điểm học tập: ${hasInputHT ? scoreHT + '/' + MAX_HOCTAP + 'đ' : '0đ (chưa báo)'}`);
       if (resOk) {
+        // Cập nhật ngay vào STATE.logs để chip đổi màu và khóa ô tức thì không cần load lại
+        STATE.logs = (STATE.logs || []).filter(l => !(
+          Number(l.tuan) === tuan &&
+          String(l.lop || "").trim().toUpperCase() === lop &&
+          ((hasInputCD && l.nguon === "Cờ đỏ") || (hasInputHT && l.nguon === "Điểm học tập"))
+        ));
+        if (hasInputCD) {
+          STATE.logs.push({
+            id: `W${tuan}_${lop}_CD`,
+            tuan: tuan,
+            lop: lop,
+            nguon: "Cờ đỏ",
+            hoTenHS: "",
+            noiDung: noiDungCD,
+            soLuong: 1,
+            diemDonVi: diffCD,
+            thanhTien: diffCD,
+            ngayGhi: ""
+          });
+        }
+        if (hasInputHT) {
+          STATE.logs.push({
+            id: `W${tuan}_${lop}_HT`,
+            tuan: tuan,
+            lop: lop,
+            nguon: "Điểm học tập",
+            hoTenHS: "",
+            noiDung: noiDungHT,
+            soLuong: 1,
+            diemDonVi: diffHT,
+            thanhTien: diffHT,
+            ngayGhi: ""
+          });
+        }
+        try { localStorage.setItem("yd3_doan_state_cache_v5", JSON.stringify(STATE)); } catch (e) {}
         document.getElementById('cbReporterNote').value = "";
-        await loadData(false);
+        renderAll();
+      }
+      alert(`✅ Đã ghi nhận báo điểm lớp ${lop} Tuần ${tuan}:
+- Điểm cờ đỏ: ${hasInputCD ? scoreCD : existingCDVal}/${MAX_CODO}đ
+- Điểm học tập: ${hasInputHT ? scoreHT : existingHTVal}/${MAX_HOCTAP}đ`);
+      if (resOk) {
+        loadData(false);
       }
     } catch (e) {
       alert("Lỗi kết nối: " + e.message);
@@ -1195,7 +1251,7 @@
     if (!ADMIN_UNLOCKED || !confirm("Xóa mục điểm này?")) return;
     try {
       STATE.logs = (STATE.logs || []).filter(item => item.id !== id);
-      try { localStorage.setItem("yd3_doan_state_cache_v4", JSON.stringify(STATE)); } catch (e) {}
+      try { localStorage.setItem("yd3_doan_state_cache_v5", JSON.stringify(STATE)); } catch (e) {}
       if (EDITING_ID === id) cancelEdit();
       renderAll();
 
@@ -1287,7 +1343,7 @@
         if (!STATE.danhGiaTheoTuan) STATE.danhGiaTheoTuan = {};
         STATE.danhGiaTheoTuan[tuan] = danhGiaTuan;
         if (tuan === Number(STATE.tuanHienTai)) STATE.danhGiaTuan = danhGiaTuan;
-        try { localStorage.setItem("yd3_doan_state_cache_v4", JSON.stringify(STATE)); } catch (e) {}
+        try { localStorage.setItem("yd3_doan_state_cache_v5", JSON.stringify(STATE)); } catch (e) {}
         await loadData(false);
       }
     } catch (e) {
