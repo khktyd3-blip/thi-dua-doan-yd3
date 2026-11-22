@@ -463,7 +463,7 @@
 
     updatePresetList();
     try {
-      const cachedRaw = localStorage.getItem("yd3_doan_state_cache_v3");
+      const cachedRaw = localStorage.getItem("yd3_doan_state_cache_v4");
       if (cachedRaw) {
         const cachedObj = JSON.parse(cachedRaw);
         if (cachedObj && Array.isArray(cachedObj.classes)) {
@@ -477,13 +477,18 @@
 
   function getWeekComment(tuan) {
     const w = Number(tuan);
-    if (STATE.danhGiaTheoTuan && Object.prototype.hasOwnProperty.call(STATE.danhGiaTheoTuan, w)) {
-      return String(STATE.danhGiaTheoTuan[w] || "");
+    const map = STATE && STATE.danhGiaTheoTuan;
+    if (map && typeof map === "object") {
+      if (Object.prototype.hasOwnProperty.call(map, w)) {
+        return String(map[w] == null ? "" : map[w]);
+      }
+      if (Object.prototype.hasOwnProperty.call(map, String(w))) {
+        return String(map[String(w)] == null ? "" : map[String(w)]);
+      }
+      // Nếu map tồn tại nhưng tuần w chưa có khóa trong map -> trả về rỗng (không dính nhận xét tuần khác)
+      return "";
     }
-    if (STATE.danhGiaTheoTuan && Object.prototype.hasOwnProperty.call(STATE.danhGiaTheoTuan, String(w))) {
-      return String(STATE.danhGiaTheoTuan[String(w)] || "");
-    }
-    return "";
+    return w === Number(STATE && STATE.tuanHienTai) ? String((STATE && STATE.danhGiaTuan) || "") : "";
   }
 
   function selectQuickClass(lop) {
@@ -615,12 +620,16 @@
       const r = await fetch(API_URL + "?t=" + Date.now(), { signal: ctrl.signal });
       const res = await r.json();
       if (res && res.classes) {
-        STATE = res;
-        try { localStorage.setItem("yd3_doan_state_cache_v3", JSON.stringify(STATE)); } catch (e) {}
+        STATE = {
+          ...res,
+          danhGiaTheoTuan: (res.danhGiaTheoTuan && typeof res.danhGiaTheoTuan === "object") ? res.danhGiaTheoTuan : {}
+        };
+        try { localStorage.setItem("yd3_doan_state_cache_v4", JSON.stringify(STATE)); } catch (e) {}
         document.getElementById('lblHeader').innerText = `THEO DÕI ĐIỂM THI ĐUA ĐOÀN TRƯỜNG THPT YÊN DŨNG SỐ 3(${STATE.namHoc || "2026 - 2027"})`;
         const selW = Number(document.getElementById('selWeek').value || getAutoCurrentWeek());
-        if (document.activeElement !== document.getElementById('txtDanhGiaTuan')) {
-          document.getElementById('txtDanhGiaTuan').value = getWeekComment(selW);
+        const ta = document.getElementById('txtDanhGiaTuan');
+        if (ta && document.activeElement !== ta) {
+          ta.value = getWeekComment(selW);
         }
         renderWeekDropdown(selW);
       }
@@ -761,8 +770,9 @@
 
   function renderAll() {
     const tuan = Number(document.getElementById('selWeek').value || getAutoCurrentWeek());
-    if (document.activeElement !== document.getElementById('txtDanhGiaTuan')) {
-      document.getElementById('txtDanhGiaTuan').value = getWeekComment(tuan);
+    const ta = document.getElementById('txtDanhGiaTuan');
+    if (ta && document.activeElement !== ta) {
+      ta.value = getWeekComment(tuan);
     }
     const rangeStr = getWeekDateRange(tuan);
     const locked = isWeekLocked(tuan);
@@ -1184,9 +1194,8 @@
   async function delEntry(id) {
     if (!ADMIN_UNLOCKED || !confirm("Xóa mục điểm này?")) return;
     try {
-      // Xóa ngay khỏi STATE.logs và cập nhật cache để giao diện cập nhật lập tức
       STATE.logs = (STATE.logs || []).filter(item => item.id !== id);
-      try { localStorage.setItem("yd3_doan_state_cache_v3", JSON.stringify(STATE)); } catch (e) {}
+      try { localStorage.setItem("yd3_doan_state_cache_v4", JSON.stringify(STATE)); } catch (e) {}
       if (EDITING_ID === id) cancelEdit();
       renderAll();
 
@@ -1278,7 +1287,7 @@
         if (!STATE.danhGiaTheoTuan) STATE.danhGiaTheoTuan = {};
         STATE.danhGiaTheoTuan[tuan] = danhGiaTuan;
         if (tuan === Number(STATE.tuanHienTai)) STATE.danhGiaTuan = danhGiaTuan;
-        try { localStorage.setItem("yd3_doan_state_cache_v3", JSON.stringify(STATE)); } catch (e) {}
+        try { localStorage.setItem("yd3_doan_state_cache_v4", JSON.stringify(STATE)); } catch (e) {}
         await loadData(false);
       }
     } catch (e) {
