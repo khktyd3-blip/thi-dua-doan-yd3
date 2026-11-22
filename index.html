@@ -463,7 +463,7 @@
 
     updatePresetList();
     try {
-      const cachedRaw = localStorage.getItem("yd3_doan_state_cache_v5");
+      const cachedRaw = localStorage.getItem("yd3_doan_state_cache_v6");
       if (cachedRaw) {
         const cachedObj = JSON.parse(cachedRaw);
         if (cachedObj && Array.isArray(cachedObj.classes)) {
@@ -624,7 +624,7 @@
           ...res,
           danhGiaTheoTuan: (res.danhGiaTheoTuan && typeof res.danhGiaTheoTuan === "object") ? res.danhGiaTheoTuan : {}
         };
-        try { localStorage.setItem("yd3_doan_state_cache_v5", JSON.stringify(STATE)); } catch (e) {}
+        try { localStorage.setItem("yd3_doan_state_cache_v6", JSON.stringify(STATE)); } catch (e) {}
         document.getElementById('lblHeader').innerText = `THEO DÕI ĐIỂM THI ĐUA ĐOÀN TRƯỜNG THPT YÊN DŨNG SỐ 3(${STATE.namHoc || "2026 - 2027"})`;
         const selW = Number(document.getElementById('selWeek').value || getAutoCurrentWeek());
         const ta = document.getElementById('txtDanhGiaTuan');
@@ -895,9 +895,12 @@
     const lop = document.getElementById('cbLop').value || "10A1";
     const rangeStr = getWeekDateRange(tuan);
 
-    document.getElementById('lblReportWeek').innerText = `Tuần ${tuan} (${rangeStr})`;
-    document.getElementById('lblSubmitLop').innerText = lop;
-    document.getElementById('lblMyClassHistory').innerText = lop;
+    const elRepW = document.getElementById('lblReportWeek');
+    if (elRepW) elRepW.innerText = `Tuần ${tuan} (${rangeStr})`;
+    const elSubLop = document.getElementById('lblSubmitLop');
+    if (elSubLop) elSubLop.innerText = lop;
+    const elHistLop = document.getElementById('lblMyClassHistory');
+    if (elHistLop) elHistLop.innerText = lop;
 
     const wLogs = (STATE.logs || []).filter(l => Number(l.tuan) === tuan);
     const hasRealCoDo = (clsName) => {
@@ -965,8 +968,14 @@
     document.getElementById('cbHocTapScore').disabled = lockHT;
     const allowSubmit = !lockCD || !lockHT;
     document.getElementById('cbReporterNote').disabled = !allowSubmit;
-    document.getElementById('btnSubmitClassCoDo').disabled = !allowSubmit;
-    document.getElementById('btnSubmitClassCoDo').style.opacity = allowSubmit ? "1" : "0.5";
+    const btnSubEl = document.getElementById('btnSubmitClassCoDo');
+    if (btnSubEl) {
+      btnSubEl.disabled = !allowSubmit;
+      btnSubEl.style.opacity = allowSubmit ? "1" : "0.55";
+      btnSubEl.innerHTML = allowSubmit
+        ? `📤 Gửi báo điểm Cờ đỏ & Học tập của lớp <span id="lblSubmitLop">${lop}</span>`
+        : `🔒 Đã chốt đủ điểm tuần của lớp <span id="lblSubmitLop">${lop}</span>`;
+    }
 
     const bothLogs = [...cLogs, ...hLogs];
     const histBox = document.getElementById('myClassCoDoHistory');
@@ -1055,7 +1064,10 @@
     if (!okConfirm) return;
 
     const btn = document.getElementById('btnSubmitClassCoDo');
-    btn.disabled = true; btn.innerText = "⏳ Đang gửi báo điểm...";
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = `⏳ Đang gửi báo điểm lớp <span id="lblSubmitLop">${lop}</span>...`;
+    }
     try {
       let resOk = true;
       if (hasInputCD) {
@@ -1109,7 +1121,7 @@
             ngayGhi: ""
           });
         }
-        try { localStorage.setItem("yd3_doan_state_cache_v5", JSON.stringify(STATE)); } catch (e) {}
+        try { localStorage.setItem("yd3_doan_state_cache_v6", JSON.stringify(STATE)); } catch (e) {}
         document.getElementById('cbReporterNote').value = "";
         renderAll();
       }
@@ -1251,7 +1263,7 @@
     if (!ADMIN_UNLOCKED || !confirm("Xóa mục điểm này?")) return;
     try {
       STATE.logs = (STATE.logs || []).filter(item => item.id !== id);
-      try { localStorage.setItem("yd3_doan_state_cache_v5", JSON.stringify(STATE)); } catch (e) {}
+      try { localStorage.setItem("yd3_doan_state_cache_v6", JSON.stringify(STATE)); } catch (e) {}
       if (EDITING_ID === id) cancelEdit();
       renderAll();
 
@@ -1343,7 +1355,7 @@
         if (!STATE.danhGiaTheoTuan) STATE.danhGiaTheoTuan = {};
         STATE.danhGiaTheoTuan[tuan] = danhGiaTuan;
         if (tuan === Number(STATE.tuanHienTai)) STATE.danhGiaTuan = danhGiaTuan;
-        try { localStorage.setItem("yd3_doan_state_cache_v5", JSON.stringify(STATE)); } catch (e) {}
+        try { localStorage.setItem("yd3_doan_state_cache_v6", JSON.stringify(STATE)); } catch (e) {}
         await loadData(false);
       }
     } catch (e) {
