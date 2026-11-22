@@ -431,7 +431,38 @@
   let EDITING_ID = null;
   let EDITING_BB_ROW = null;
 
+  let AUTO_SYNC_TIMER = null;
+  let IS_SYNCING_SILENT = false;
+
+  async function runSilentSync() {
+    if (document.visibilityState !== "visible") return;
+    if (IS_SYNCING_SILENT) return;
+    if (EDITING_ID || EDITING_BB_ROW) return;
+    const activeTag = document.activeElement ? document.activeElement.tagName : "";
+    if (activeTag === "INPUT" || activeTag === "TEXTAREA") return;
+    const btnSave = document.getElementById("btnSave");
+    const btnSub = document.getElementById("btnSubmitClassCoDo");
+    if ((btnSave && btnSave.disabled) || (btnSub && btnSub.disabled)) return;
+    IS_SYNCING_SILENT = true;
+    try {
+      await loadData(false);
+    } catch (e) {}
+    finally {
+      IS_SYNCING_SILENT = false;
+    }
+  }
+
+  function startAutoSync() {
+    if (AUTO_SYNC_TIMER) clearInterval(AUTO_SYNC_TIMER);
+    AUTO_SYNC_TIMER = setInterval(runSilentSync, 15000);
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") runSilentSync();
+    });
+    window.addEventListener("focus", runSilentSync);
+  }
+
   window.onload = () => {
+    startAutoSync();
     renderWeekDropdown(getAutoCurrentWeek());
 
     const clsOptions = STATE.classes.map(c => `<option value="${c}">${c}</option>`).join('');
@@ -574,13 +605,19 @@
       if (res && res.classes) {
         STATE = res;
         document.getElementById('lblHeader').innerText = `THEO DÕI ĐIỂM THI ĐUA ĐOÀN TRƯỜNG THPT YÊN DŨNG SỐ 3(${STATE.namHoc || "2026 - 2027"})`;
-        document.getElementById('txtDanhGiaTuan').value = STATE.danhGiaTuan || "";
+        const selW = Number(document.getElementById('selWeek').value || getAutoCurrentWeek());
+        const weekComment = (STATE.danhGiaTheoTuan && STATE.danhGiaTheoTuan[selW] !== undefined)
+          ? STATE.danhGiaTheoTuan[selW]
+          : (selW === Number(STATE.tuanHienTai) ? (STATE.danhGiaTuan || "") : "");
+        if (document.activeElement !== document.getElementById('txtDanhGiaTuan')) {
+          document.getElementById('txtDanhGiaTuan').value = weekComment;
+        }
         const curSelW = Number(document.getElementById('selWeek').value || getAutoCurrentWeek());
         renderWeekDropdown(curSelW);
       }
       renderAll();
     } catch (e) {
-      alert("Lỗi kết nối dữ liệu: " + e.message);
+      if (manual) alert("Lỗi kết nối dữ liệu: " + e.message);
       renderAll();
     } finally {
       if (btn) { btn.disabled = false; btn.innerText = "🔄 Làm mới"; }
@@ -713,9 +750,12 @@
 
   function renderAll() {
     const tuan = Number(document.getElementById('selWeek').value || getAutoCurrentWeek());
+    if (STATE.danhGiaTheoTuan && document.activeElement !== document.getElementById('txtDanhGiaTuan')) {
+      document.getElementById('txtDanhGiaTuan').value = STATE.danhGiaTheoTuan[tuan] || "";
+    }
     const rangeStr = getWeekDateRange(tuan);
     const locked = isWeekLocked(tuan);
-    document.getElementById('lblSubWeek').innerText = `Cờ đỏ tối đa: ${MAX_CODO}đ • Học tập tối đa: ${MAX_HOCTAP}đ • Tuần ${tuan} (${rangeStr}) • ${locked ? '🔒 ĐÃ KHÓA SỔ' : '🟢 ĐANG MỞ BÁO ĐIỂM'}`;
+    document.getElementById('lblSubWeek').innerText = `Cờ đỏ tối đa: ${MAX_CODO}đ • Học tập tối đa: ${MAX_HOCTAP}đ • Tuần ${tuan} (${rangeStr}) • ${locked ? '🔒 ĐÃ KHÓA SỔ' : '🟢 ĐANG MỞ BÁO ĐIỂM'} • Tự động đồng bộ`;
     const btnLockW = document.getElementById('btnToggleWeekLock');
     if (btnLockW) {
       btnLockW.innerText = locked ? `🔓 Mở khóa Tuần ${tuan}` : `🔒 Khóa sổ Tuần ${tuan}`;
@@ -1284,6 +1324,9 @@
       alert(res.msg);
       if (res && res.success) {
         STATE.danhGiaTuan = danhGiaTuan;
+        if (!STATE.danhGiaTheoTuan) STATE.danhGiaTheoTuan = {};
+        STATE.danhGiaTheoTuan[tuan] = danhGiaTuan;
+        await loadData(false);
       }
     } catch (e) {
       alert("Lỗi kết nối: " + e.message);
