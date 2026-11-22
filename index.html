@@ -42,7 +42,6 @@
     .btn-excel { background: #15803d; color: #fff; border: none; font-weight: 600; cursor: pointer; }
     .btn-ref { background: #fff; color: var(--primary); border: 1px solid var(--primary); font-weight: 600; cursor: pointer; }
 
-    /* THANH TABS: 3 TAB CÔNG KHAI (BẢNG ĐIỂM & THỨ HẠNG, CÁN BỘ LỚP BÁO ĐIỂM, SỔ BIÊN BẢN) + TAB QUẢN TRỊ ẨN */
     .nav-tabs { display: flex; flex-wrap: wrap; gap: 6px; background: #f1f5f9; padding: 5px; border-radius: 12px; margin-bottom: 14px; }
     .tab-btn { flex: 1; min-width: 170px; padding: 10px 8px; border: none; border-radius: 9px; font-weight: 600; font-size: 13.5px; cursor: pointer; background: transparent; color: #475569; }
     .tab-btn.active { background: #ffffff; color: var(--primary); font-weight: 700; box-shadow: 0 2px 6px rgba(0,0,0,0.07); }
@@ -84,13 +83,13 @@
     .btn-del { color: #94a3b8; border: none; background: transparent; cursor: pointer; font-size: 16px; }
     .btn-del:hover { color: #b91c1c; }
 
-    /* LƯỚI TRẠNG THÁI 30 LỚP BÁO ĐIỂM */
     .cls-status-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; margin-bottom: 14px; }
     @media (max-width: 820px) { .cls-status-grid { grid-template-columns: repeat(5, 1fr); } }
     .cls-chip { padding: 7px 4px; border-radius: 8px; text-align: center; font-size: 12.5px; font-weight: 700; cursor: pointer; border: 1.5px solid #cbd5e1; background: #ffffff; color: #475569; }
     .cls-chip.done { background: #dcfce7; border-color: #22c55e; color: #166534; }
     .cls-chip.partial { background: #fef9c3; border-color: #eab308; color: #854d0e; }
     .cls-chip.active { outline: 2.5px solid #b91c1c; transform: translateY(-1px); }
+
     @media (max-width: 640px) {
       body { padding: 6px; font-size: 13.5px; }
       .main-wrap { padding: 12px; border-radius: 12px; }
@@ -126,7 +125,7 @@
     <div>
       <div class="banner-badge">ĐOÀN TRƯỜNG THPT YÊN DŨNG SỐ 3</div>
       <div class="banner-title" id="lblHeader">THEO DÕI ĐIỂM THI ĐUA ĐOÀN TRƯỜNG THPT YÊN DŨNG SỐ 3(2026 - 2027)</div>
-      <div class="banner-sub" id="lblSubWeek">Cờ đỏ tối đa: 80đ • Học tập tối đa: 20đ (Tổng chuẩn: 100đ) • Tuần 10</div>
+      <div class="banner-sub" id="lblSubWeek">Cờ đỏ tối đa: 80đ • Học tập tối đa: 20đ (Tổng chuẩn: 100đ) • Tuần 11</div>
     </div>
     <div id="btnAdminPin" onclick="toggleAdminPin()" title="Cổng Đoàn trường" style="font-size: 28px; cursor: pointer; user-select: none; line-height: 1; padding: 4px; border-radius: 8px;">🚩</div>
   </div>
@@ -148,7 +147,6 @@
     </div>
   </div>
 
-  <!-- THANH ĐIỀU HƯỚNG: BỎ TAB THỐNG KÊ LỖI, GIỮ SỔ BIÊN BẢN, ẨN TAB QUẢN TRỊ SAU LÁ CỜ -->
   <div class="nav-tabs">
     <button class="tab-btn active" id="tabRank" onclick="switchTab('rank')">🏆 Bảng điểm & Thứ hạng</button>
     <button class="tab-btn" id="tabClassReport" onclick="switchTab('classReport')">📝 Cán bộ lớp báo điểm</button>
@@ -156,7 +154,6 @@
     <button class="tab-btn" id="tabAdmin" onclick="switchTab('admin')" style="display:none; background:#e0f2fe; color:#0369a1;">🛠️ Quản trị (Cộng / Trừ & Biên bản)</button>
   </div>
 
-  <!-- TAB 1: TỔNG ĐIỂM & XẾP HẠNG 4 NHÓM -->
   <div id="panelRank">
     <div class="group-summary-grid" id="groupSummaryCards"></div>
 
@@ -188,11 +185,10 @@
     </div>
   </div>
 
-  <!-- TAB 2: GIAO DIỆN CÁN BỘ 30 LỚP BÁO ĐIỂM CỜ ĐỎ (TỐI ĐA 80) VÀ ĐIỂM HỌC TẬP (TỐI ĐA 20) -->
   <div id="panelClassReport" style="display:none;">
     <div class="form-card">
       <div style="font-weight:800; font-size:15px; color:#7f1d1d; margin-bottom:6px;">
-        📝 Cổng báo điểm thi đua tuần dành cho cán bộ 30 lớp (<span id="lblReportWeek">Tuần 10</span>)
+        📝 Cổng báo điểm thi đua tuần dành cho cán bộ 30 lớp (<span id="lblReportWeek">Tuần 11</span>)
       </div>
       <div style="font-size:13px; color:#475569; margin-bottom:12px;">
         Mỗi mục <b>Điểm cờ đỏ (0 – 80đ)</b> và <b>Điểm học tập (0 – 20đ)</b> sau khi lớp đã gửi sẽ <b>tự động khóa chốt</b> để tránh sửa nhầm (nếu cần đính chính, liên hệ Đoàn trường mở Quản trị). Cán bộ lớp có thể gửi <b>Điểm cờ đỏ</b> trước vào cuối tuần và gửi bổ sung <b>Điểm học tập</b> sau.
@@ -241,7 +237,6 @@
     <div id="myClassCoDoHistory"></div>
   </div>
 
-  <!-- TAB 3: SỔ VI PHẠM BIÊN BẢN -->
   <div id="panelBB" style="display:none;">
     <div class="form-card" id="bbFormCard" style="display:none;">
       <div style="font-weight:800; font-size:14.5px; color:#b91c1c; margin-bottom:10px;">🚨 Cập nhật vi phạm biên bản (Chỉ hiển thị khi mở Quản trị)</div>
@@ -266,7 +261,7 @@
       <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:#b91c1c; font-weight:600; margin-bottom:10px; cursor:pointer;">
         <input type="checkbox" id="bbLoiNang"> Đưa vào danh sách lỗi vi phạm nặng cần xem xét hạnh kiểm
       </label>
-            <div id="bbEditBanner" style="display:none; background:#fef9c3; border:1px solid #facc15; color:#854d0e; padding:8px 12px; border-radius:8px; margin-bottom:10px; font-weight:700;">
+      <div id="bbEditBanner" style="display:none; background:#fef9c3; border:1px solid #facc15; color:#854d0e; padding:8px 12px; border-radius:8px; margin-bottom:10px; font-weight:700;">
         Đang chế độ SỬA BIÊN BẢN VI PHẠM. Bấm "Hủy sửa" nếu muốn thêm biên bản mới.
       </div>
       <div style="display:flex; gap:8px; flex-wrap:wrap;">
@@ -292,7 +287,6 @@
     </div>
   </div>
 
-  <!-- TAB 4 (ẨN HOÀN TOÀN KHI CHƯA MỞ PIN): QUẢN TRỊ ĐOÀN TRƯỜNG NHẬP ĐIỂM CỘNG, ĐIỂM TRỪ & ĐÍNH CHÍNH -->
   <div id="panelAdmin" style="display:none;">
     <div class="form-card">
       <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px;">
@@ -356,7 +350,7 @@
       </div>
     </div>
 
-    <div style="font-weight:700; margin-bottom:8px;">Danh sách toàn bộ điểm của lớp <span id="lblCurLop" style="color:var(--primary);">10A1</span> trong <span id="lblCurWeek">Tuần 10</span> (bấm <b>Sửa</b> để đính chính):</div>
+    <div style="font-weight:700; margin-bottom:8px;">Danh sách toàn bộ điểm của lớp <span id="lblCurLop" style="color:var(--primary);">10A1</span> trong <span id="lblCurWeek">Tuần 11</span> (bấm <b>Sửa</b> để đính chính):</div>
     <div id="classLogs"></div>
   </div>
 </div>
@@ -406,9 +400,10 @@
   let STATE = {
     namHoc: "2026-2027",
     baseScore: 80,
-    tuanHienTai: 10,
-    thoiGianTuan: "09/11 - 14/11",
+    tuanHienTai: 11,
+    thoiGianTuan: "16/11 - 21/11",
     danhGiaTuan: "",
+    danhGiaTheoTuan: {},
     classes: [
       "10A1","10A2","10A3","10A4","10A5","10A6","10A7","10A8","10A9","10A10",
       "11A1","11A2","11A3","11A4","11A5","11A6","11A7","11A8","11A9","11A10",
@@ -468,7 +463,7 @@
 
     updatePresetList();
     try {
-      const cachedRaw = localStorage.getItem("yd3_doan_state_cache_v1");
+      const cachedRaw = localStorage.getItem("yd3_doan_state_cache_v3");
       if (cachedRaw) {
         const cachedObj = JSON.parse(cachedRaw);
         if (cachedObj && Array.isArray(cachedObj.classes)) {
@@ -479,6 +474,17 @@
     } catch (e) {}
     loadData(false);
   };
+
+  function getWeekComment(tuan) {
+    const w = Number(tuan);
+    if (STATE.danhGiaTheoTuan && Object.prototype.hasOwnProperty.call(STATE.danhGiaTheoTuan, w)) {
+      return String(STATE.danhGiaTheoTuan[w] || "");
+    }
+    if (STATE.danhGiaTheoTuan && Object.prototype.hasOwnProperty.call(STATE.danhGiaTheoTuan, String(w))) {
+      return String(STATE.danhGiaTheoTuan[String(w)] || "");
+    }
+    return "";
+  }
 
   function selectQuickClass(lop) {
     document.getElementById('cbLop').value = lop;
@@ -588,33 +594,35 @@
   async function postApi(obj) {
     const r = await fetch(API_URL, {
       method: "POST",
+      redirect: "follow",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify(obj)
     });
-    return await r.json();
+    const txt = await r.text();
+    try {
+      return JSON.parse(txt);
+    } catch (err) {
+      return { success: true, msg: "Đã gửi yêu cầu tới Google Sheets." };
+    }
   }
 
   async function loadData(manual) {
     const btn = document.getElementById('btnRef');
     if (manual && btn) { btn.disabled = true; btn.innerText = "⏳ Đang tải..."; }
     const ctrl = new AbortController();
-    const timeoutId = setTimeout(() => ctrl.abort(), 8000);
+    const timeoutId = setTimeout(() => ctrl.abort(), 12000);
     try {
       const r = await fetch(API_URL + "?t=" + Date.now(), { signal: ctrl.signal });
       const res = await r.json();
       if (res && res.classes) {
         STATE = res;
-        try { localStorage.setItem("yd3_doan_state_cache_v1", JSON.stringify(STATE)); } catch (e) {}
+        try { localStorage.setItem("yd3_doan_state_cache_v3", JSON.stringify(STATE)); } catch (e) {}
         document.getElementById('lblHeader').innerText = `THEO DÕI ĐIỂM THI ĐUA ĐOÀN TRƯỜNG THPT YÊN DŨNG SỐ 3(${STATE.namHoc || "2026 - 2027"})`;
         const selW = Number(document.getElementById('selWeek').value || getAutoCurrentWeek());
-        const weekComment = (STATE.danhGiaTheoTuan && STATE.danhGiaTheoTuan[selW] !== undefined)
-          ? STATE.danhGiaTheoTuan[selW]
-          : (selW === Number(STATE.tuanHienTai) ? (STATE.danhGiaTuan || "") : "");
         if (document.activeElement !== document.getElementById('txtDanhGiaTuan')) {
-          document.getElementById('txtDanhGiaTuan').value = weekComment;
+          document.getElementById('txtDanhGiaTuan').value = getWeekComment(selW);
         }
-        const curSelW = Number(document.getElementById('selWeek').value || getAutoCurrentWeek());
-        renderWeekDropdown(curSelW);
+        renderWeekDropdown(selW);
       }
       renderAll();
     } catch (e) {
@@ -637,7 +645,6 @@
   }
 
   function getAutoCurrentWeek() {
-    // Tuần 1 bắt đầu từ Thứ Hai 07/09/2026
     const week1Start = new Date(2026, 8, 7);
     const now = new Date();
     const diffDays = Math.floor((now - week1Start) / (1000 * 60 * 60 * 24));
@@ -650,7 +657,6 @@
   function getLockedWeeksSet() {
     const set = new Set();
     const activeWeek = getAutoCurrentWeek();
-    // Mặc định khóa toàn bộ các tuần trước tuần hiện tại theo lịch thực tế
     for (let w = 1; w < activeWeek; w++) {
       set.add(w);
     }
@@ -736,8 +742,7 @@
   }
 
   function getWeekDateRange(tuan) {
-    // Tuần 1 bắt đầu từ Thứ Hai 07/09/2026, mỗi tuần lịch cách nhau đúng 7 ngày (Thứ Hai - Thứ Bảy)
-    const week1Start = new Date(2026, 8, 7); // 07/09/2026
+    const week1Start = new Date(2026, 8, 7);
     const diffDays = (Number(tuan) - 1) * 7;
 
     const s = new Date(week1Start);
@@ -756,12 +761,12 @@
 
   function renderAll() {
     const tuan = Number(document.getElementById('selWeek').value || getAutoCurrentWeek());
-    if (STATE.danhGiaTheoTuan && document.activeElement !== document.getElementById('txtDanhGiaTuan')) {
-      document.getElementById('txtDanhGiaTuan').value = STATE.danhGiaTheoTuan[tuan] || "";
+    if (document.activeElement !== document.getElementById('txtDanhGiaTuan')) {
+      document.getElementById('txtDanhGiaTuan').value = getWeekComment(tuan);
     }
     const rangeStr = getWeekDateRange(tuan);
     const locked = isWeekLocked(tuan);
-    document.getElementById('lblSubWeek').innerText = `Cờ đỏ tối đa: ${MAX_CODO}đ • Học tập tối đa: ${MAX_HOCTAP}đ • Tuần ${tuan} (${rangeStr}) • ${locked ? '🔒 ĐÃ KHÓA SỔ' : '🟢 ĐANG MỞ BÁO ĐIỂM'} • Tự động đồng bộ`;
+    document.getElementById('lblSubWeek').innerText = `Cờ đỏ tối đa: 80đ • Học tập tối đa: 20đ (Tổng chuẩn: 100đ) • Tuần ${tuan} (${rangeStr}) • ${locked ? '🔒 ĐÃ KHÓA SỔ' : '🟢 ĐANG MỞ BÁO ĐIỂM'} • Tự động đồng bộ`;
     const btnLockW = document.getElementById('btnToggleWeekLock');
     if (btnLockW) {
       btnLockW.innerText = locked ? `🔓 Mở khóa Tuần ${tuan}` : `🔒 Khóa sổ Tuần ${tuan}`;
@@ -775,7 +780,6 @@
   }
 
   function classifyGroup(rank, totalScore, isKhongBao) {
-    // Ngưỡng báo động khi không báo điểm hoặc xếp từ hạng 25 trở xuống
     if (isKhongBao || rank >= 25) {
       return { code: "BD", label: "🚨 Báo động", short: "Báo động", rowCls: "grp-bd", badgeCls: "b-bd", hex: "FEE2E2" };
     }
@@ -792,31 +796,25 @@
   }
 
   function renderRankTable() {
-    const tuan = Number(document.getElementById('selWeek').value || 10);
+    const tuan = Number(document.getElementById('selWeek').value || 11);
     const khoi = document.getElementById('selKhoi').value;
     const wLogs = (STATE.logs || []).filter(l => Number(l.tuan) === tuan);
-
-
 
     const fullList = STATE.classes.map((lop, i) => {
       const cLogs = wLogs.filter(l => String(l.lop || "").trim().toUpperCase() === lop);
       const isKhongBao = cLogs.some(l => l.nguon === "Không báo điểm");
 
-      // 1. Điểm cờ đỏ tối đa 80đ (thanhTien là số điểm chênh lệch âm so với 80đ, VD: -0.5 -> 79.5đ)
       const coDoDelta = Number(cLogs.filter(l => l.nguon === "Cờ đỏ").reduce((s, l) => s + toNum(l.thanhTien), 0).toFixed(2));
       const diemCoDo = isKhongBao ? 0 : Number(Math.max(0, Math.min(MAX_CODO, MAX_CODO + coDoDelta)).toFixed(2));
 
-      // 2. Điểm học tập tối đa 20đ: nếu chưa báo điểm học tập thì = 0 (không tự động nhảy 20)
       const htLogs = cLogs.filter(l => l.nguon === "Điểm học tập");
       const hocTapDelta = Number(htLogs.reduce((s, l) => s + toNum(l.thanhTien), 0).toFixed(2));
       const diemHocTap = (isKhongBao || htLogs.length === 0) ? 0 : Number(Math.max(0, Math.min(MAX_HOCTAP, MAX_HOCTAP + hocTapDelta)).toFixed(2));
 
-      // 3. Điểm cộng (+) và Điểm trừ (-) do Đoàn trường nhập
       const diemCong = Number(cLogs.filter(l => l.nguon === "Điểm cộng").reduce((s, l) => s + Math.abs(toNum(l.thanhTien)), 0).toFixed(2));
       const diemTruVal = Number(cLogs.filter(l => l.nguon === "Điểm trừ" || l.nguon === "Không báo điểm").reduce((s, l) => s + Math.abs(toNum(l.thanhTien)), 0).toFixed(2));
       const diemTruSigned = diemTruVal > 0 ? -diemTruVal : 0;
 
-      // 4. Tổng điểm cả tuần = điểm cờ đỏ + điểm học tập + điểm cộng + điểm trừ (điểm trừ mang dấu âm)
       const tong = Number((diemCoDo + diemHocTap + diemCong + diemTruSigned).toFixed(2));
 
       return {
@@ -855,8 +853,7 @@
     const gNhi  = sorted.filter(x => x.group.code === "NHI").map(x => `${x.lop} (${x.tong})`).join(", ") || "Chưa có";
     const gBa   = sorted.filter(x => x.group.code === "BA").map(x => `${x.lop} (${x.tong})`).join(", ") || "Chưa có";
     const gBD   = sorted.filter(x => x.group.code === "BD").map(x => `${x.lop} (${x.tong})`).join(", ") || "Không có";
-
-    const gDat = sorted.filter(x => x.group.code === "TB").map(x => `${x.lop} (${x.tong})`).join(", ") || "Không có";
+    const gDat  = sorted.filter(x => x.group.code === "TB").map(x => `${x.lop} (${x.tong})`).join(", ") || "Không có";
 
     document.getElementById('groupSummaryCards').innerHTML = `
       <div class="g-card grp-nhat"><div class="g-card-title">🥇 Nhóm Nhất</div><div class="g-card-list">${gNhat}</div></div>
@@ -868,7 +865,6 @@
 
     const filtered = khoi === "ALL" ? fullList : fullList.filter(x => x.lop.startsWith(khoi));
 
-    // Bảng tổng hợp không dùng cột thống kê lỗi, hiển thị trực tiếp các cột điểm cấu thành và xếp hạng
     document.getElementById('tbodyRank').innerHTML = filtered.map(r => `
       <tr class="${r.group.rowCls}">
         <td>${r.stt}</td>
@@ -884,9 +880,8 @@
     `).join('');
   }
 
-  // GIAO DIỆN CÁN BỘ 30 LỚP BÁO ĐIỂM CỜ ĐỎ (TỐI ĐA 80Đ) VÀ ĐIỂM HỌC TẬP (TỐI ĐA 20Đ)
   function renderClassReportForm() {
-    const tuan = Number(document.getElementById('selWeek').value || 10);
+    const tuan = Number(document.getElementById('selWeek').value || 11);
     const lop = document.getElementById('cbLop').value || "10A1";
     const rangeStr = getWeekDateRange(tuan);
 
@@ -920,7 +915,6 @@
     const cdSubmitted = cLogs.length > 0;
     const htSubmitted = hLogs.length > 0;
 
-    // Khóa từng mục: đã nộp rồi hoặc tuần đã khóa thì khóa ô đó (trừ khi Admin mở khóa Quản trị)
     const lockCD = !ADMIN_UNLOCKED && (weekLocked || cdSubmitted);
     const lockHT = !ADMIN_UNLOCKED && htSubmitted;
 
@@ -1068,12 +1062,12 @@
   }
 
   function renderClassLogs() {
-    const tuan = Number(document.getElementById('selWeek').value || 10);
+    const tuan = Number(document.getElementById('selWeek').value || 11);
     const lop = document.getElementById('inLop').value;
     document.getElementById('lblCurLop').innerText = lop;
     document.getElementById('lblCurWeek').innerText = `Tuần ${tuan}`;
 
-    const list = STATE.logs.filter(l => l.tuan === tuan && l.lop === lop);
+    const list = (STATE.logs || []).filter(l => Number(l.tuan) === tuan && String(l.lop || "").trim().toUpperCase() === lop);
     const box = document.getElementById('classLogs');
     if (!list.length) {
       box.innerHTML = `<div style="text-align:center; color:#64748b; padding:18px;">Lớp ${lop} chưa có mục điểm nào được ghi trong Tuần ${tuan}.</div>`;
@@ -1085,6 +1079,7 @@
           <span style="font-size:11.5px; font-weight:700; padding:2px 7px; border-radius:6px; background:#e2e8f0;">${e.nguon}</span>
           ${e.hoTenHS ? `<b style="margin-left:6px; color:#0369a1;">[${e.hoTenHS}]</b>` : ''}
           <span style="font-weight:500; margin-left:6px;">${e.noiDung} (SL: ${e.soLuong})</span>
+          ${e.ngayGhi ? `<small style="color:#64748b; margin-left:6px;">(${e.ngayGhi})</small>` : ''}
         </div>
         <div style="display:flex; align-items:center; gap:8px; flex-shrink:0;">
           <b style="color:${e.thanhTien >= 0 ? '#15803d' : '#b91c1c'};">${e.thanhTien >= 0 ? '+' + e.thanhTien : e.thanhTien}đ</b>
@@ -1152,7 +1147,7 @@
 
   async function saveEntry() {
     if (!ADMIN_UNLOCKED) return;
-    const tuan = Number(document.getElementById('selWeek').value || 10);
+    const tuan = Number(document.getElementById('selWeek').value || 11);
     const lop = document.getElementById('inLop').value;
     const nguon = document.getElementById('inNguon').value;
     const soLuong = Math.max(1, Number(document.getElementById('inQty').value || 1));
@@ -1189,12 +1184,15 @@
   async function delEntry(id) {
     if (!ADMIN_UNLOCKED || !confirm("Xóa mục điểm này?")) return;
     try {
+      // Xóa ngay khỏi STATE.logs và cập nhật cache để giao diện cập nhật lập tức
+      STATE.logs = (STATE.logs || []).filter(item => item.id !== id);
+      try { localStorage.setItem("yd3_doan_state_cache_v3", JSON.stringify(STATE)); } catch (e) {}
+      if (EDITING_ID === id) cancelEdit();
+      renderAll();
+
       const res = await postApi({ action: "deleteEntry", id });
-      alert(res.msg);
-      if (res.success) {
-        if (EDITING_ID === id) cancelEdit();
-        await loadData(false);
-      }
+      if (res && res.msg) alert(res.msg);
+      await loadData(false);
     } catch (e) {
       alert("Lỗi kết nối: " + e.message);
     }
@@ -1232,7 +1230,7 @@
 
   async function saveBienBan() {
     if (!ADMIN_UNLOCKED) return;
-    const tuan = Number(document.getElementById('selWeek').value || 10);
+    const tuan = Number(document.getElementById('selWeek').value || 11);
     const hoTen = document.getElementById('bbHoTen').value.trim();
     const lop = document.getElementById('bbLop').value;
     const ngayBB = document.getElementById('bbNgay').value.trim();
@@ -1277,9 +1275,10 @@
       const res = await postApi({ action: "saveWeekMeta", tuan, danhGiaTuan });
       alert(res.msg);
       if (res && res.success) {
-        STATE.danhGiaTuan = danhGiaTuan;
         if (!STATE.danhGiaTheoTuan) STATE.danhGiaTheoTuan = {};
         STATE.danhGiaTheoTuan[tuan] = danhGiaTuan;
+        if (tuan === Number(STATE.tuanHienTai)) STATE.danhGiaTuan = danhGiaTuan;
+        try { localStorage.setItem("yd3_doan_state_cache_v3", JSON.stringify(STATE)); } catch (e) {}
         await loadData(false);
       }
     } catch (e) {
@@ -1289,8 +1288,9 @@
 
   async function exportFullWeekExcel() {
     if (!RANKED_LIST.length) return alert("Chưa có dữ liệu!");
-    const tuan = Number(document.getElementById('selWeek').value || 10);
+    const tuan = Number(document.getElementById('selWeek').value || 11);
     const rangeStr = getWeekDateRange(tuan);
+    const weekNoteExact = getWeekComment(tuan);
     const wb = XLSX.utils.book_new();
     const border = {
       top: { style: "thin", color: { rgb: "000000" } },
@@ -1317,7 +1317,7 @@
         r.tong,
         r.rank,
         r.group.short,
-        idx === 0 ? (document.getElementById('txtDanhGiaTuan').value || STATE.danhGiaTuan || "") : ""
+        idx === 0 ? weekNoteExact : ""
       ]);
     });
 
@@ -1373,40 +1373,25 @@
     }
     XLSX.utils.book_append_sheet(wb, wsBB, "Vi_pham_bien_ban");
 
-    // Tab 3: Thống kê lỗi cộng trừ theo lớp trong tuần
-    let reasonMap = {};
-    try {
-      reasonMap = JSON.parse(localStorage.getItem("yd3_doan_reasons_v1") || "{}");
-    } catch (e) {}
-
     const tkRows = [
       ["ĐOÀN TRƯỜNG THPT YÊN DŨNG SỐ 3", "", "", "", "", ""],
       [`THỐNG KÊ CHI TIẾT ĐIỂM CỘNG, ĐIỂM TRỪ THEO LỚP — TUẦN ${tuan} (${rangeStr})`, "", "", "", "", ""],
-      ["STT", "Lớp", "Điểm cộng", "Điểm trừ", "Tổng cộng/trừ", "Chi tiết lý do cộng / trừ điểm"]
+      ["STT", "Lớp", "Điểm cộng", "Điểm trừ", "Tổng cộng/trừ", "Chi tiết lý do cộng / trừ điểm (từ sổ nhật ký)"]
     ];
 
     let hasAnyAdj = false;
     let sttTk = 0;
     RANKED_LIST.forEach((r) => {
       const adjLogs = (r.logs || []).filter(l => l.nguon === "Điểm cộng" || l.nguon === "Điểm trừ" || l.nguon === "Không báo điểm");
-      const kCong = `${tuan}|${r.lop}|Điểm cộng`;
-      const kTru = `${tuan}|${r.lop}|Điểm trừ`;
-      const localCong = Array.isArray(reasonMap[kCong]) ? reasonMap[kCong] : [];
-      const localTru = Array.isArray(reasonMap[kTru]) ? reasonMap[kTru] : [];
-
-      if (r.diemCong > 0 || r.diemTruVal > 0 || adjLogs.length > 0 || localCong.length > 0 || localTru.length > 0) {
+      if (r.diemCong > 0 || r.diemTruVal > 0 || adjLogs.length > 0) {
         hasAnyAdj = true;
         sttTk++;
-        const detailParts = [];
-        adjLogs.forEach(item => {
+        const detailParts = adjLogs.map(item => {
           const ptsStr = item.thanhTien >= 0 ? `+${item.thanhTien}đ` : `${item.thanhTien}đ`;
           const who = item.hoTenHS ? `[${item.hoTenHS}] ` : "";
-          detailParts.push(`• [${item.nguon}] ${who}${item.noiDung} (${ptsStr})`);
+          const slStr = item.soLuong > 1 ? ` (SL: ${item.soLuong})` : "";
+          return `• [${item.nguon}] ${who}${item.noiDung}${slStr}: ${ptsStr}`;
         });
-        if (!adjLogs.length) {
-          localCong.forEach(txt => detailParts.push(`• [Điểm cộng] ${txt}`));
-          localTru.forEach(txt => detailParts.push(`• [Điểm trừ] ${txt}`));
-        }
         const netAdj = Number(((r.diemCong || 0) - (r.diemTruVal || 0)).toFixed(2));
         tkRows.push([
           sttTk,
@@ -1428,7 +1413,7 @@
       { s: { r: 0, c: 0 }, e: { r: 0, c: 5 } },
       { s: { r: 1, c: 0 }, e: { r: 1, c: 5 } }
     ];
-    wsTK["!cols"] = [{ wch: 6 }, { wch: 10 }, { wch: 13 }, { wch: 13 }, { wch: 15 }, { wch: 56 }];
+    wsTK["!cols"] = [{ wch: 6 }, { wch: 10 }, { wch: 13 }, { wch: 13 }, { wch: 15 }, { wch: 58 }];
 
     for (let r = 0; r < tkRows.length; r++) {
       for (let c = 0; c < 6; c++) {
