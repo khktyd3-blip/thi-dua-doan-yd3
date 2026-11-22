@@ -191,10 +191,10 @@
         📝 Cổng báo điểm thi đua tuần dành cho cán bộ 30 lớp (<span id="lblReportWeek">Tuần 11</span>)
       </div>
       <div style="font-size:13px; color:#475569; margin-bottom:12px;">
-        Mỗi mục <b>Điểm cờ đỏ (0 – 80đ)</b> và <b>Điểm học tập (0 – 20đ)</b> sau khi lớp đã gửi sẽ <b>tự động khóa chốt</b> để tránh sửa nhầm (nếu cần đính chính, liên hệ Đoàn trường mở Quản trị). Cán bộ lớp có thể gửi <b>Điểm cờ đỏ</b> trước vào cuối tuần và gửi bổ sung <b>Điểm học tập</b> sau.
+        Cột <b>Điểm cờ đỏ (0 – 80đ)</b> tự động khóa sau <b>23:00 Thứ Bảy</b> hàng tuần; cột <b>Điểm học tập (0 – 20đ)</b> vẫn mở để GVCN / lớp bổ sung khi có kết quả. Mỗi mục sau khi đã gửi sẽ tự khóa chốt để tránh sửa nhầm (nếu cần đính chính, liên hệ Đoàn trường mở Quản trị).
       </div>
       <div id="weekLockedAlert" style="display:none; background:#fef9c3; border:1.5px solid #eab308; color:#854d0e; padding:12px 14px; border-radius:10px; margin-bottom:12px; font-weight:700; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-        <span id="weekLockedText">🔒 Tuần này đã KHÓA SỔ báo cờ đỏ. Bạn vẫn có thể nhập bổ sung Điểm học tập (nếu lớp chưa báo) hoặc chuyển sang tuần đang mở.</span>
+        <span id="weekLockedText">🔒 Đã qua 23:00 Thứ Bảy — cột Điểm cờ đỏ đã khóa. Cột Điểm học tập vẫn mở để bổ sung khi có kết quả.</span>
         <button type="button" class="btn-primary" style="padding:6px 12px; font-size:12.5px;" onclick="switchToOpenWeek()">👉 Chuyển sang tuần đang mở</button>
       </div>
 
@@ -224,7 +224,7 @@
       </div>
 
       <div id="cbLivePreview" style="background:#f1f5f9; border:1px dashed #94a3b8; border-radius:8px; padding:8px 12px; margin-bottom:12px; font-size:13px; color:#334155;">
-        💡 Nhập <b>Điểm cờ đỏ</b> trước vào cuối tuần; nếu chưa có điểm học tập thì để trống ô số 3, hệ thống vẫn lưu điểm cờ đỏ bình thường.
+        💡 Cột <b>Điểm cờ đỏ</b> khóa lúc <b>23:00 Thứ Bảy</b>; cột <b>Điểm học tập</b> vẫn mở để GVCN / lớp bổ sung khi có kết quả.
       </div>
       <div style="display:flex; flex-wrap:wrap; gap:10px;">
         <button class="btn-primary" id="btnSubmitClassCoDo" onclick="submitClassScores()" style="width:100%; padding:12px;">
@@ -361,6 +361,31 @@
   const MAX_CODO = 80;
   const MAX_HOCTAP = 20;
 
+  // Đến 23:00 Thứ Bảy hàng tuần sẽ tự động khóa cột Điểm cờ đỏ của tuần đó;
+  // cột Điểm học tập vẫn mở bình thường để GVCN bổ sung khi có kết quả.
+  function isPastRedFlagSaturday23h(tuan) {
+    const w = Number(tuan);
+    if (!w || w < 1) return false;
+    const week1Start = new Date(2026, 8, 7, 0, 0, 0, 0); // Thứ Hai 07/09/2026
+    const sat23h = new Date(week1Start.getTime());
+    sat23h.setDate(sat23h.getDate() + (w - 1) * 7 + 5); // Thứ Bảy của tuần w
+    sat23h.setHours(23, 0, 0, 0); // 23:00 Thứ Bảy
+    return new Date() >= sat23h;
+  }
+
+  function isManualWeekLocked(tuan) {
+    const w = Number(tuan);
+    if (Array.isArray(STATE.lockedWeeks) && STATE.lockedWeeks.map(Number).includes(w)) return true;
+    if (Array.isArray(STATE.unlockedWeeks) && STATE.unlockedWeeks.map(Number).includes(w)) return false;
+    try {
+      const localLocked = JSON.parse(localStorage.getItem("yd3_doan_locked_weeks") || "[]").map(Number);
+      const localUnlocked = JSON.parse(localStorage.getItem("yd3_doan_unlocked_weeks") || "[]").map(Number);
+      if (localLocked.includes(w)) return true;
+      if (localUnlocked.includes(w)) return false;
+    } catch (e) {}
+    return false;
+  }
+
   function getAdminPin() {
     return localStorage.getItem("yd3_doan_admin_pin") || DEFAULT_ADMIN_PIN;
   }
@@ -485,7 +510,6 @@
       if (Object.prototype.hasOwnProperty.call(map, String(w))) {
         return String(map[String(w)] == null ? "" : map[String(w)]);
       }
-      // Nếu map tồn tại nhưng tuần w chưa có khóa trong map -> trả về rỗng (không dính nhận xét tuần khác)
       return "";
     }
     return w === Number(STATE && STATE.tuanHienTai) ? String((STATE && STATE.danhGiaTuan) || "") : "";
@@ -663,39 +687,27 @@
     return w;
   }
 
-  function getLockedWeeksSet() {
-    const set = new Set();
-    const activeWeek = getAutoCurrentWeek();
-    for (let w = 1; w < activeWeek; w++) {
-      set.add(w);
-    }
-    if (Array.isArray(STATE.lockedWeeks)) {
-      STATE.lockedWeeks.forEach(w => set.add(Number(w)));
-    }
-    if (Array.isArray(STATE.unlockedWeeks)) {
-      STATE.unlockedWeeks.forEach(w => set.delete(Number(w)));
-    }
-    try {
-      const localLocked = JSON.parse(localStorage.getItem("yd3_doan_locked_weeks") || "[]");
-      localLocked.forEach(w => set.add(Number(w)));
-      const localUnlocked = JSON.parse(localStorage.getItem("yd3_doan_unlocked_weeks") || "[]");
-      localUnlocked.forEach(w => set.delete(Number(w)));
-    } catch (e) {}
-    return set;
+  // Trạng thái khóa toàn tuần (chỉ dùng cho khóa/mở thủ công của Đoàn trường)
+  function isWeekLocked(tuan) {
+    return isManualWeekLocked(tuan);
   }
 
-  function isWeekLocked(tuan) {
-    return getLockedWeeksSet().has(Number(tuan));
+  // Cột Điểm cờ đỏ khóa khi: đã qua 23:00 Thứ Bảy của tuần đó HOẶC tuần bị khóa thủ công
+  function isRedFlagColumnLocked(tuan) {
+    return isManualWeekLocked(tuan) || isPastRedFlagSaturday23h(tuan);
   }
 
   function renderWeekDropdown(selectedWeek) {
     const wSel = document.getElementById('selWeek');
     const curVal = Number(selectedWeek || wSel.value || getAutoCurrentWeek());
-    const lockedSet = getLockedWeeksSet();
     let wHtml = "";
     for (let i = 1; i <= 37; i++) {
-      const locked = lockedSet.has(i);
-      wHtml += `<option value="${i}" ${i === curVal ? 'selected' : ''}>Tuần ${i} ${locked ? '🔒 (Đã khóa)' : '🟢 (Đang mở)'}</option>`;
+      const cdLocked = isRedFlagColumnLocked(i);
+      const allLocked = isWeekLocked(i);
+      const statusText = allLocked
+        ? '🔒 (Đã khóa sổ)'
+        : (cdLocked ? '⏰ (Khóa cờ đỏ 23h T7 • Mở học tập)' : '🟢 (Đang mở)');
+      wHtml += `<option value="${i}" ${i === curVal ? 'selected' : ''}>Tuần ${i} ${statusText}</option>`;
     }
     wSel.innerHTML = wHtml;
   }
@@ -703,12 +715,12 @@
   async function toggleLockCurrentWeek() {
     if (!ADMIN_UNLOCKED) return alert("Vui lòng mở khóa Quản trị trước!");
     const tuan = Number(document.getElementById('selWeek').value || getAutoCurrentWeek());
-    const currentlyLocked = isWeekLocked(tuan);
+    const currentlyLocked = isManualWeekLocked(tuan);
     const nextLocked = !currentlyLocked;
 
     if (!confirm(nextLocked
-      ? `Xác nhận KHÓA SỔ Tuần ${tuan}? Sau khi khóa, cán bộ 30 lớp sẽ không thể nhập hay sửa điểm Tuần ${tuan} nữa.`
-      : `MỞ KHÓA lại Tuần ${tuan} để các lớp báo bổ sung điểm?`)) {
+      ? `Xác nhận KHÓA SỔ Tuần ${tuan}? Sau khi khóa, cán bộ lớp sẽ không thể nhập hay sửa điểm Tuần ${tuan} nữa.`
+      : `MỞ KHÓA lại Tuần ${tuan} (cột Điểm học tập luôn mở cho GVCN; cột Cờ đỏ sẽ khóa sau 23:00 Thứ Bảy)?`)) {
       return;
     }
 
@@ -739,11 +751,10 @@
   }
 
   function switchToOpenWeek() {
-    const lockedSet = getLockedWeeksSet();
     let targetW = getAutoCurrentWeek();
-    if (lockedSet.has(targetW)) {
+    if (isWeekLocked(targetW)) {
       for (let w = 37; w >= 1; w--) {
-        if (!lockedSet.has(w)) { targetW = w; break; }
+        if (!isWeekLocked(w)) { targetW = w; break; }
       }
     }
     renderWeekDropdown(targetW);
@@ -775,12 +786,16 @@
       ta.value = getWeekComment(tuan);
     }
     const rangeStr = getWeekDateRange(tuan);
-    const locked = isWeekLocked(tuan);
-    document.getElementById('lblSubWeek').innerText = `Cờ đỏ tối đa: 80đ • Học tập tối đa: 20đ (Tổng chuẩn: 100đ) • Tuần ${tuan} (${rangeStr}) • ${locked ? '🔒 ĐÃ KHÓA SỔ' : '🟢 ĐANG MỞ BÁO ĐIỂM'} • Tự động đồng bộ`;
+    const allLocked = isWeekLocked(tuan);
+    const cdLocked = isRedFlagColumnLocked(tuan);
+    const statusLabel = allLocked
+      ? '🔒 ĐÃ KHÓA SỔ'
+      : (cdLocked ? '⏰ ĐÃ KHÓA CỜ ĐỎ (23H T7) • HỌC TẬP VẪN MỞ' : '🟢 ĐANG MỞ • KHÓA CỜ ĐỎ 23H THỨ BẢY');
+    document.getElementById('lblSubWeek').innerText = `Cờ đỏ tối đa: 80đ • Học tập tối đa: 20đ (Tổng chuẩn: 100đ) • Tuần ${tuan} (${rangeStr}) • ${statusLabel} • Tự động đồng bộ`;
     const btnLockW = document.getElementById('btnToggleWeekLock');
     if (btnLockW) {
-      btnLockW.innerText = locked ? `🔓 Mở khóa Tuần ${tuan}` : `🔒 Khóa sổ Tuần ${tuan}`;
-      btnLockW.style.background = locked ? "#0369a1" : "#b91c1c";
+      btnLockW.innerText = allLocked ? `🔓 Mở khóa Tuần ${tuan}` : `🔒 Khóa sổ Tuần ${tuan}`;
+      btnLockW.style.background = allLocked ? "#0369a1" : "#b91c1c";
       btnLockW.style.color = "#fff";
     }
     renderRankTable();
@@ -942,31 +957,38 @@
     document.getElementById('cbCoDoScore').value = cdSubmitted ? currentCoDo : "";
     document.getElementById('cbHocTapScore').value = htSubmitted ? currentHocTap : "";
 
-    const weekLocked = isWeekLocked(tuan);
+    const manualLocked = isManualWeekLocked(tuan);
+    const cdTimeLocked = isPastRedFlagSaturday23h(tuan);
 
-    const lockCD = !ADMIN_UNLOCKED && (weekLocked || cdSubmitted);
-    const lockHT = !ADMIN_UNLOCKED && htSubmitted;
+    // Cột Điểm cờ đỏ khóa khi quá 23h Thứ Bảy hoặc bị khóa thủ công hoặc đã gửi
+    const lockCD = !ADMIN_UNLOCKED && (manualLocked || cdTimeLocked || cdSubmitted);
+    // Cột Điểm học tập KHÔNG khóa theo giờ 23h Thứ Bảy (chỉ khóa nếu bị khóa sổ toàn tuần thủ công hoặc lớp đã gửi điểm học tập)
+    const lockHT = !ADMIN_UNLOCKED && (manualLocked || htSubmitted);
 
     const alertBox = document.getElementById('weekLockedAlert');
     const alertTxt = document.getElementById('weekLockedText');
     if (alertBox) {
-      alertBox.style.display = (lockCD || lockHT) ? "flex" : "none";
+      alertBox.style.display = (manualLocked || cdTimeLocked || cdSubmitted || htSubmitted) ? "flex" : "none";
     }
     if (alertTxt) {
-      if (lockCD && lockHT) {
+      if (manualLocked) {
+        alertTxt.innerText = `🔒 Tuần ${tuan} đã KHÓA SỔ toàn bộ. Vui lòng chuyển sang tuần đang mở hoặc liên hệ Đoàn trường.`;
+      } else if (cdTimeLocked && !htSubmitted) {
+        alertTxt.innerText = `⏰ Đã qua 23:00 Thứ Bảy — cột Điểm cờ đỏ Tuần ${tuan} đã khóa. Cột Điểm học tập vẫn mở để GVCN / lớp bổ sung khi có kết quả.`;
+      } else if (cdTimeLocked && htSubmitted) {
+        alertTxt.innerText = `⏰ Đã qua 23:00 Thứ Bảy — cột Điểm cờ đỏ đã khóa và lớp ${lop} đã cập nhật Điểm học tập (${currentHocTap}đ).`;
+      } else if (cdSubmitted && htSubmitted) {
         alertTxt.innerText = `🔒 Lớp ${lop} đã hoàn tất & chốt đủ Điểm cờ đỏ và Điểm học tập Tuần ${tuan}. Nếu sai sót, liên hệ Đoàn trường để đính chính!`;
-      } else if (lockCD && !lockHT) {
-        alertTxt.innerText = weekLocked
-          ? `🔒 Tuần ${tuan} đã khóa báo Cờ đỏ, nhưng lớp ${lop} vẫn được nhập bổ sung Điểm học tập bên dưới.`
-          : `✅ Lớp ${lop} đã chốt Điểm cờ đỏ (${currentCoDo}đ). Ô Điểm học tập vẫn đang mở để bổ sung khi có số liệu.`;
-      } else if (!lockCD && lockHT) {
-        alertTxt.innerText = `✅ Lớp ${lop} đã chốt Điểm học tập (${currentHocTap}đ). Ô Điểm cờ đỏ vẫn đang mở.`;
+      } else if (cdSubmitted && !htSubmitted) {
+        alertTxt.innerText = `✅ Lớp ${lop} đã chốt Điểm cờ đỏ (${currentCoDo}đ). Ô Điểm học tập vẫn đang mở để bổ sung khi có kết quả.`;
+      } else if (!cdSubmitted && htSubmitted) {
+        alertTxt.innerText = `✅ Lớp ${lop} đã chốt Điểm học tập (${currentHocTap}đ). Ô Điểm cờ đỏ vẫn đang mở đến 23:00 Thứ Bảy.`;
       }
     }
 
     document.getElementById('cbCoDoScore').disabled = lockCD;
     document.getElementById('cbHocTapScore').disabled = lockHT;
-    const allowSubmit = !lockCD || !lockHT;
+    const allowSubmit = !manualLocked && (!lockCD || !lockHT);
     document.getElementById('cbReporterNote').disabled = !allowSubmit;
     const btnSubEl = document.getElementById('btnSubmitClassCoDo');
     if (btnSubEl) {
@@ -974,7 +996,7 @@
       btnSubEl.style.opacity = allowSubmit ? "1" : "0.55";
       btnSubEl.innerHTML = allowSubmit
         ? `📤 Gửi báo điểm Cờ đỏ & Học tập của lớp <span id="lblSubmitLop">${lop}</span>`
-        : `🔒 Đã chốt đủ điểm tuần của lớp <span id="lblSubmitLop">${lop}</span>`;
+        : `🔒 Đã chốt / khóa mục báo điểm của lớp <span id="lblSubmitLop">${lop}</span>`;
     }
 
     const bothLogs = [...cLogs, ...hLogs];
@@ -1007,14 +1029,18 @@
   async function submitClassScores() {
     const tuan = Number(document.getElementById('selWeek').value || getAutoCurrentWeek());
     const lop = document.getElementById('cbLop').value;
-    const weekLocked = isWeekLocked(tuan);
+    const manualLocked = isManualWeekLocked(tuan);
+    const cdTimeLocked = isPastRedFlagSaturday23h(tuan);
+    if (!ADMIN_UNLOCKED && manualLocked) {
+      return alert(`🔒 Tuần ${tuan} đã khóa sổ toàn bộ. Vui lòng liên hệ Đoàn trường nếu cần hỗ trợ!`);
+    }
     const existingCD = (STATE.logs || []).find(l => Number(l.tuan) === tuan && String(l.lop || "").trim().toUpperCase() === lop && l.nguon === "Cờ đỏ");
     const existingHT = (STATE.logs || []).find(l => Number(l.tuan) === tuan && String(l.lop || "").trim().toUpperCase() === lop && l.nguon === "Điểm học tập");
 
     const existingCDVal = existingCD ? Number(Math.max(0, Math.min(MAX_CODO, MAX_CODO + toNum(existingCD.thanhTien))).toFixed(2)) : 0;
     const existingHTVal = existingHT ? Number(Math.max(0, Math.min(MAX_HOCTAP, MAX_HOCTAP + toNum(existingHT.thanhTien))).toFixed(2)) : 0;
-    const lockCD = !ADMIN_UNLOCKED && (weekLocked || existingCDVal > 0);
-    const lockHT = !ADMIN_UNLOCKED && (existingHTVal > 0);
+    const lockCD = !ADMIN_UNLOCKED && (manualLocked || cdTimeLocked || existingCDVal > 0);
+    const lockHT = !ADMIN_UNLOCKED && (manualLocked || existingHTVal > 0);
 
     const rawCD = document.getElementById('cbCoDoScore').value.trim();
     const rawHT = document.getElementById('cbHocTapScore').value.trim();
@@ -1026,7 +1052,7 @@
     }
     if (!hasInputCD && !hasInputHT) {
       return alert(lockCD
-        ? `🔒 Điểm cờ đỏ đã khóa. Vui lòng nhập Điểm học tập (0 – ${MAX_HOCTAP}) để gửi bổ sung!`
+        ? `⏰ Cột Điểm cờ đỏ đã khóa sau 23:00 Thứ Bảy. Vui lòng nhập Điểm học tập (0 – ${MAX_HOCTAP}) để gửi bổ sung!`
         : `Vui lòng nhập Điểm cờ đỏ (0 – ${MAX_CODO}) hoặc Điểm học tập (0 – ${MAX_HOCTAP})!`);
     }
 
@@ -1048,8 +1074,8 @@
       ? `Cán bộ lớp báo điểm cờ đỏ: ${scoreCD}/${MAX_CODO}đ — ${note}`
       : `Cán bộ lớp báo điểm cờ đỏ: ${scoreCD}/${MAX_CODO}đ`;
     const noiDungHT = note
-      ? `Cán bộ lớp báo điểm học tập: ${scoreHT}/${MAX_HOCTAP}đ — ${note}`
-      : `Cán bộ lớp báo điểm học tập: ${scoreHT}/${MAX_HOCTAP}đ`;
+      ? `GVCN / lớp bổ sung điểm học tập: ${scoreHT}/${MAX_HOCTAP}đ — ${note}`
+      : `GVCN / lớp bổ sung điểm học tập: ${scoreHT}/${MAX_HOCTAP}đ`;
 
     const summaryParts = [];
     if (hasInputCD) summaryParts.push(`• Điểm cờ đỏ: ${scoreCD}/${MAX_CODO}đ`);
@@ -1087,7 +1113,6 @@
       }
 
       if (resOk) {
-        // Cập nhật ngay vào STATE.logs để chip đổi màu và khóa ô tức thì không cần load lại
         STATE.logs = (STATE.logs || []).filter(l => !(
           Number(l.tuan) === tuan &&
           String(l.lop || "").trim().toUpperCase() === lop &&
@@ -1134,8 +1159,11 @@
     } catch (e) {
       alert("Lỗi kết nối: " + e.message);
     } finally {
-      btn.disabled = false;
-      btn.innerHTML = `📤 Gửi báo điểm Cờ đỏ & Học tập của lớp <span id="lblSubmitLop">${lop}</span>`;
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = `📤 Gửi báo điểm Cờ đỏ & Học tập của lớp <span id="lblSubmitLop">${lop}</span>`;
+      }
+      renderClassReportForm();
     }
   }
 
