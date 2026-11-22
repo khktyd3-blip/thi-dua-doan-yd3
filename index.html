@@ -603,22 +603,6 @@
       const r = await fetch(API_URL + "?t=" + Date.now(), { signal: ctrl.signal });
       const res = await r.json();
       if (res && res.classes) {
-        try {
-          const reasonMap = JSON.parse(localStorage.getItem("yd3_doan_reasons_v1") || "{}");
-          if (Array.isArray(res.logs)) {
-            res.logs = res.logs.map(item => {
-              const k = `${Number(item.tuan)}|${String(item.lop || "").trim().toUpperCase()}|${item.nguon}`;
-              const savedArr = reasonMap[k];
-              if (Array.isArray(savedArr) && savedArr.length > 0 && item.noiDung && item.noiDung.indexOf("đồng bộ") === -1) {
-                return item;
-              }
-              if (Array.isArray(savedArr) && savedArr.length > 0 && (item.nguon === "Điểm cộng" || item.nguon === "Điểm trừ")) {
-                return { ...item, noiDung: savedArr.join("; ") };
-              }
-              return item;
-            });
-          }
-        } catch (err) {}
         STATE = res;
         try { localStorage.setItem("yd3_doan_state_cache_v1", JSON.stringify(STATE)); } catch (e) {}
         document.getElementById('lblHeader').innerText = `THEO DÕI ĐIỂM THI ĐUA ĐOÀN TRƯỜNG THPT YÊN DŨNG SỐ 3(${STATE.namHoc || "2026 - 2027"})`;
@@ -1189,18 +1173,6 @@
         ? { action: "updateEntry", id: EDITING_ID, tuan, lop, nguon, hoTenHS, noiDung, soLuong, diemDonVi }
         : { action: "addEntry", tuan, lop, nguon, hoTenHS, noiDung, soLuong, diemDonVi };
       const res = await postApi(payload);
-      if (res && res.success) {
-        try {
-          const reasonKey = "yd3_doan_reasons_v1";
-          const map = JSON.parse(localStorage.getItem(reasonKey) || "{}");
-          const k = `${tuan}|${lop}|${nguon}`;
-          if (!Array.isArray(map[k])) map[k] = [];
-          const labelText = hoTenHS ? `[${hoTenHS}] ${noiDung}` : noiDung;
-          const signedPts = diemDonVi >= 0 ? `+${Number((soLuong * diemDonVi).toFixed(2))}đ` : `${Number((soLuong * diemDonVi).toFixed(2))}đ`;
-          map[k].push(`${labelText} (${signedPts})`);
-          localStorage.setItem(reasonKey, JSON.stringify(map));
-        } catch (err) {}
-      }
       alert(res.msg);
       if (res.success) {
         cancelEdit();
@@ -1400,6 +1372,101 @@
       }
     }
     XLSX.utils.book_append_sheet(wb, wsBB, "Vi_pham_bien_ban");
+
+    // Tab 3: Thống kê lỗi cộng trừ theo lớp trong tuần
+    let reasonMap = {};
+    try {
+      reasonMap = JSON.parse(localStorage.getItem("yd3_doan_reasons_v1") || "{}");
+    } catch (e) {}
+
+    const tkRows = [
+      ["ĐOÀN TRƯỜNG THPT YÊN DŨNG SỐ 3", "", "", "", "", ""],
+      [`THỐNG KÊ CHI TIẾT ĐIỂM CỘNG, ĐIỂM TRỪ THEO LỚP — TUẦN ${tuan} (${rangeStr})`, "", "", "", "", ""],
+      ["STT", "Lớp", "Điểm cộng", "Điểm trừ", "Tổng cộng/trừ", "Chi tiết lý do cộng / trừ điểm"]
+    ];
+
+    let hasAnyAdj = false;
+    let sttTk = 0;
+    RANKED_LIST.forEach((r) => {
+      const adjLogs = (r.logs || []).filter(l => l.nguon === "Điểm cộng" || l.nguon === "Điểm trừ" || l.nguon === "Không báo điểm");
+      const kCong = `${tuan}|${r.lop}|Điểm cộng`;
+      const kTru = `${tuan}|${r.lop}|Điểm trừ`;
+      const localCong = Array.isArray(reasonMap[kCong]) ? reasonMap[kCong] : [];
+      const localTru = Array.isArray(reasonMap[kTru]) ? reasonMap[kTru] : [];
+
+      if (r.diemCong > 0 || r.diemTruVal > 0 || adjLogs.length > 0 || localCong.length > 0 || localTru.length > 0) {
+        hasAnyAdj = true;
+        sttTk++;
+        const detailParts = [];
+        adjLogs.forEach(item => {
+          const ptsStr = item.thanhTien >= 0 ? `+${item.thanhTien}đ` : `${item.thanhTien}đ`;
+          const who = item.hoTenHS ? `[${item.hoTenHS}] ` : "";
+          detailParts.push(`• [${item.nguon}] ${who}${item.noiDung} (${ptsStr})`);
+        });
+        if (!adjLogs.length) {
+          localCong.forEach(txt => detailParts.push(`• [Điểm cộng] ${txt}`));
+          localTru.forEach(txt => detailParts.push(`• [Điểm trừ] ${txt}`));
+        }
+        const netAdj = Number(((r.diemCong || 0) - (r.diemTruVal || 0)).toFixed(2));
+        tkRows.push([
+          sttTk,
+          r.lop,
+          r.diemCong > 0 ? `+${r.diemCong}` : 0,
+          r.diemTruVal > 0 ? -r.diemTruVal : 0,
+          netAdj > 0 ? `+${netAdj}` : netAdj,
+          detailParts.join("\n") || "Không ghi chú chi tiết"
+        ]);
+      }
+    });
+
+    if (!hasAnyAdj) {
+      tkRows.push(["-", "Tất cả", 0, 0, 0, `Tuần ${tuan} chưa có lớp nào phát sinh điểm cộng hoặc điểm trừ.`]);
+    }
+
+    const wsTK = XLSX.utils.aoa_to_sheet(tkRows);
+    wsTK["!merges"] = [
+      { s: { r: 0, c: 0 }, e: { r: 0, c: 5 } },
+      { s: { r: 1, c: 0 }, e: { r: 1, c: 5 } }
+    ];
+    wsTK["!cols"] = [{ wch: 6 }, { wch: 10 }, { wch: 13 }, { wch: 13 }, { wch: 15 }, { wch: 56 }];
+
+    for (let r = 0; r < tkRows.length; r++) {
+      for (let c = 0; c < 6; c++) {
+        const addr = XLSX.utils.encode_cell({ r, c });
+        if (!wsTK[addr]) wsTK[addr] = { v: "", t: "s" };
+        let cellColor = "000000";
+        let bgFill = undefined;
+        if (r === 2) {
+          cellColor = "FFFFFF";
+          bgFill = { fgColor: { rgb: "1E293B" } };
+        } else if (r >= 3 && hasAnyAdj) {
+          if (c === 2 && String(tkRows[r][2]).startsWith("+")) cellColor = "15803D";
+          if (c === 3 && Number(tkRows[r][3]) < 0) cellColor = "B91C1C";
+          if (c === 4) {
+            const vNum = Number(String(tkRows[r][4]).replace("+", ""));
+            if (vNum > 0) cellColor = "15803D";
+            else if (vNum < 0) cellColor = "B91C1C";
+          }
+          if (r % 2 === 1) bgFill = { fgColor: { rgb: "F8FAFC" } };
+        }
+        wsTK[addr].s = {
+          font: {
+            name: "Times New Roman",
+            sz: r <= 1 ? 14 : 12,
+            bold: r <= 2 || c === 1 || c === 4,
+            color: { rgb: cellColor }
+          },
+          fill: bgFill,
+          alignment: {
+            horizontal: (c === 5 && r >= 3) ? "left" : "center",
+            vertical: "center",
+            wrapText: true
+          },
+          border: r >= 2 ? border : undefined
+        };
+      }
+    }
+    XLSX.utils.book_append_sheet(wb, wsTK, "Thong_ke_cong_tru");
 
     XLSX.writeFile(wb, `Tuan_${tuan}_Thi_Dua_Doan_Truong_YD3.xlsx`);
   }
