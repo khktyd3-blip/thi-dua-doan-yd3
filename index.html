@@ -191,7 +191,7 @@
         📝 Cổng báo điểm thi đua tuần dành cho cán bộ 30 lớp (<span id="lblReportWeek">Tuần 11</span>)
       </div>
       <div style="font-size:13px; color:#475569; margin-bottom:12px;">
-        Cột <b>Điểm cờ đỏ (0 – 80đ)</b> vẫn mở sau <b>23:00 Thứ Bảy</b>, nhưng nếu lớp nộp muộn sau <b>23:00 Thứ Bảy</b> hệ thống sẽ <b>tự động trừ -1 điểm</b> (báo bổ sung <b>Điểm học tập 0 – 20đ</b> không bị trừ điểm nộp muộn). Mỗi mục sau khi đã gửi sẽ tự khóa chốt để tránh sửa nhầm.
+        Từ <b>Tuần 12</b> trở đi, cột <b>Điểm cờ đỏ (0 – 80đ)</b> vẫn mở sau <b>23:00 Thứ Bảy</b> nhưng nếu lớp nộp muộn sau mốc này hệ thống sẽ <b>tự động trừ -1 điểm</b> (Tuần 11 mới triển khai nên không trừ nộp muộn; báo bổ sung <b>Điểm học tập 0 – 20đ</b> không bị trừ). Mỗi mục sau khi gửi sẽ tự khóa chốt để tránh sửa nhầm.
       </div>
       <div id="weekLockedAlert" style="display:none; background:#fef9c3; border:1.5px solid #eab308; color:#854d0e; padding:12px 14px; border-radius:10px; margin-bottom:12px; font-weight:700; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
         <span id="weekLockedText">🔒 Đã qua 23:00 Thứ Bảy — cột Điểm cờ đỏ đã khóa. Cột Điểm học tập vẫn mở để bổ sung khi có kết quả.</span>
@@ -224,7 +224,7 @@
       </div>
 
       <div id="cbLivePreview" style="background:#f1f5f9; border:1px dashed #94a3b8; border-radius:8px; padding:8px 12px; margin-bottom:12px; font-size:13px; color:#334155;">
-        💡 Nộp <b>Điểm cờ đỏ</b> sau <b>23:00 Thứ Bảy</b> vẫn nhập được nhưng hệ thống tự động trừ <b>-1 điểm</b>; <b>Điểm học tập</b> bổ sung khi có kết quả không bị trừ.
+        💡 Từ <b>Tuần 12</b>: nộp <b>Điểm cờ đỏ</b> sau <b>23:00 Thứ Bảy</b> vẫn nhập được nhưng tự động trừ <b>-1 điểm</b> (Tuần 11 miễn trừ); <b>Điểm học tập</b> bổ sung khi có kết quả không bị trừ.
       </div>
       <div style="display:flex; flex-wrap:wrap; gap:10px;">
         <button class="btn-primary" id="btnSubmitClassCoDo" onclick="submitClassScores()" style="width:100%; padding:12px;">
@@ -361,11 +361,11 @@
   const MAX_CODO = 80;
   const MAX_HOCTAP = 20;
 
-  // Đến 23:00 Thứ Bảy hàng tuần sẽ tự động khóa cột Điểm cờ đỏ của tuần đó;
-  // cột Điểm học tập vẫn mở bình thường để GVCN bổ sung khi có kết quả.
+  // Bắt đầu áp dụng tự động trừ điểm nộp muộn điểm cờ đỏ sau 23:00 Thứ Bảy từ Tuần 12 trở đi
+  // (Tuần 11 mới triển khai app nên không trừ điểm nộp muộn).
   function isPastRedFlagSaturday23h(tuan) {
     const w = Number(tuan);
-    if (!w || w < 1) return false;
+    if (!w || w < 12) return false;
     const week1Start = new Date(2026, 8, 7, 0, 0, 0, 0); // Thứ Hai 07/09/2026
     const sat23h = new Date(week1Start.getTime());
     sat23h.setDate(sat23h.getDate() + (w - 1) * 7 + 5); // Thứ Bảy của tuần w
