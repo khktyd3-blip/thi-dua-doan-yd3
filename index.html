@@ -161,19 +161,20 @@
       <table class="rank-table">
         <thead>
           <tr>
-            <th style="width:5%">STT</th>
-            <th style="width:8%">Lớp</th>
-            <th style="width:12%">Điểm cờ đỏ<br><small style="font-weight:400;">(Tối đa 80)</small></th>
-            <th style="width:12%">Điểm học tập<br><small style="font-weight:400;">(Tối đa 20)</small></th>
-            <th style="width:11%">Điểm cộng<br><small style="font-weight:400;">(Đoàn trường)</small></th>
-            <th style="width:11%">Điểm trừ<br><small style="font-weight:400;">(Đoàn trường)</small></th>
-            <th style="width:12%">Tổng điểm<br><small style="font-weight:400;">(CĐ+HT+C+T)</small></th>
-            <th style="width:11%">Xếp hạng</th>
-            <th style="width:18%">Nhóm xếp hạng</th>
+            <th style="width:4%">STT</th>
+            <th style="width:7%">Lớp</th>
+            <th style="width:9%">Cờ đỏ<br><small style="font-weight:400;">(Tối đa 80)</small></th>
+            <th style="width:9%">Học tập<br><small style="font-weight:400;">(Tối đa 20)</small></th>
+            <th style="width:8%">Điểm cộng<br><small style="font-weight:400;">(Đoàn trường)</small></th>
+            <th style="width:8%">Điểm trừ<br><small style="font-weight:400;">(Đoàn trường)</small></th>
+            <th style="width:9%">Tổng điểm<br><small style="font-weight:400;">(CĐ+HT+C+T)</small></th>
+            <th style="width:7%">Xếp hạng</th>
+            <th style="width:13%">Nhóm xếp hạng</th>
+            <th style="width:26%; text-align:left;">Ghi chú cộng / trừ<br><small style="font-weight:400;">(Chi tiết lỗi & thành tích tuần)</small></th>
           </tr>
         </thead>
         <tbody id="tbodyRank">
-          <tr><td colspan="9" style="padding:24px; color:#64748b;">Đang tải dữ liệu...</td></tr>
+          <tr><td colspan="10" style="padding:24px; color:#64748b;">Đang tải dữ liệu...</td></tr>
         </tbody>
       </table>
     </div>
@@ -902,7 +903,26 @@
 
     const filtered = khoi === "ALL" ? fullList : fullList.filter(x => x.lop.startsWith(khoi));
 
-    document.getElementById('tbodyRank').innerHTML = filtered.map(r => `
+    const escHtml = (s) => String(s || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+
+    document.getElementById('tbodyRank').innerHTML = filtered.map(r => {
+      const adjLogs = (r.logs || []).filter(l => l.nguon === "Điểm cộng" || l.nguon === "Điểm trừ" || l.nguon === "Không báo điểm");
+      const noteHtml = adjLogs.length
+        ? adjLogs.map(item => {
+            const ptsNum = toNum(item.thanhTien);
+            const ptsStr = ptsNum >= 0 ? `+${ptsNum}đ` : `${ptsNum}đ`;
+            const color = ptsNum >= 0 ? "#15803d" : "#b91c1c";
+            const who = item.hoTenHS ? `<b>[${escHtml(item.hoTenHS)}]</b> ` : "";
+            const slStr = Number(item.soLuong) > 1 ? ` (SL: ${item.soLuong})` : "";
+            return `<div style="line-height:1.35; margin-bottom:2px; font-size:12.5px; color:${color};">• ${who}${escHtml(item.noiDung)}${slStr} <b>(${ptsStr})</b></div>`;
+          }).join("")
+        : `<span style="color:#94a3b8; font-size:12px;">—</span>`;
+
+      return `
       <tr class="${r.group.rowCls}">
         <td>${r.stt}</td>
         <td><span class="cls-link" onclick="selectQuickClass('${r.lop}')">${r.lop}</span></td>
@@ -913,8 +933,10 @@
         <td style="font-size:15.5px;"><b>${r.tong}</b></td>
         <td><b>${r.rank}</b></td>
         <td><span class="badge-grp ${r.group.badgeCls}">${r.group.label}</span></td>
+        <td style="text-align:left; min-width:220px; max-width:320px; white-space:normal;">${noteHtml}</td>
       </tr>
-    `).join('');
+    `;
+    }).join('');
   }
 
   function renderClassReportForm() {
