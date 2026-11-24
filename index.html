@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0f766e">
-  <title>THEO DÕI ĐIỂM THI ĐUA ĐOÀN TRƯỜNG THPT YÊN DŨNG SỐ 3 (2026 - 2027)</title>
+  <meta name="theme-color" content="#991b1b">
+  <title>THEO DÕI ĐIỂM THI ĐUA ĐOÀN TRƯỜNG THPT YÊN DŨNG SỐ 3(2026 - 2027)</title>
   <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
   <style>
     :root {
-      --primary: #0f766e;
-      --primary-dark: #115e59;
-      --accent: #0369a1;
+      --primary: #b91c1c;
+      --primary-dark: #7f1d1d;
       --bg: #f1f5f9;
       --card: #ffffff;
       --font-main: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
@@ -20,7 +19,7 @@
     .main-wrap { max-width: 1180px; margin: 0 auto; background: var(--card); border-radius: 16px; padding: 18px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.08); }
 
     .banner-box {
-      background: linear-gradient(135deg, #115e59 0%, #0f766e 55%, #0284c7 100%);
+      background: linear-gradient(135deg, #7f1d1d 0%, #b91c1c 60%, #dc2626 100%);
       border-radius: 14px;
       padding: 16px 20px;
       margin-bottom: 14px;
@@ -28,102 +27,95 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
     }
-    .banner-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; margin-bottom: 5px; }
-    .banner-title { margin: 0 0 4px; font-size: 18px; font-weight: 800; line-height: 1.3; }
-    .banner-sub { margin: 0; font-size: 13px; color: #ccfbf1; }
+    .banner-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; margin-bottom: 5px; }
+    .banner-title { margin: 0 0 3px; font-size: 18px; font-weight: 800; }
+    .banner-sub { margin: 0; font-size: 13px; color: #fee2e2; }
 
-    .nav-tabs { display: flex; flex-wrap: wrap; gap: 6px; background: #f1f5f9; padding: 5px; border-radius: 12px; margin-bottom: 16px; }
-    .tab-btn { flex: 1; min-width: 150px; padding: 10px 8px; border: none; border-radius: 9px; font-weight: 600; font-size: 13.5px; cursor: pointer; background: transparent; color: #475569; }
-    .tab-btn.active { background: #ffffff; color: var(--primary); font-weight: 800; box-shadow: 0 2px 6px rgba(0,0,0,0.07); }
-
-    .control-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      background: #f8fafc;
-      border: 1px solid #cbd5e1;
-      padding: 12px 14px;
-      border-radius: 12px;
-      margin-bottom: 12px;
-      align-items: end;
-    }
-    @media (max-width: 820px) { .control-grid { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 520px) { .control-grid { grid-template-columns: 1fr; } }
-
-    label.lbl { display: block; font-size: 12.5px; font-weight: 700; color: #334155; margin-bottom: 4px; }
-    select, input, button { padding: 9px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 13.5px; color: #0f172a; }
-    .w-100 { width: 100%; }
-
-    .week-alert-box {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
-      padding: 11px 14px;
-      border-radius: 10px;
-      margin-bottom: 14px;
-      font-size: 13.5px;
-      font-weight: 700;
-      border: 1.5px solid #0284c7;
-      background: #e0f2fe;
-      color: #0c4a6e;
-    }
-    .week-alert-box.mismatch {
-      border-color: #dc2626;
-      background: #fef2f2;
-      color: #991b1b;
-    }
-    .week-badge {
-      padding: 4px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      background: rgba(255, 255, 255, 0.9);
-      white-space: nowrap;
-    }
-
-    .score-card {
-      background: #ffffff;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 14px;
-    }
-    .score-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-    @media (max-width: 760px) { .score-grid { grid-template-columns: 1fr; } }
-
-    .field-box {
-      background: #f8fafc;
-      border: 1px solid #cbd5e1;
-      border-radius: 10px;
-      padding: 12px;
-    }
-    .field-box input[type="number"] {
-      font-size: 16px;
-      font-weight: 800;
-      color: #0f766e;
-      margin-top: 6px;
-    }
-    .hint-txt { font-size: 12px; color: #64748b; margin-top: 4px; }
-
+    .top-bar { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center; background: #f8fafc; border: 1px solid #cbd5e1; padding: 12px 14px; border-radius: 12px; margin-bottom: 14px; }
+    select, input, textarea, button { padding: 9px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 13.5px; color: #0f172a; }
     .btn-primary { background: var(--primary); color: #fff; font-weight: 700; border: none; cursor: pointer; }
     .btn-primary:hover { background: var(--primary-dark); }
+    .btn-success { background: #15803d; color: #fff; font-weight: 700; border: none; cursor: pointer; }
+    .btn-success:hover { background: #166534; }
     .btn-secondary { background: #475569; color: #fff; font-weight: 600; border: none; cursor: pointer; }
-    .btn-excel { background: #15803d; color: #fff; font-weight: 700; border: none; cursor: pointer; }
+    .btn-excel { background: #15803d; color: #fff; border: none; font-weight: 600; cursor: pointer; }
+    .btn-ref { background: #fff; color: var(--primary); border: 1px solid var(--primary); font-weight: 600; cursor: pointer; }
 
-    .data-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13.5px; background: #fff; }
-    .data-table th { background: #1e293b; color: #fff; padding: 9px 8px; text-align: center; font-weight: 600; }
-    .data-table td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; }
-    .status-pill { display: inline-block; padding: 3px 9px; border-radius: 999px; font-size: 12px; font-weight: 700; }
-    .st-ok { background: #dcfce7; color: #166534; }
-    .st-wait { background: #fef9c3; color: #854d0e; }
-    .st-empty { background: #f1f5f9; color: #475569; }
+    .nav-tabs { display: flex; flex-wrap: wrap; gap: 6px; background: #f1f5f9; padding: 5px; border-radius: 12px; margin-bottom: 14px; }
+    .tab-btn { flex: 1; min-width: 170px; padding: 10px 8px; border: none; border-radius: 9px; font-weight: 600; font-size: 13.5px; cursor: pointer; background: transparent; color: #475569; }
+    .tab-btn.active { background: #ffffff; color: var(--primary); font-weight: 700; box-shadow: 0 2px 6px rgba(0,0,0,0.07); }
+
+    .grp-nhat { background-color: #fef9c3 !important; color: #854d0e; font-weight: 700; }
+    .grp-nhi  { background-color: #e0f2fe !important; color: #075985; font-weight: 700; }
+    .grp-ba   { background-color: #dcfce7 !important; color: #166534; font-weight: 600; }
+    .grp-bd   { background-color: #fee2e2 !important; color: #991b1b; font-weight: 700; }
+
+    .group-summary-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 14px; }
+    @media (max-width: 960px) { .group-summary-grid { grid-template-columns: repeat(2, 1fr); } }
+    .grp-dat { background-color: #f1f5f9 !important; color: #334155; font-weight: 600; }
+    .g-card { border-radius: 10px; padding: 10px 12px; border: 1px solid rgba(0,0,0,0.1); font-size: 13px; }
+    .g-card-title { font-weight: 800; margin-bottom: 4px; font-size: 13.5px; }
+    .g-card-list { font-weight: 600; line-height: 1.4; }
+
+    .badge-grp { display: inline-block; padding: 3px 9px; border-radius: 12px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+    .b-nhat { background: #facc15; color: #713f12; }
+    .b-nhi  { background: #38bdf8; color: #0c4a6e; }
+    .b-ba   { background: #4ade80; color: #14532d; }
+    .b-tb   { background: #e2e8f0; color: #475569; font-weight: 600; }
+    .b-bd   { background: #ef4444; color: #ffffff; }
+
+    .rank-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+    .rank-table th { background: #1e293b; color: #fff; padding: 10px 6px; text-align: center; font-weight: 600; white-space: nowrap; }
+    .rank-table td { padding: 8px 6px; border-bottom: 1px solid #cbd5e1; text-align: center; }
+    .cls-link { color: #0369a1; text-decoration: underline; cursor: pointer; font-weight: 800; }
+
+    .form-card { background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+    .grid-2-eq { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+    .grid-2 { display: grid; grid-template-columns: 110px 150px 1fr; gap: 10px; margin-bottom: 10px; }
+    @media (max-width: 700px) { .grid-3, .grid-2, .grid-2-eq { grid-template-columns: 1fr; } }
+    label.lbl { display: block; font-size: 13px; font-weight: 700; color: #334155; margin-bottom: 4px; }
+    .w-100 { width: 100%; }
+
+    .log-item { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid #e2e8f0; gap: 8px; }
+    .btn-edit { background: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc; border-radius: 6px; padding: 4px 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .btn-del { color: #94a3b8; border: none; background: transparent; cursor: pointer; font-size: 16px; }
+    .btn-del:hover { color: #b91c1c; }
+
+    .cls-status-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; margin-bottom: 14px; }
+    @media (max-width: 820px) { .cls-status-grid { grid-template-columns: repeat(5, 1fr); } }
+    .cls-chip { padding: 7px 4px; border-radius: 8px; text-align: center; font-size: 12.5px; font-weight: 700; cursor: pointer; border: 1.5px solid #cbd5e1; background: #ffffff; color: #475569; }
+    .cls-chip.done { background: #dcfce7; border-color: #22c55e; color: #166534; }
+    .cls-chip.partial { background: #fef9c3; border-color: #eab308; color: #854d0e; }
+    .cls-chip.active { outline: 2.5px solid #b91c1c; transform: translateY(-1px); }
+
+    @media (max-width: 640px) {
+      body { padding: 6px; font-size: 13.5px; }
+      .main-wrap { padding: 12px; border-radius: 12px; }
+      .banner-box { padding: 12px 14px; gap: 10px; }
+      .banner-title { font-size: 15px; line-height: 1.3; }
+      .banner-sub { font-size: 12px; }
+      .top-bar { flex-direction: column; align-items: stretch; padding: 10px; gap: 8px; }
+      .top-bar > div { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+      .top-bar > div:first-child label { grid-column: 1 / -1; margin-bottom: -2px; }
+      select, input, textarea, button { min-height: 42px; font-size: 14px; }
+      .nav-tabs { gap: 4px; padding: 4px; }
+      .tab-btn { min-width: 0; flex: 1 1 30%; padding: 9px 4px; font-size: 12.5px; }
+      .group-summary-grid { grid-template-columns: 1fr; gap: 8px; }
+      .rank-table { font-size: 12.5px; }
+      .rank-table th, .rank-table td { padding: 7px 5px; }
+      .rank-table th:nth-child(2), .rank-table td:nth-child(2) {
+        position: sticky;
+        left: 0;
+        z-index: 2;
+        box-shadow: 2px 0 4px rgba(0,0,0,0.06);
+      }
+      .rank-table thead th:nth-child(2) { background: #1e293b; z-index: 3; }
+      .rank-table tbody tr:not(.grp-nhat):not(.grp-nhi):not(.grp-ba):not(.grp-bd) td:nth-child(2) { background: #ffffff; }
+      .cls-status-grid { grid-template-columns: repeat(5, 1fr); gap: 5px; }
+      .cls-chip { padding: 9px 2px; font-size: 12.5px; }
+    }
   </style>
 </head>
 <body>
@@ -131,457 +123,1511 @@
 <div class="main-wrap">
   <div class="banner-box">
     <div>
-      <div class="banner-badge">ĐOÀN TRƯỜNG THPT YÊN DŨNG SỐ 3 • NĂM HỌC 2026 - 2027</div>
-      <div class="banner-title">HỆ THỐNG THEO DÕI & BÁO ĐIỂM THI ĐUA TUẦN (30 CHI ĐOÀN)</div>
-      <div class="banner-sub">Tự động nhận diện tuần hiện hành • Cảnh báo lệch tuần • Đồng bộ Google Sheets & Xuất Excel</div>
+      <div class="banner-badge">ĐOÀN TRƯỜNG THPT YÊN DŨNG SỐ 3</div>
+      <div class="banner-title" id="lblHeader">THEO DÕI ĐIỂM THI ĐUA ĐOÀN TRƯỜNG THPT YÊN DŨNG SỐ 3(2026 - 2027)</div>
+      <div class="banner-sub" id="lblSubWeek">Cờ đỏ tối đa: 80đ • Học tập tối đa: 20đ (Tổng chuẩn: 100đ) • Tuần 11</div>
     </div>
-    <div style="font-size: 32px; user-select: none;">🏆</div>
+    <div id="btnAdminPin" onclick="toggleAdminPin()" title="Cổng Đoàn trường" style="font-size: 28px; cursor: pointer; user-select: none; line-height: 1; padding: 4px; border-radius: 8px;">🚩</div>
+  </div>
+
+  <div class="top-bar">
+    <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+      <label style="font-weight:700;">Tuần thi đua:</label>
+      <select id="selWeek" onchange="renderAll()"></select>
+      <select id="selKhoi" onchange="renderAll()">
+        <option value="ALL">Toàn trường (30 lớp)</option>
+        <option value="10">Khối 10 (10A1 – 10A10)</option>
+        <option value="11">Khối 11 (11A1 – 11A10)</option>
+        <option value="12">Khối 12 (12A1 – 12A10)</option>
+      </select>
+    </div>
+    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+      <button class="btn-ref" id="btnRef" onclick="loadData(true)">🔄 Làm mới</button>
+      <button class="btn-excel" onclick="exportFullWeekExcel()">📥 Xuất Excel tuần</button>
+    </div>
   </div>
 
   <div class="nav-tabs">
-    <button class="tab-btn active" id="tabInput" onclick="switchTab('input')">✍️ Nhập & Báo điểm tuần</button>
-    <button class="tab-btn" id="tabBoard" onclick="switchTab('board')">📊 Bảng tổng hợp & Xếp hạng</button>
-    <button class="tab-btn" id="tabConfig" onclick="switchTab('config')">⚙️ Cấu hình tuần chuẩn</button>
+    <button class="tab-btn active" id="tabRank" onclick="switchTab('rank')">🏆 Bảng điểm & Thứ hạng</button>
+    <button class="tab-btn" id="tabClassReport" onclick="switchTab('classReport')">📝 Cán bộ lớp báo điểm</button>
+    <button class="tab-btn" id="tabBB" onclick="switchTab('bb')">🚨 Sổ biên bản</button>
+    <button class="tab-btn" id="tabAdmin" onclick="switchTab('admin')" style="display:none; background:#e0f2fe; color:#0369a1;">🛠️ Quản trị (Cộng / Trừ & Biên bản)</button>
   </div>
 
-  <!-- TAB 1: NHẬP ĐIỂM -->
-  <div id="panelInput">
-    <div class="control-grid">
-      <div>
-        <label class="lbl">1. Chọn tuần báo điểm:</label>
-        <select id="weekSelect" class="w-100" onchange="onFilterChanged()"></select>
-      </div>
-      <div>
-        <label class="lbl">2. Chọn chi đoàn (Lớp):</label>
-        <select id="classSelect" class="w-100" onchange="loadExistingRecordForClass()"></select>
-      </div>
-      <div>
-        <label class="lbl">3. Vai trò người báo điểm:</label>
-        <select id="roleSelect" class="w-100">
-          <option value="Cờ đỏ / Ban thi đua">Cờ đỏ / Ban thi đua</option>
-          <option value="Giáo viên bộ môn / Sổ đầu bài">Giáo viên bộ môn / Sổ đầu bài</option>
-          <option value="Giáo viên chủ nhiệm">Giáo viên chủ nhiệm</option>
-        </select>
-      </div>
-      <div>
-        <label class="lbl">4. Họ tên người nhập:</label>
-        <input type="text" id="reporterName" class="w-100" placeholder="Nhập họ tên...">
-      </div>
-    </div>
+  <div id="panelRank">
+    <div class="group-summary-grid" id="groupSummaryCards"></div>
 
-    <!-- KHUNG CẢNH BÁO TUẦN -->
-    <div id="weekAlertBox" class="week-alert-box">
-      <span id="weekAlertText">Đang kiểm tra tuần báo điểm...</span>
-      <span id="weekAlertBadge" class="week-badge">Tuần chuẩn</span>
-    </div>
-
-    <div class="score-card">
-      <div style="font-weight: 800; font-size: 15px; color: #0f766e; margin-bottom: 10px;">
-        📋 NHẬP ĐIỂM THI ĐUA CỦA LỚP <span id="lblSelectedClass">10A1</span> — <span id="lblSelectedWeek">TUẦN 1</span>
-      </div>
-      <div class="score-grid">
-        <div class="field-box">
-          <label class="lbl">Điểm Nề nếp / Cờ đỏ (Tối đa 100đ):</label>
-          <input type="number" id="ptRedFlag" class="w-100" min="0" max="100" step="0.5" placeholder="VD: 95">
-          <div class="hint-txt">Trực nhật, đồng phục, truy bài, chuyên cần...</div>
-        </div>
-        <div class="field-box">
-          <label class="lbl">Điểm Học tập / Sổ đầu bài (Tối đa 100đ):</label>
-          <input type="number" id="ptStudy" class="w-100" min="0" max="100" step="0.5" placeholder="VD: 98">
-          <div class="hint-txt">Giờ học tốt, chuẩn bị bài, không vi phạm giờ học.</div>
-        </div>
-        <div class="field-box">
-          <label class="lbl">Điểm Phong trào / Cộng thêm:</label>
-          <input type="number" id="ptBonus" class="w-100" min="-50" max="100" step="0.5" value="0">
-          <div class="hint-txt">Hoạt động Đoàn, văn nghệ, thể thao hoặc trừ nộp muộn.</div>
-        </div>
-      </div>
-
-      <div style="margin-top: 12px;">
-        <label class="lbl">Ghi chú minh chứng (nếu có):</label>
-        <input type="text" id="noteInput" class="w-100" placeholder="VD: Đủ sổ đầu bài, đạt 3 giờ A...">
-      </div>
-
-      <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px;">
-        <button class="btn-primary" style="flex: 2; padding: 12px; font-size: 15px;" onclick="confirmWeekBeforeSubmit(submitWeeklyScore)">
-          ✅ GỬI & LƯU ĐIỂM THI ĐUA
-        </button>
-        <button class="btn-secondary" style="flex: 1; padding: 12px;" onclick="clearInputForm()">
-          🔄 Làm mới ô nhập
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- TAB 2: BẢNG TỔNG HỢP & XẾP HẠNG -->
-  <div id="panelBoard" style="display: none;">
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 10px;">
-      <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-        <label class="lbl" style="margin: 0;">Xem dữ liệu tuần:</label>
-        <select id="boardWeekSelect" onchange="renderLeaderboard()"></select>
-        <select id="boardGradeSelect" onchange="renderLeaderboard()">
-          <option value="ALL">Tất cả 30 lớp (Khối 10, 11, 12)</option>
-          <option value="10">Chỉ Khối 10 (10A1 - 10A10)</option>
-          <option value="11">Chỉ Khối 11 (11A1 - 11A10)</option>
-          <option value="12">Chỉ Khối 12 (12A1 - 12A10)</option>
-        </select>
-      </div>
-      <button class="btn-excel" onclick="exportWeekExcel()">📥 Xuất Excel bảng điểm tuần</button>
-    </div>
-
-    <div style="overflow-x: auto;">
-      <table class="data-table">
+    <div style="overflow-x:auto;">
+      <table class="rank-table">
         <thead>
           <tr>
-            <th>Hạng</th>
-            <th>Chi đoàn</th>
-            <th>Cờ đỏ</th>
-            <th>Học tập</th>
-            <th>Phong trào</th>
-            <th>Tổng điểm</th>
-            <th>Trạng thái báo điểm</th>
-            <th>Người cập nhật gần nhất</th>
+            <th style="width:4%">STT</th>
+            <th style="width:7%">Lớp</th>
+            <th style="width:9%">Cờ đỏ<br><small style="font-weight:400;">(Tối đa 80)</small></th>
+            <th style="width:9%">Học tập<br><small style="font-weight:400;">(Tối đa 20)</small></th>
+            <th style="width:8%">Điểm cộng<br><small style="font-weight:400;">(Đoàn trường)</small></th>
+            <th style="width:8%">Điểm trừ<br><small style="font-weight:400;">(Đoàn trường)</small></th>
+            <th style="width:9%">Tổng điểm<br><small style="font-weight:400;">(CĐ+HT+C+T)</small></th>
+            <th style="width:7%">Xếp hạng</th>
+            <th style="width:13%">Nhóm xếp hạng</th>
+            <th style="width:26%; text-align:left;">Ghi chú cộng / trừ<br><small style="font-weight:400;">(Chi tiết lỗi & thành tích tuần)</small></th>
           </tr>
         </thead>
-        <tbody id="tbodyRanking"></tbody>
+        <tbody id="tbodyRank">
+          <tr><td colspan="10" style="padding:24px; color:#64748b;">Đang tải dữ liệu...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="form-card" style="margin-top:16px;">
+      <label class="lbl">Hiện tượng chính (Đoàn trường đánh giá tuần):</label>
+      <textarea id="txtDanhGiaTuan" rows="3" class="w-100" readonly placeholder="Chưa có đánh giá tuần..."></textarea>
+      <button class="btn-primary" id="btnSaveMeta" onclick="saveWeekMeta()" style="margin-top:8px; display:none;">💾 Lưu đánh giá tuần</button>
+    </div>
+  </div>
+
+  <div id="panelClassReport" style="display:none;">
+    <div class="form-card">
+      <div style="font-weight:800; font-size:15px; color:#7f1d1d; margin-bottom:6px;">
+        📝 Cổng báo điểm thi đua tuần dành cho cán bộ 30 lớp (<span id="lblReportWeek">Tuần 11</span>)
+      </div>
+      <div style="font-size:13px; color:#475569; margin-bottom:12px;">
+        Hạn nộp <b>Điểm cờ đỏ (0 – 80đ)</b>: trước <b>23:00 Thứ Bảy</b> hàng tuần (nộp muộn tự động trừ <b>-1đ</b>). <b>Điểm học tập (0 – 20đ)</b> bổ sung khi có kết quả (không trừ muộn). Mỗi mục đã gửi sẽ tự khóa chốt.
+      </div>
+      <div id="weekLockedAlert" style="display:none; background:#fef9c3; border:1.5px solid #eab308; color:#854d0e; padding:12px 14px; border-radius:10px; margin-bottom:12px; font-weight:700; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+        <span id="weekLockedText">🔒 Đã qua 23:00 Thứ Bảy — cột Điểm cờ đỏ đã khóa. Cột Điểm học tập vẫn mở để bổ sung khi có kết quả.</span>
+        <button type="button" class="btn-primary" style="padding:6px 12px; font-size:12.5px;" onclick="switchToOpenWeek()">👉 Chuyển sang tuần đang mở</button>
+      </div>
+
+      <div style="font-weight:700; font-size:13px; color:#334155; margin-bottom:6px;">
+        Trạng thái báo điểm 30 lớp tuần này (Xanh lá = Đã báo đủ Cờ đỏ & Học tập • Vàng = Mới báo 1 mục • Trắng = Chưa báo):
+      </div>
+      <div class="cls-status-grid" id="cbClassChips"></div>
+
+      <div class="grid-3" style="background:#ffffff; border:1px solid #cbd5e1; padding:14px; border-radius:10px; margin-bottom:12px;">
+        <div>
+          <label class="lbl">1. Chọn chi đoàn (lớp của bạn):</label>
+          <select id="cbLop" class="w-100" onchange="renderClassReportForm()" style="font-weight:800; color:#b91c1c;"></select>
+        </div>
+        <div>
+          <label class="lbl">2. Điểm cờ đỏ tuần (0 – 80 điểm):</label>
+          <input type="number" id="cbCoDoScore" min="0" max="80" step="0.25" class="w-100" placeholder="0 – 80đ (VD: 79.5)" style="font-weight:800; font-size:15px;">
+        </div>
+        <div>
+          <label class="lbl">3. Điểm học tập tuần (0 – 20 điểm):</label>
+          <input type="number" id="cbHocTapScore" min="0" max="20" step="0.25" class="w-100" placeholder="0 – 20đ (VD: 18 hoặc 20)" style="font-weight:800; font-size:15px;">
+        </div>
+      </div>
+
+      <div style="margin-bottom: 12px;">
+        <label class="lbl">4. Ghi chú báo cáo của cán bộ lớp (nếu có):</label>
+        <input type="text" id="cbReporterNote" class="w-100" placeholder="VD: Lớp trưởng báo điểm cờ đỏ tuần (có thể để trống)">
+      </div>
+
+      <div id="cbLivePreview" style="background:#f1f5f9; border:1px dashed #94a3b8; border-radius:8px; padding:8px 12px; margin-bottom:12px; font-size:13px; color:#334155;">
+        💡 Từ <b>Tuần 12</b>: nộp <b>Điểm cờ đỏ</b> sau <b>23:00 Thứ Bảy</b> vẫn nhập được nhưng hệ thống tự động trừ <b>-1 điểm</b> (quên/báo điểm muộn); <b>Điểm học tập</b> GVCN/lớp bổ sung khi có kết quả không tính trừ điểm.
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:10px;">
+        <button class="btn-primary" id="btnSubmitClassCoDo" onclick="submitClassScores()" style="width:100%; padding:12px;">
+          📤 Gửi báo điểm Cờ đỏ & Học tập của lớp <span id="lblSubmitLop">10A1</span>
+        </button>
+      </div>
+    </div>
+
+    <div style="font-weight:700; margin-bottom:8px;">Dữ liệu điểm Cờ đỏ & Học tập lớp <span id="lblMyClassHistory" style="color:var(--primary);">10A1</span> đã gửi trong tuần:</div>
+    <div id="myClassCoDoHistory"></div>
+  </div>
+
+  <div id="panelBB" style="display:none;">
+    <div class="form-card" id="bbFormCard" style="display:none;">
+      <div style="font-weight:800; font-size:14.5px; color:#b91c1c; margin-bottom:10px;">🚨 Cập nhật vi phạm biên bản (Chỉ hiển thị khi mở Quản trị)</div>
+      <div class="grid-3">
+        <div>
+          <label class="lbl">Họ và tên học sinh:</label>
+          <input type="text" id="bbHoTen" class="w-100" placeholder="Nhập họ tên học sinh">
+        </div>
+        <div>
+          <label class="lbl">Lớp:</label>
+          <select id="bbLop" class="w-100"></select>
+        </div>
+        <div>
+          <label class="lbl">Ngày biên bản:</label>
+          <input type="text" id="bbNgay" class="w-100" placeholder="VD: 20/11/2026">
+        </div>
+      </div>
+      <div style="margin-bottom:10px;">
+        <label class="lbl">Nội dung vi phạm biên bản:</label>
+        <input type="text" id="bbNoiDung" class="w-100" placeholder="Nhập nội dung biên bản...">
+      </div>
+      <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:#b91c1c; font-weight:600; margin-bottom:10px; cursor:pointer;">
+        <input type="checkbox" id="bbLoiNang"> Đưa vào danh sách lỗi vi phạm nặng cần xem xét hạnh kiểm
+      </label>
+      <div id="bbEditBanner" style="display:none; background:#fef9c3; border:1px solid #facc15; color:#854d0e; padding:8px 12px; border-radius:8px; margin-bottom:10px; font-weight:700;">
+        Đang chế độ SỬA BIÊN BẢN VI PHẠM. Bấm "Hủy sửa" nếu muốn thêm biên bản mới.
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button type="button" class="btn-primary" id="btnSaveBB" onclick="saveBienBan()" style="flex:1;">💾 Cập nhật biên bản vi phạm</button>
+        <button type="button" class="btn-secondary" id="btnCancelEditBB" onclick="cancelEditBienBan()" style="display:none;">Hủy sửa</button>
+      </div>
+    </div>
+
+    <div style="overflow-x:auto;">
+      <table class="rank-table">
+        <thead>
+          <tr>
+            <th style="width:6%">STT</th>
+            <th style="width:22%; text-align:left;">Họ và tên</th>
+            <th style="width:10%">Lớp</th>
+            <th style="width:34%; text-align:left;">Nội dung vi phạm</th>
+            <th style="width:13%">Ngày biên bản</th>
+            <th class="col-bb-admin" style="width:15%; display:none;">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody id="tbodyBB"></tbody>
       </table>
     </div>
   </div>
 
-  <!-- TAB 3: CẤU HÌNH TUẦN CHUẨN -->
-  <div id="panelConfig" style="display: none;">
-    <div class="score-card">
-      <div style="font-weight: 800; font-size: 15px; color: #0f766e; margin-bottom: 8px;">
-        ⚙️ THIẾT LẬP TUẦN BÁO ĐIỂM HIỆN HÀNH & KẾT NỐI APPS SCRIPT
+  <div id="panelAdmin" style="display:none;">
+    <div class="form-card">
+      <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px;">
+        <div style="font-weight:800; font-size:15px; color:#0369a1;">
+          🛠️ Quản trị Đoàn trường: Nhập Điểm cộng, Điểm trừ & Đính chính điểm tuần
+        </div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <button type="button" id="btnToggleWeekLock" class="btn-primary" style="padding:6px 10px; font-size:12.5px;" onclick="toggleLockCurrentWeek()">🔒 Khóa sổ tuần này</button>
+          <button type="button" class="btn-secondary" style="padding:6px 10px; font-size:12.5px;" onclick="changeAdminPin()">🔑 Đổi mã PIN</button>
+          <button type="button" class="btn-ref" style="padding:6px 10px; font-size:12.5px;" onclick="resetAdminPin()">♻️ Cấp lại PIN mặc định (2026)</button>
+        </div>
       </div>
-      <p style="font-size: 13px; color: #475569; margin-top: 0;">
-        Hệ thống tự tính tuần hiện tại dựa trên ngày khai giảng năm học <b>2026 - 2027</b>, hoặc cô có thể khóa cứng tuần đang báo điểm ở bên dưới để cảnh báo khi giáo viên/cờ đỏ chọn nhầm tuần.
-      </p>
-      <div class="control-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+      <div id="editBanner" style="display:none; background:#fef9c3; border:1px solid #facc15; color:#854d0e; padding:8px 12px; border-radius:8px; margin-bottom:10px; font-weight:700;">
+        Đang chế độ ĐÍNH CHÍNH / SỬA dòng điểm đã lưu. Bấm "Hủy sửa" nếu muốn nhập mục mới.
+      </div>
+
+      <div class="grid-3">
         <div>
-          <label class="lbl">Ngày bắt đầu Tuần 1 (Năm học 2026-2027):</label>
-          <input type="date" id="cfgStartDate" class="w-100" value="2026-09-07">
+          <label class="lbl">1. Chọn chi đoàn (lớp):</label>
+          <select id="inLop" class="w-100" onchange="renderClassLogs()"></select>
         </div>
         <div>
-          <label class="lbl">Chế độ xác định tuần chuẩn:</label>
-          <select id="cfgWeekMode" class="w-100" onchange="toggleManualWeekInput()">
-            <option value="auto">Tự động tính theo ngày hôm nay</option>
-            <option value="manual">Cố định thủ công theo lựa chọn</option>
+          <label class="lbl">2. Loại điểm Đoàn trường nhập:</label>
+          <select id="inNguon" class="w-100" onchange="updatePresetList()">
+            <option value="Điểm cộng">🌟 Điểm cộng (Thưởng phong trào / Xung kích / Tích cực +)</option>
+            <option value="Điểm trừ">🚨 Điểm trừ (Vi phạm nội quy / Biên bản HS -)</option>
+            <option value="Không báo điểm">⛔ Không báo điểm thi đua (0đ cờ đỏ, trừ -1đ)</option>
+            <option value="Cờ đỏ">🚩 Điều chỉnh điểm cờ đỏ (Thang 80)</option>
+            <option value="Điểm học tập">📚 Điều chỉnh điểm học tập (Thang 20)</option>
           </select>
         </div>
         <div>
-          <label class="lbl">Tuần cố định (nếu chọn thủ công):</label>
-          <select id="cfgManualWeek" class="w-100" disabled></select>
+          <label class="lbl">3. Chọn nhanh mục quy định:</label>
+          <select id="inPreset" class="w-100" onchange="applyPreset()"></select>
         </div>
       </div>
-      <button class="btn-primary" onclick="saveWeekSettings()">💾 Lưu cấu hình tuần chuẩn</button>
+
+      <div class="grid-2">
+        <div>
+          <label class="lbl">Số lượng:</label>
+          <input type="number" id="inQty" min="1" step="1" value="1" class="w-100" style="text-align:center; font-weight:700;">
+        </div>
+        <div>
+          <label class="lbl">Mức điểm / 1 lần:</label>
+          <input type="number" id="inPts" step="0.25" class="w-100" placeholder="VD: 2 hoặc 5">
+        </div>
+        <div>
+          <label class="lbl">Họ và tên học sinh (nếu ghi lỗi/thành tích cá nhân):</label>
+          <input type="text" id="inHoTenHS" class="w-100" placeholder="Nhập tên học sinh (hoặc để trống nếu tính cả lớp)">
+        </div>
+      </div>
+
+      <div style="margin-bottom: 10px;">
+        <label class="lbl">Nội dung chi tiết / Lý do cộng điểm hoặc trừ điểm:</label>
+        <input type="text" id="inNote" class="w-100" placeholder="VD: Cộng điểm tích cực hoạt động Đoàn (+3đ) hoặc Trừ điểm HS vi phạm ATGT (-2đ)...">
+      </div>
+
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button class="btn-primary" id="btnSave" onclick="saveEntry()" style="flex:1;">💾 Lưu vào hệ thống</button>
+        <button class="btn-secondary" id="btnCancelEdit" onclick="cancelEdit()" style="display:none;">Hủy sửa</button>
+      </div>
     </div>
+
+    <div style="font-weight:700; margin-bottom:8px;">Danh sách toàn bộ điểm của lớp <span id="lblCurLop" style="color:var(--primary);">10A1</span> trong <span id="lblCurWeek">Tuần 11</span> (bấm <b>Sửa</b> để đính chính):</div>
+    <div id="classLogs"></div>
   </div>
 </div>
 
 <script>
-  // Dán link Web App Google Apps Script của Đoàn trường THPT Yên Dũng số 3 vào đây để đồng bộ trực tuyến
-  const APPS_SCRIPT_URL = "";
+  const API_URL = "https://script.google.com/macros/s/AKfycbxKYMhkVqxj3s-RbHeVcMNW9eoMw8shlUDVFUYuWUSiM3MeITgz1tBGBmBAzlAr2FQX/exec";
+  const DEFAULT_ADMIN_PIN = "2026";
+  const MAX_CODO = 80;
+  const MAX_HOCTAP = 20;
 
-  const TOTAL_WEEKS = 37;
-  const CLASSES = [];
-  ["10", "11", "12"].forEach(g => {
-    for (let i = 1; i <= 10; i++) CLASSES.push(`${g}A${i}`);
-  });
+  // Bắt đầu áp dụng tự động trừ điểm nộp muộn điểm cờ đỏ sau 23:00 Thứ Bảy từ Tuần 12 trở đi
+  // (Tuần 11 mới triển khai app nên không trừ điểm nộp muộn).
+  function isPastRedFlagSaturday23h(tuan) {
+    const w = Number(tuan);
+    if (!w || w < 12) return false;
+    const week1Start = new Date(2026, 8, 7, 0, 0, 0, 0); // Thứ Hai 07/09/2026
+    const sat23h = new Date(week1Start.getTime());
+    sat23h.setDate(sat23h.getDate() + (w - 1) * 7 + 5); // Thứ Bảy của tuần w
+    sat23h.setHours(23, 0, 0, 0); // 23:00 Thứ Bảy
+    return new Date() >= sat23h;
+  }
 
-  function getSettings() {
-    const def = { startDate: "2026-09-07", mode: "auto", manualWeek: 12 };
+  function isRedFlagUnlockedByAdmin(tuan) {
+    const w = Number(tuan);
+    if (Array.isArray(STATE.unlockedWeeks) && STATE.unlockedWeeks.map(Number).includes(w)) return true;
     try {
-      return { ...def, ...JSON.parse(localStorage.getItem("yd3_emulation_cfg") || "{}") };
-    } catch (e) {
-      return def;
-    }
+      const localUnlocked = JSON.parse(localStorage.getItem("yd3_doan_unlocked_weeks") || "[]").map(Number);
+      if (localUnlocked.includes(w)) return true;
+    } catch (e) {}
+    return false;
   }
 
-  function getCurrentActiveWeek() {
-    const cfg = getSettings();
-    if (cfg.mode === "manual") return Number(cfg.manualWeek) || 1;
-    const start = new Date(cfg.startDate + "T00:00:00");
-    const now = new Date();
-    const diffDays = Math.floor((now - start) / (1000 * 60 * 60 * 24));
-    if (diffDays < 0) return 1;
-    const w = Math.floor(diffDays / 7) + 1;
-    return Math.min(Math.max(w, 1), TOTAL_WEEKS);
-  }
-
-  function getWeekDateRangeText(weekNum) {
-    const cfg = getSettings();
-    const start = new Date(cfg.startDate + "T00:00:00");
-    const wStart = new Date(start.getTime() + (weekNum - 1) * 7 * 86400000);
-    const wEnd = new Date(wStart.getTime() + 5 * 86400000);
-    const fmt = d => `${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}`;
-    return `${fmt(wStart)} - ${fmt(wEnd)}`;
-  }
-
-  function initSelectors() {
-    const activeW = getCurrentActiveWeek();
-    const weekOpts = Array.from({ length: TOTAL_WEEKS }, (_, i) => {
-      const w = i + 1;
-      const tag = (w === activeW) ? " ★ (Tuần hiện tại)" : "";
-      return `<option value="${w}">Tuần ${w} (${getWeekDateRangeText(w)})${tag}</option>`;
-    }).join("");
-
-    document.getElementById("weekSelect").innerHTML = weekOpts;
-    document.getElementById("boardWeekSelect").innerHTML = weekOpts;
-    document.getElementById("cfgManualWeek").innerHTML = Array.from({ length: TOTAL_WEEKS }, (_, i) => `<option value="${i + 1}">Tuần ${i + 1}</option>`).join("");
-
-    document.getElementById("weekSelect").value = String(activeW);
-    document.getElementById("boardWeekSelect").value = String(activeW);
-
-    document.getElementById("classSelect").innerHTML = CLASSES.map(c => `<option value="${c}">Lớp ${c}</option>`).join("");
-
-    const cfg = getSettings();
-    document.getElementById("cfgStartDate").value = cfg.startDate;
-    document.getElementById("cfgWeekMode").value = cfg.mode;
-    document.getElementById("cfgManualWeek").value = String(cfg.manualWeek);
-    toggleManualWeekInput();
-
-    const savedReporter = localStorage.getItem("yd3_emulation_reporter");
-    if (savedReporter) document.getElementById("reporterName").value = savedReporter;
-  }
-
-  function updateWeekAlertUI() {
-    const box = document.getElementById("weekAlertBox");
-    const txt = document.getElementById("weekAlertText");
-    const badge = document.getElementById("weekAlertBadge");
-    const chosenWeek = Number(document.getElementById("weekSelect").value);
-    const activeWeek = getCurrentActiveWeek();
-
-    document.getElementById("lblSelectedWeek").textContent = `TUẦN ${chosenWeek}`;
-    document.getElementById("lblSelectedClass").textContent = document.getElementById("classSelect").value;
-
-    if (chosenWeek === activeWeek) {
-      box.classList.remove("mismatch");
-      txt.textContent = `✅ Đang nhập điểm cho Tuần ${chosenWeek} (${getWeekDateRangeText(chosenWeek)}) — Đúng tuần hiện hành.`;
-      badge.textContent = `Tuần ${chosenWeek} • Chuẩn`;
-    } else {
-      box.classList.add("mismatch");
-      const dir = chosenWeek < activeWeek ? "tuần trước" : "tuần sau";
-      txt.textContent = `⚠️ CẢNH BÁO LỆCH TUẦN: Bạn đang chọn Tuần ${chosenWeek} (${dir}), trong khi tuần báo điểm hiện tại là Tuần ${activeWeek}!`;
-      badge.textContent = `Lệch tuần (${chosenWeek} ≠ ${activeWeek})`;
-    }
-  }
-
-  function onFilterChanged() {
-    updateWeekAlertUI();
-    loadExistingRecordForClass();
-  }
-
-  function getStoreData() {
+  function isManualWeekLocked(tuan) {
+    const w = Number(tuan);
+    if (Array.isArray(STATE.lockedWeeks) && STATE.lockedWeeks.map(Number).includes(w)) return true;
+    if (Array.isArray(STATE.unlockedWeeks) && STATE.unlockedWeeks.map(Number).includes(w)) return false;
     try {
-      return JSON.parse(localStorage.getItem("yd3_emulation_records") || "{}");
-    } catch (e) {
-      return {};
+      const localLocked = JSON.parse(localStorage.getItem("yd3_doan_locked_weeks") || "[]").map(Number);
+      const localUnlocked = JSON.parse(localStorage.getItem("yd3_doan_unlocked_weeks") || "[]").map(Number);
+      if (localLocked.includes(w)) return true;
+      if (localUnlocked.includes(w)) return false;
+    } catch (e) {}
+    return false;
+  }
+
+  function getAdminPin() {
+    return localStorage.getItem("yd3_doan_admin_pin") || DEFAULT_ADMIN_PIN;
+  }
+  function setAdminPin(newPin) {
+    localStorage.setItem("yd3_doan_admin_pin", newPin);
+  }
+
+  const PRESETS = {
+    "Điểm cộng": [
+      { pts: 2, label: "Cộng điểm đội ngũ Xung kích / Cờ đỏ tích cực (+2đ)" },
+      { pts: 3, label: "Cộng điểm tập thể lớp tích cực tham gia phong trào (+3đ)" },
+      { pts: 5, label: "Cộng điểm đạt giải Nhất hoạt động / Cuộc thi Đoàn trường (+5đ)" },
+      { pts: 3, label: "Cộng điểm đạt giải Nhì hoạt động / Cuộc thi Đoàn trường (+3đ)" },
+      { pts: 2, label: "Cộng điểm gương người tốt việc tốt (+2đ)" }
+    ],
+    "Điểm trừ": [
+      { pts: -2, label: "Trừ điểm HS vi phạm An toàn giao thông (-2đ)" },
+      { pts: -3, label: "Trừ điểm HS sử dụng thuốc lá điếu (-3đ)" },
+      { pts: -5, label: "Trừ điểm HS vi phạm thuốc lá điện tử / Đánh nhau (-5đ)" },
+      { pts: -2, label: "Trừ điểm vi phạm mạng xã hội (-2đ)" },
+      { pts: -1, label: "Trừ điểm HS sử dụng điện thoại trong giờ học (-1đ)" },
+      { pts: -2, label: "Trừ điểm không hợp tác với giáo viên, cờ đỏ, xung kích (-2đ)" }
+    ],
+    "Không báo điểm": [
+      { pts: -1, label: "Không báo điểm thi đua tuần (0đ cờ đỏ, trừ -1đ)" }
+    ],
+    "Cờ đỏ": [
+      { pts: -0.5, label: "Điều chỉnh trừ điểm cờ đỏ (-0.5đ)" },
+      { pts: -1.0, label: "Điều chỉnh trừ điểm cờ đỏ (-1đ)" }
+    ],
+    "Điểm học tập": [
+      { pts: -1.0, label: "Điều chỉnh trừ điểm học tập (-1đ)" },
+      { pts: -2.0, label: "Điều chỉnh trừ điểm học tập (-2đ)" }
+    ]
+  };
+
+  let STATE = {
+    namHoc: "2026-2027",
+    baseScore: 80,
+    tuanHienTai: 11,
+    thoiGianTuan: "16/11 - 21/11",
+    danhGiaTuan: "",
+    danhGiaTheoTuan: {},
+    classes: [
+      "10A1","10A2","10A3","10A4","10A5","10A6","10A7","10A8","10A9","10A10",
+      "11A1","11A2","11A3","11A4","11A5","11A6","11A7","11A8","11A9","11A10",
+      "12A1","12A2","12A3","12A4","12A5","12A6","12A7","12A8","12A9","12A10"
+    ],
+    logs: [],
+    bienBans: []
+  };
+  let RANKED_LIST = [];
+  let ADMIN_UNLOCKED = false;
+  let EDITING_ID = null;
+  let EDITING_BB_ROW = null;
+
+  let AUTO_SYNC_TIMER = null;
+  let IS_SYNCING_SILENT = false;
+
+  async function runSilentSync() {
+    if (document.visibilityState !== "visible") return;
+    if (IS_SYNCING_SILENT) return;
+    if (EDITING_ID || EDITING_BB_ROW) return;
+    const activeTag = document.activeElement ? document.activeElement.tagName : "";
+    if (activeTag === "INPUT" || activeTag === "TEXTAREA") return;
+    const btnSave = document.getElementById("btnSave");
+    const btnSub = document.getElementById("btnSubmitClassCoDo");
+    if ((btnSave && btnSave.disabled) || (btnSub && btnSub.disabled)) return;
+    IS_SYNCING_SILENT = true;
+    try {
+      await loadData(false);
+    } catch (e) {}
+    finally {
+      IS_SYNCING_SILENT = false;
     }
   }
 
-  function loadExistingRecordForClass() {
-    const w = document.getElementById("weekSelect").value;
-    const cls = document.getElementById("classSelect").value;
-    document.getElementById("lblSelectedClass").textContent = cls;
-    const store = getStoreData();
-    const rec = (store[w] && store[w][cls]) ? store[w][cls] : null;
-
-    document.getElementById("ptRedFlag").value = rec && rec.redFlag !== null ? rec.redFlag : "";
-    document.getElementById("ptStudy").value = rec && rec.study !== null ? rec.study : "";
-    document.getElementById("ptBonus").value = rec && rec.bonus !== null ? rec.bonus : 0;
-    document.getElementById("noteInput").value = rec ? (rec.note || "") : "";
-  }
-
-  function confirmWeekBeforeSubmit(onConfirmed) {
-    const chosenWeek = Number(document.getElementById("weekSelect").value);
-    const activeWeek = getCurrentActiveWeek();
-    const cls = document.getElementById("classSelect").value;
-    const redVal = document.getElementById("ptRedFlag").value;
-    const studyVal = document.getElementById("ptStudy").value;
-
-    if (redVal === "" && studyVal === "") {
-      alert("Vui lòng nhập ít nhất Điểm Nề nếp/Cờ đỏ hoặc Điểm Học tập trước khi gửi!");
-      return;
-    }
-
-    const warnMsg = chosenWeek !== activeWeek
-      ? `\n\n⚠️ CẢNH BÁO: Tuần ${chosenWeek} KHÔNG TRÙNG với tuần hiện tại (Tuần ${activeWeek}). Hãy kiểm tra kỹ để tránh ghi đè nhầm tuần!`
-      : "";
-
-    const ok = window.confirm(
-      `XÁC NHẬN GỬI ĐIỂM THI ĐUA:\n` +
-      `• Chi đoàn: ${cls}\n` +
-      `• Tuần báo điểm: Tuần ${chosenWeek} (${getWeekDateRangeText(chosenWeek)})\n` +
-      `• Điểm Cờ đỏ: ${redVal || "Chưa nhập"} | Học tập: ${studyVal || "Chưa nhập"}` +
-      `${warnMsg}\n\nBấm OK để xác nhận lưu.`
-    );
-
-    if (ok && typeof onConfirmed === "function") onConfirmed();
-  }
-
-  async function submitWeeklyScore() {
-    const w = document.getElementById("weekSelect").value;
-    const cls = document.getElementById("classSelect").value;
-    const role = document.getElementById("roleSelect").value;
-    const reporter = document.getElementById("reporterName").value.trim() || role;
-    localStorage.setItem("yd3_emulation_reporter", reporter);
-
-    const redRaw = document.getElementById("ptRedFlag").value;
-    const studyRaw = document.getElementById("ptStudy").value;
-    const bonusRaw = document.getElementById("ptBonus").value;
-    const note = document.getElementById("noteInput").value.trim();
-
-    const store = getStoreData();
-    if (!store[w]) store[w] = {};
-    const prev = store[w][cls] || { redFlag: null, study: null, bonus: 0, note: "" };
-
-    const record = {
-      week: Number(w),
-      cls,
-      redFlag: redRaw !== "" ? Number(redRaw) : prev.redFlag,
-      study: studyRaw !== "" ? Number(studyRaw) : prev.study,
-      bonus: bonusRaw !== "" ? Number(bonusRaw) : prev.bonus,
-      note: note || prev.note,
-      updatedBy: `${reporter} (${role})`,
-      updatedAt: new Date().toLocaleString("vi-VN")
-    };
-
-    store[w][cls] = record;
-    localStorage.setItem("yd3_emulation_records", JSON.stringify(store));
-
-    if (APPS_SCRIPT_URL) {
-      try {
-        await fetch(APPS_SCRIPT_URL, {
-          method: "POST",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify({ action: "saveWeeklyScore", ...record })
-        });
-      } catch (e) {}
-    }
-
-    alert(`Đã lưu điểm cho Chi đoàn ${cls} tại Tuần ${w}!`);
-    renderLeaderboard();
-  }
-
-  function clearInputForm() {
-    document.getElementById("ptRedFlag").value = "";
-    document.getElementById("ptStudy").value = "";
-    document.getElementById("ptBonus").value = 0;
-    document.getElementById("noteInput").value = "";
-  }
-
-  function switchTab(t) {
-    const panels = { input: "panelInput", board: "panelBoard", config: "panelConfig" };
-    const tabs = { input: "tabInput", board: "tabBoard", config: "tabConfig" };
-    Object.keys(panels).forEach(k => {
-      document.getElementById(panels[k]).style.display = (t === k) ? "block" : "none";
-      document.getElementById(tabs[k]).classList.toggle("active", t === k);
+  function startAutoSync() {
+    if (AUTO_SYNC_TIMER) clearInterval(AUTO_SYNC_TIMER);
+    AUTO_SYNC_TIMER = setInterval(runSilentSync, 30000);
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") runSilentSync();
     });
-    if (t === "board") renderLeaderboard();
-  }
-
-  function renderLeaderboard() {
-    const w = document.getElementById("boardWeekSelect").value;
-    const grade = document.getElementById("boardGradeSelect").value;
-    const store = getStoreData();
-    const weekData = store[w] || {};
-
-    const filteredClasses = CLASSES.filter(c => grade === "ALL" || c.startsWith(grade));
-    const rows = filteredClasses.map(cls => {
-      const r = weekData[cls];
-      const red = r && r.redFlag !== null ? Number(r.redFlag) : null;
-      const study = r && r.study !== null ? Number(r.study) : null;
-      const bonus = r && r.bonus !== null ? Number(r.bonus) : 0;
-      const total = (red !== null || study !== null) ? ((red || 0) + (study || 0) + bonus) : -1;
-
-      let statusHtml = `<span class="status-pill st-empty">Chưa báo</span>`;
-      if (red !== null && study !== null) {
-        statusHtml = `<span class="status-pill st-ok">Đủ 2 đầu điểm</span>`;
-      } else if (red !== null || study !== null) {
-        statusHtml = `<span class="status-pill st-wait">Thiếu ${red === null ? "Cờ đỏ" : "Học tập"}</span>`;
-      }
-
-      return {
-        cls,
-        red: red !== null ? red : "-",
-        study: study !== null ? study : "-",
-        bonus: (red !== null || study !== null) ? bonus : "-",
-        total,
-        statusHtml,
-        updatedBy: r ? `${r.updatedBy} (${r.updatedAt})` : "-"
-      };
-    });
-
-    rows.sort((a, b) => b.total - a.total);
-
-    document.getElementById("tbodyRanking").innerHTML = rows.map((r, idx) => `
-      <tr>
-        <td><b>${r.total >= 0 ? idx + 1 : "-"}</b></td>
-        <td><b>${r.cls}</b></td>
-        <td>${r.red}</td>
-        <td>${r.study}</td>
-        <td>${r.bonus}</td>
-        <td style="font-weight:800; color:#0f766e;">${r.total >= 0 ? r.total : "-"}</td>
-        <td>${r.statusHtml}</td>
-        <td style="font-size:12px; color:#475569;">${r.updatedBy}</td>
-      </tr>
-    `).join("");
-  }
-
-  function toggleManualWeekInput() {
-    const isManual = document.getElementById("cfgWeekMode").value === "manual";
-    document.getElementById("cfgManualWeek").disabled = !isManual;
-  }
-
-  function saveWeekSettings() {
-    const cfg = {
-      startDate: document.getElementById("cfgStartDate").value || "2026-09-07",
-      mode: document.getElementById("cfgWeekMode").value,
-      manualWeek: Number(document.getElementById("cfgManualWeek").value) || 1
-    };
-    localStorage.setItem("yd3_emulation_cfg", JSON.stringify(cfg));
-    initSelectors();
-    updateWeekAlertUI();
-    alert(`Đã cập nhật tuần chuẩn hiện hành: Tuần ${getCurrentActiveWeek()}!`);
-  }
-
-  function exportWeekExcel() {
-    const w = document.getElementById("boardWeekSelect").value;
-    const store = getStoreData();
-    const weekData = store[w] || {};
-
-    const aoa = [
-      ["ĐOÀN TRƯỜNG THPT YÊN DŨNG SỐ 3 - BẢNG TỔNG HỢP ĐIỂM THI ĐUA", "", "", "", "", "", ""],
-      [`TUẦN ${w} (${getWeekDateRangeText(Number(w))}) - NĂM HỌC 2026 - 2027`, "", "", "", "", "", ""],
-      ["STT", "Chi đoàn", "Điểm Cờ đỏ", "Điểm Học tập", "Điểm Phong trào", "Tổng điểm", "Ghi chú / Người cập nhật"]
-    ];
-
-    CLASSES.forEach((cls, i) => {
-      const r = weekData[cls];
-      const red = r && r.redFlag !== null ? Number(r.redFlag) : 0;
-      const study = r && r.study !== null ? Number(r.study) : 0;
-      const bonus = r && r.bonus !== null ? Number(r.bonus) : 0;
-      const total = r ? (red + study + bonus) : 0;
-      aoa.push([i + 1, cls, r ? red : "", r ? study : "", r ? bonus : "", r ? total : "", r ? `${r.note || ""} (${r.updatedBy})` : "Chưa báo điểm"]);
-    });
-
-    const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.aoa_to_sheet(aoa);
-    ws["!merges"] = [
-      { s: { r: 0, c: 0 }, e: { r: 0, c: 6 } },
-      { s: { r: 1, c: 0 }, e: { r: 1, c: 6 } }
-    ];
-    ws["!cols"] = [{ wch: 6 }, { wch: 12 }, { wch: 14 }, { wch: 14 }, { wch: 16 }, { wch: 14 }, { wch: 36 }];
-    XLSX.utils.book_append_sheet(wb, ws, `Tuan_${w}`);
-    XLSX.writeFile(wb, `Diem_Thi_Dua_THPT_YD3_Tuan_${w}.xlsx`);
+    window.addEventListener("focus", runSilentSync);
   }
 
   window.onload = () => {
-    initSelectors();
-    updateWeekAlertUI();
-    loadExistingRecordForClass();
+    startAutoSync();
+    renderWeekDropdown(getAutoCurrentWeek());
+
+    const clsOptions = STATE.classes.map(c => `<option value="${c}">${c}</option>`).join('');
+    document.getElementById('cbLop').innerHTML = clsOptions;
+    document.getElementById('inLop').innerHTML = clsOptions;
+    document.getElementById('bbLop').innerHTML = clsOptions;
+
+    const savedCls = localStorage.getItem('yd3_doan_selected_class');
+    if (savedCls && STATE.classes.includes(savedCls)) {
+      document.getElementById('cbLop').value = savedCls;
+    }
+
+    updatePresetList();
+    try {
+      const cachedRaw = localStorage.getItem("yd3_doan_state_cache_v7");
+      if (cachedRaw) {
+        const cachedObj = JSON.parse(cachedRaw);
+        if (cachedObj && Array.isArray(cachedObj.classes)) {
+          STATE = cachedObj;
+          renderAll();
+        }
+      }
+    } catch (e) {}
+    loadData(false);
   };
+
+  function getWeekComment(tuan) {
+    const w = Number(tuan);
+    const map = STATE && STATE.danhGiaTheoTuan;
+    if (map && typeof map === "object") {
+      if (Object.prototype.hasOwnProperty.call(map, w)) {
+        return String(map[w] == null ? "" : map[w]);
+      }
+      if (Object.prototype.hasOwnProperty.call(map, String(w))) {
+        return String(map[String(w)] == null ? "" : map[String(w)]);
+      }
+      return "";
+    }
+    return w === Number(STATE && STATE.tuanHienTai) ? String((STATE && STATE.danhGiaTuan) || "") : "";
+  }
+
+  function selectQuickClass(lop) {
+    document.getElementById('cbLop').value = lop;
+    document.getElementById('inLop').value = lop;
+    localStorage.setItem('yd3_doan_selected_class', lop);
+    switchTab(ADMIN_UNLOCKED ? 'admin' : 'classReport');
+  }
+
+  function changeAdminPin() {
+    if (!ADMIN_UNLOCKED) return alert("Vui lòng mở khóa quản trị trước!");
+    const currentPin = prompt("Nhập mã PIN hiện tại:");
+    if (currentPin === null) return;
+    if (currentPin.trim() !== getAdminPin()) {
+      return alert("Mã PIN hiện tại không đúng!");
+    }
+    const nextPin = prompt("Nhập mã PIN mới (tối thiểu 4 ký tự):");
+    if (nextPin === null) return;
+    const cleanNext = nextPin.trim();
+    if (cleanNext.length < 4) {
+      return alert("Mã PIN mới phải có ít nhất 4 ký tự!");
+    }
+    const confirmPin = prompt("Nhập lại mã PIN mới để xác nhận:");
+    if (confirmPin === null) return;
+    if (confirmPin.trim() !== cleanNext) {
+      return alert("Hai lần nhập mã PIN mới không khớp!");
+    }
+    setAdminPin(cleanNext);
+    alert("✅ Đã đổi mã PIN quản trị thành công!");
+  }
+
+  function resetAdminPin() {
+    if (!ADMIN_UNLOCKED) return alert("Vui lòng mở khóa quản trị trước!");
+    if (!confirm(`Cấp lại mã PIN về mặc định "${DEFAULT_ADMIN_PIN}"?`)) return;
+    setAdminPin(DEFAULT_ADMIN_PIN);
+    alert(`✅ Đã cấp lại mã PIN về mặc định: ${DEFAULT_ADMIN_PIN}`);
+  }
+
+  function toggleAdminPin() {
+    if (ADMIN_UNLOCKED) {
+      ADMIN_UNLOCKED = false;
+      cancelEdit();
+      syncAdminVisibility();
+      switchTab('rank');
+      return;
+    }
+    const pin = prompt("Nhập mã PIN quản trị của Đoàn trường:");
+    if (pin === null) return;
+    if (pin.trim() === getAdminPin()) {
+      ADMIN_UNLOCKED = true;
+      syncAdminVisibility();
+      switchTab('admin');
+    } else {
+      alert("Mã PIN không đúng!");
+    }
+  }
+
+  function syncAdminVisibility() {
+    const btn = document.getElementById('btnAdminPin');
+    if (btn) {
+      btn.title = ADMIN_UNLOCKED ? "Đang mở Quản trị (bấm vào cờ để khóa)" : "Cổng Đoàn trường";
+    }
+
+    document.getElementById('tabAdmin').style.display = ADMIN_UNLOCKED ? "block" : "none";
+    document.getElementById('bbFormCard').style.display = ADMIN_UNLOCKED ? "block" : "none";
+    document.getElementById('btnSaveMeta').style.display = ADMIN_UNLOCKED ? "inline-block" : "none";
+    document.getElementById('txtDanhGiaTuan').readOnly = !ADMIN_UNLOCKED;
+
+    document.querySelectorAll('.col-bb-admin').forEach(el => {
+      el.style.display = ADMIN_UNLOCKED ? "" : "none";
+    });
+    renderClassReportForm();
+    renderClassLogs();
+    renderBienBans();
+  }
+
+  function switchTab(t) {
+    if (t === 'admin' && !ADMIN_UNLOCKED) return;
+    const map = { rank: 'panelRank', classReport: 'panelClassReport', admin: 'panelAdmin', bb: 'panelBB' };
+    const tMap = { rank: 'tabRank', classReport: 'tabClassReport', admin: 'tabAdmin', bb: 'tabBB' };
+    Object.keys(map).forEach(k => {
+      document.getElementById(map[k]).style.display = (t === k) ? 'block' : 'none';
+      document.getElementById(tMap[k]).classList.toggle('active', t === k);
+    });
+    renderAll();
+  }
+
+  function updatePresetList() {
+    const nguon = document.getElementById('inNguon').value;
+    const list = PRESETS[nguon] || [];
+    document.getElementById('inPreset').innerHTML = `<option value="">-- Chọn mục nhanh --</option>` +
+      list.map((it, idx) => `<option value="${idx}">${it.label}</option>`).join('');
+    if (nguon === "Không báo điểm" && list.length && !EDITING_ID) {
+      document.getElementById('inPreset').value = "0";
+      applyPreset();
+    }
+  }
+
+  function applyPreset() {
+    const nguon = document.getElementById('inNguon').value;
+    const idx = document.getElementById('inPreset').value;
+    if (idx === "") return;
+    const item = PRESETS[nguon][Number(idx)];
+    document.getElementById('inPts').value = Math.abs(item.pts);
+    document.getElementById('inNote').value = item.label.replace(/\s*\([^)]*\)$/, '');
+  }
+
+  async function postApi(obj) {
+    const r = await fetch(API_URL, {
+      method: "POST",
+      redirect: "follow",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(obj)
+    });
+    const txt = await r.text();
+    try {
+      return JSON.parse(txt);
+    } catch (err) {
+      return { success: true, msg: "Đã gửi yêu cầu tới Google Sheets." };
+    }
+  }
+
+  async function loadData(manual) {
+    const btn = document.getElementById('btnRef');
+    if (manual && btn) { btn.disabled = true; btn.innerText = "⏳ Đang tải..."; }
+    const ctrl = new AbortController();
+    const timeoutId = setTimeout(() => ctrl.abort(), 12000);
+    try {
+      const r = await fetch(API_URL + "?t=" + Date.now(), { signal: ctrl.signal });
+      const res = await r.json();
+      if (res && res.classes) {
+        STATE = {
+          ...res,
+          danhGiaTheoTuan: (res.danhGiaTheoTuan && typeof res.danhGiaTheoTuan === "object") ? res.danhGiaTheoTuan : {}
+        };
+        try { localStorage.setItem("yd3_doan_state_cache_v7", JSON.stringify(STATE)); } catch (e) {}
+        document.getElementById('lblHeader').innerText = `THEO DÕI ĐIỂM THI ĐUA ĐOÀN TRƯỜNG THPT YÊN DŨNG SỐ 3(${STATE.namHoc || "2026 - 2027"})`;
+        const selW = Number(document.getElementById('selWeek').value || getAutoCurrentWeek());
+        const ta = document.getElementById('txtDanhGiaTuan');
+        if (ta && document.activeElement !== ta) {
+          ta.value = getWeekComment(selW);
+        }
+        renderWeekDropdown(selW);
+      }
+      renderAll();
+    } catch (e) {
+      if (manual) {
+        alert(e.name === "AbortError"
+          ? "Máy chủ Google Sheets phản hồi chậm, đang hiển thị dữ liệu đã lưu gần nhất."
+          : "Lỗi kết nối dữ liệu: " + e.message);
+      }
+      renderAll();
+    } finally {
+      clearTimeout(timeoutId);
+      if (btn) { btn.disabled = false; btn.innerText = "🔄 Làm mới"; }
+    }
+  }
+
+  function toNum(v) {
+    if (v === "" || v === null || v === undefined) return 0;
+    const n = Number(String(v).replace(",", ".").trim());
+    return isNaN(n) ? 0 : n;
+  }
+
+  function getAutoCurrentWeek() {
+    const week1Start = new Date(2026, 8, 7);
+    const now = new Date();
+    const diffDays = Math.floor((now - week1Start) / (1000 * 60 * 60 * 24));
+    const w = Math.floor(diffDays / 7) + 1;
+    if (w < 1) return 1;
+    if (w > 37) return 37;
+    return w;
+  }
+
+  // Trạng thái khóa toàn tuần (chỉ dùng cho khóa/mở thủ công của Đoàn trường)
+  function isWeekLocked(tuan) {
+    return isManualWeekLocked(tuan);
+  }
+
+  // Không khóa cột điểm cờ đỏ sau 23:00 Thứ Bảy; chỉ khóa khi Đoàn trường khóa sổ toàn tuần thủ công.
+  // Nếu nộp điểm cờ đỏ sau 23:00 Thứ Bảy thì tự động trừ 1 điểm vào mục Điểm trừ của lớp.
+  function isRedFlagColumnLocked(tuan) {
+    return isManualWeekLocked(tuan);
+  }
+
+  function renderWeekDropdown(selectedWeek) {
+    const wSel = document.getElementById('selWeek');
+    const curVal = Number(selectedWeek || wSel.value || getAutoCurrentWeek());
+    let wHtml = "";
+    for (let i = 1; i <= 37; i++) {
+      const isLateCD = isPastRedFlagSaturday23h(i);
+      const allLocked = isWeekLocked(i);
+      const statusText = allLocked
+        ? '🔒 (Đã khóa sổ)'
+        : (isLateCD ? '⚠️ (Nộp muộn cờ đỏ -1đ • Mở)' : '🟢 (Đang mở)');
+      wHtml += `<option value="${i}" ${i === curVal ? 'selected' : ''}>Tuần ${i} ${statusText}</option>`;
+    }
+    wSel.innerHTML = wHtml;
+  }
+
+  async function toggleLockCurrentWeek() {
+    if (!ADMIN_UNLOCKED) return alert("Vui lòng mở khóa Quản trị trước!");
+    const tuan = Number(document.getElementById('selWeek').value || getAutoCurrentWeek());
+    const currentlyLocked = isManualWeekLocked(tuan);
+    const nextLocked = !currentlyLocked;
+
+    if (!confirm(nextLocked
+      ? `Xác nhận KHÓA SỔ Tuần ${tuan}? Sau khi khóa, cán bộ lớp sẽ không thể nhập hay sửa điểm Tuần ${tuan} nữa.`
+      : `MỞ KHÓA lại Tuần ${tuan} (cột Điểm học tập luôn mở cho GVCN; cột Cờ đỏ sẽ khóa sau 23:00 Thứ Bảy)?`)) {
+      return;
+    }
+
+    let localLocked = [];
+    let localUnlocked = [];
+    try {
+      localLocked = JSON.parse(localStorage.getItem("yd3_doan_locked_weeks") || "[]");
+      localUnlocked = JSON.parse(localStorage.getItem("yd3_doan_unlocked_weeks") || "[]");
+    } catch (e) {}
+
+    if (nextLocked) {
+      if (!localLocked.includes(tuan)) localLocked.push(tuan);
+      localUnlocked = localUnlocked.filter(w => Number(w) !== tuan);
+    } else {
+      localLocked = localLocked.filter(w => Number(w) !== tuan);
+      if (!localUnlocked.includes(tuan)) localUnlocked.push(tuan);
+    }
+    localStorage.setItem("yd3_doan_locked_weeks", JSON.stringify(localLocked));
+    localStorage.setItem("yd3_doan_unlocked_weeks", JSON.stringify(localUnlocked));
+
+    try {
+      await postApi({ action: "setWeekLock", tuan: tuan, locked: nextLocked });
+    } catch (e) {}
+
+    renderWeekDropdown(tuan);
+    renderAll();
+    alert(nextLocked ? `🔒 Đã KHÓA SỔ báo điểm Tuần ${tuan}!` : `🔓 Đã MỞ KHÓA Tuần ${tuan}!`);
+  }
+
+  function switchToOpenWeek() {
+    let targetW = getAutoCurrentWeek();
+    if (isWeekLocked(targetW)) {
+      for (let w = 37; w >= 1; w--) {
+        if (!isWeekLocked(w)) { targetW = w; break; }
+      }
+    }
+    renderWeekDropdown(targetW);
+    renderAll();
+  }
+
+  function getWeekDateRange(tuan) {
+    const week1Start = new Date(2026, 8, 7);
+    const diffDays = (Number(tuan) - 1) * 7;
+
+    const s = new Date(week1Start);
+    s.setDate(s.getDate() + diffDays);
+
+    const e = new Date(s);
+    e.setDate(e.getDate() + 5);
+
+    const fmt = (d) => {
+      const dd = String(d.getDate()).padStart(2, '0');
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      return `${dd}/${mm}`;
+    };
+    return `${fmt(s)} - ${fmt(e)}`;
+  }
+
+  function renderAll() {
+    const tuan = Number(document.getElementById('selWeek').value || getAutoCurrentWeek());
+    const ta = document.getElementById('txtDanhGiaTuan');
+    if (ta && document.activeElement !== ta) {
+      ta.value = getWeekComment(tuan);
+    }
+    const rangeStr = getWeekDateRange(tuan);
+    const allLocked = isWeekLocked(tuan);
+    const isLateCD = isPastRedFlagSaturday23h(tuan);
+    const statusLabel = allLocked
+      ? '🔒 ĐÃ KHÓA SỔ'
+      : (isLateCD ? '⚠️ QUA 23H THỨ BẢY: NỘP MUỘN CỜ ĐỎ TỰ TRỪ -1Đ' : '🟢 ĐANG MỞ • NỘP MUỘN CỜ ĐỎ SAU 23H T7 TRỪ -1Đ');
+    document.getElementById('lblSubWeek').innerText = `Cờ đỏ tối đa: 80đ • Học tập tối đa: 20đ (Tổng chuẩn: 100đ) • Tuần ${tuan} (${rangeStr}) • ${statusLabel} • Tự động đồng bộ`;
+    const btnLockW = document.getElementById('btnToggleWeekLock');
+    const showUnlockBtn = allLocked;
+    if (btnLockW) {
+      btnLockW.innerText = showUnlockBtn ? `🔓 Mở khóa Tuần ${tuan}` : `🔒 Khóa sổ Tuần ${tuan}`;
+      btnLockW.style.background = showUnlockBtn ? "#0369a1" : "#b91c1c";
+      btnLockW.style.color = "#fff";
+    }
+    renderRankTable();
+    renderClassReportForm();
+    renderClassLogs();
+    renderBienBans();
+  }
+
+  function classifyGroup(rank, totalScore, isKhongBao) {
+    if (isKhongBao || rank >= 25) {
+      return { code: "BD", label: "🚨 Báo động", short: "Báo động", rowCls: "grp-bd", badgeCls: "b-bd", hex: "FEE2E2" };
+    }
+    if (rank === 1) {
+      return { code: "NHAT", label: "🥇 Nhóm Nhất", short: "Nhóm Nhất", rowCls: "grp-nhat", badgeCls: "b-nhat", hex: "FEF9C3" };
+    }
+    if (rank >= 2 && rank <= 5) {
+      return { code: "NHI", label: "🥈 Nhóm Nhì", short: "Nhóm Nhì", rowCls: "grp-nhi", badgeCls: "b-nhi", hex: "E0F2FE" };
+    }
+    if (rank >= 6 && rank <= 12) {
+      return { code: "BA", label: "🥉 Nhóm Ba", short: "Nhóm Ba", rowCls: "grp-ba", badgeCls: "b-ba", hex: "DCFCE7" };
+    }
+    return { code: "TB", label: "Đạt", short: "Đạt", rowCls: "", badgeCls: "b-tb", hex: "FFFFFF" };
+  }
+
+  function renderRankTable() {
+    const tuan = Number(document.getElementById('selWeek').value || 11);
+    const khoi = document.getElementById('selKhoi').value;
+    const wLogs = (STATE.logs || []).filter(l => Number(l.tuan) === tuan);
+
+    const fullList = STATE.classes.map((lop, i) => {
+      const cLogs = wLogs.filter(l => String(l.lop || "").trim().toUpperCase() === lop);
+      const isKhongBao = cLogs.some(l => l.nguon === "Không báo điểm");
+
+      const coDoDelta = Number(cLogs.filter(l => l.nguon === "Cờ đỏ").reduce((s, l) => s + toNum(l.thanhTien), 0).toFixed(2));
+      const diemCoDo = isKhongBao ? 0 : Number(Math.max(0, Math.min(MAX_CODO, MAX_CODO + coDoDelta)).toFixed(2));
+
+      const htLogs = cLogs.filter(l => l.nguon === "Điểm học tập");
+      const hocTapDelta = Number(htLogs.reduce((s, l) => s + toNum(l.thanhTien), 0).toFixed(2));
+      const diemHocTap = (isKhongBao || htLogs.length === 0) ? 0 : Number(Math.max(0, Math.min(MAX_HOCTAP, MAX_HOCTAP + hocTapDelta)).toFixed(2));
+
+      const diemCong = Number(cLogs.filter(l => l.nguon === "Điểm cộng").reduce((s, l) => s + Math.abs(toNum(l.thanhTien)), 0).toFixed(2));
+      const diemTruVal = Number(cLogs.filter(l => l.nguon === "Điểm trừ" || l.nguon === "Không báo điểm").reduce((s, l) => s + Math.abs(toNum(l.thanhTien)), 0).toFixed(2));
+      const diemTruSigned = diemTruVal > 0 ? -diemTruVal : 0;
+
+      const tong = Number((diemCoDo + diemHocTap + diemCong + diemTruSigned).toFixed(2));
+
+      return {
+        stt: i + 1,
+        lop,
+        diemCoDo,
+        diemHocTap,
+        diemCong,
+        diemTruVal,
+        diemTruSigned,
+        tong,
+        isKhongBao,
+        logs: cLogs
+      };
+    });
+
+    const sorted = [...fullList].sort((a, b) => b.tong - a.tong);
+    let curRank = 0, prevScore = null;
+    sorted.forEach((item, idx) => {
+      if (item.tong !== prevScore) {
+        curRank = idx + 1;
+        prevScore = item.tong;
+      }
+      item.rank = curRank;
+      item.group = classifyGroup(item.rank, item.tong, item.isKhongBao);
+    });
+
+    fullList.forEach(item => {
+      const found = sorted.find(s => s.lop === item.lop);
+      item.rank = found.rank;
+      item.group = found.group;
+    });
+    RANKED_LIST = fullList;
+
+    const gNhat = sorted.filter(x => x.group.code === "NHAT").map(x => `${x.lop} (${x.tong})`).join(", ") || "Chưa có";
+    const gNhi  = sorted.filter(x => x.group.code === "NHI").map(x => `${x.lop} (${x.tong})`).join(", ") || "Chưa có";
+    const gBa   = sorted.filter(x => x.group.code === "BA").map(x => `${x.lop} (${x.tong})`).join(", ") || "Chưa có";
+    const gBD   = sorted.filter(x => x.group.code === "BD").map(x => `${x.lop} (${x.tong})`).join(", ") || "Không có";
+    const gDat  = sorted.filter(x => x.group.code === "TB").map(x => `${x.lop} (${x.tong})`).join(", ") || "Không có";
+
+    document.getElementById('groupSummaryCards').innerHTML = `
+      <div class="g-card grp-nhat"><div class="g-card-title">🥇 Nhóm Nhất</div><div class="g-card-list">${gNhat}</div></div>
+      <div class="g-card grp-nhi"><div class="g-card-title">🥈 Nhóm Nhì</div><div class="g-card-list">${gNhi}</div></div>
+      <div class="g-card grp-ba"><div class="g-card-title">🥉 Nhóm Ba</div><div class="g-card-list">${gBa}</div></div>
+      <div class="g-card grp-dat"><div class="g-card-title">✅ Đạt</div><div class="g-card-list">${gDat}</div></div>
+      <div class="g-card grp-bd"><div class="g-card-title">🚨 Nhóm Báo động</div><div class="g-card-list">${gBD}</div></div>
+    `;
+
+    const filtered = khoi === "ALL" ? fullList : fullList.filter(x => x.lop.startsWith(khoi));
+
+    const escHtml = (s) => String(s || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+
+    document.getElementById('tbodyRank').innerHTML = filtered.map(r => {
+      const adjLogs = (r.logs || []).filter(l => l.nguon === "Điểm cộng" || l.nguon === "Điểm trừ" || l.nguon === "Không báo điểm");
+      const noteHtml = adjLogs.length
+        ? adjLogs.map(item => {
+            const ptsNum = toNum(item.thanhTien);
+            const ptsStr = ptsNum >= 0 ? `+${ptsNum}đ` : `${ptsNum}đ`;
+            const color = ptsNum >= 0 ? "#15803d" : "#b91c1c";
+            const who = item.hoTenHS ? `<b>[${escHtml(item.hoTenHS)}]</b> ` : "";
+            const slStr = Number(item.soLuong) > 1 ? ` (SL: ${item.soLuong})` : "";
+            return `<div style="line-height:1.35; margin-bottom:2px; font-size:12.5px; color:${color};">• ${who}${escHtml(item.noiDung)}${slStr} <b>(${ptsStr})</b></div>`;
+          }).join("")
+        : `<span style="color:#94a3b8; font-size:12px;">—</span>`;
+
+      return `
+      <tr class="${r.group.rowCls}">
+        <td>${r.stt}</td>
+        <td><span class="cls-link" onclick="selectQuickClass('${r.lop}')">${r.lop}</span></td>
+        <td><b>${r.diemCoDo}</b></td>
+        <td><b>${r.diemHocTap}</b></td>
+        <td style="color:#15803d; font-weight:700;">${r.diemCong > 0 ? '+' + r.diemCong : '0'}</td>
+        <td style="color:#b91c1c; font-weight:700;">${r.diemTruVal > 0 ? '-' + r.diemTruVal : '0'}</td>
+        <td style="font-size:15.5px;"><b>${r.tong}</b></td>
+        <td><b>${r.rank}</b></td>
+        <td><span class="badge-grp ${r.group.badgeCls}">${r.group.label}</span></td>
+        <td style="text-align:left; min-width:220px; max-width:320px; white-space:normal;">${noteHtml}</td>
+      </tr>
+    `;
+    }).join('');
+  }
+
+  function renderClassReportForm() {
+    const tuan = Number(document.getElementById('selWeek').value || 11);
+    const lop = document.getElementById('cbLop').value || "10A1";
+    const rangeStr = getWeekDateRange(tuan);
+
+    const elRepW = document.getElementById('lblReportWeek');
+    if (elRepW) elRepW.innerText = `Tuần ${tuan} (${rangeStr})`;
+    const elSubLop = document.getElementById('lblSubmitLop');
+    if (elSubLop) elSubLop.innerText = lop;
+    const elHistLop = document.getElementById('lblMyClassHistory');
+    if (elHistLop) elHistLop.innerText = lop;
+
+    const wLogs = (STATE.logs || []).filter(l => Number(l.tuan) === tuan);
+    const hasRealCoDo = (clsName) => {
+      const clsCd = wLogs.filter(l => l.lop === clsName && l.nguon === "Cờ đỏ");
+      if (!clsCd.length) return false;
+      const delta = clsCd.reduce((s, l) => s + toNum(l.thanhTien), 0);
+      const val = Number(Math.max(0, Math.min(MAX_CODO, MAX_CODO + delta)).toFixed(2));
+      return val > 0;
+    };
+    const hasRealHocTap = (clsName) => {
+      const clsHt = wLogs.filter(l => l.lop === clsName && l.nguon === "Điểm học tập");
+      if (!clsHt.length) return false;
+      const delta = clsHt.reduce((s, l) => s + toNum(l.thanhTien), 0);
+      const val = Number(Math.max(0, Math.min(MAX_HOCTAP, MAX_HOCTAP + delta)).toFixed(2));
+      return val > 0;
+    };
+
+    document.getElementById('cbClassChips').innerHTML = STATE.classes.map(c => {
+      const hasCD = hasRealCoDo(c);
+      const hasHT = hasRealHocTap(c);
+      let stCls = "";
+      if (hasCD && hasHT) stCls = "done";
+      else if (hasCD || hasHT) stCls = "partial";
+      return `<div class="cls-chip ${stCls} ${c === lop ? 'active' : ''}" onclick="pickReportClass('${c}')">${c}</div>`;
+    }).join('');
+
+    const cLogs = wLogs.filter(l => l.lop === lop && l.nguon === "Cờ đỏ");
+    const hLogs = wLogs.filter(l => l.lop === lop && l.nguon === "Điểm học tập");
+
+    const coDoDelta = Number(cLogs.reduce((s, l) => s + toNum(l.thanhTien), 0).toFixed(2));
+    const hocTapDelta = Number(hLogs.reduce((s, l) => s + toNum(l.thanhTien), 0).toFixed(2));
+
+    const currentCoDo = cLogs.length === 0 ? 0 : Number(Math.max(0, Math.min(MAX_CODO, MAX_CODO + coDoDelta)).toFixed(2));
+    const currentHocTap = hLogs.length === 0 ? 0 : Number(Math.max(0, Math.min(MAX_HOCTAP, MAX_HOCTAP + hocTapDelta)).toFixed(2));
+
+    const cdSubmitted = currentCoDo > 0;
+    const htSubmitted = currentHocTap > 0;
+
+    document.getElementById('cbCoDoScore').value = cdSubmitted ? currentCoDo : "";
+    document.getElementById('cbHocTapScore').value = htSubmitted ? currentHocTap : "";
+
+    const manualLocked = isManualWeekLocked(tuan);
+    const isLateRedFlag = isPastRedFlagSaturday23h(tuan);
+
+    // Không khóa cột Điểm cờ đỏ sau 23:00 Thứ Bảy; chỉ khóa khi bị khóa thủ công hoặc lớp đã gửi điểm cờ đỏ
+    const lockCD = !ADMIN_UNLOCKED && (manualLocked || cdSubmitted);
+    // Cột Điểm học tập mở bình thường cho GVCN / lớp bổ sung (chỉ khóa nếu khóa thủ công hoặc đã gửi điểm học tập)
+    const lockHT = !ADMIN_UNLOCKED && (manualLocked || htSubmitted);
+
+    const alertBox = document.getElementById('weekLockedAlert');
+    const alertTxt = document.getElementById('weekLockedText');
+    if (alertBox) {
+      alertBox.style.display = (manualLocked || (isLateRedFlag && !cdSubmitted) || cdSubmitted || htSubmitted) ? "flex" : "none";
+    }
+    if (alertTxt) {
+      if (manualLocked) {
+        alertTxt.innerText = `🔒 Tuần ${tuan} đã KHÓA SỔ toàn bộ. Vui lòng chuyển sang tuần đang mở hoặc liên hệ Đoàn trường.`;
+      } else if (isLateRedFlag && !cdSubmitted) {
+        alertTxt.innerText = `⚠️ Đã qua 23:00 Thứ Bảy: Lớp ${lop} vẫn nhập được Điểm cờ đỏ nhưng hệ thống sẽ TỰ ĐỘNG TRỪ -1 ĐIỂM do nộp muộn (nếu chỉ bổ sung Điểm học tập thì không bị trừ).`;
+      } else if (cdSubmitted && htSubmitted) {
+        alertTxt.innerText = `🔒 Lớp ${lop} đã hoàn tất & chốt đủ Điểm cờ đỏ và Điểm học tập Tuần ${tuan}. Nếu sai sót, liên hệ Đoàn trường để đính chính!`;
+      } else if (cdSubmitted && !htSubmitted) {
+        alertTxt.innerText = `✅ Lớp ${lop} đã chốt Điểm cờ đỏ (${currentCoDo}đ). Ô Điểm học tập vẫn đang mở để bổ sung khi có kết quả.`;
+      } else if (!cdSubmitted && htSubmitted) {
+        alertTxt.innerText = `✅ Lớp ${lop} đã chốt Điểm học tập (${currentHocTap}đ). Ô Điểm cờ đỏ vẫn đang mở${isLateRedFlag ? ' (nộp muộn sau 23h T7 tự trừ -1đ)' : ''}.`;
+      }
+    }
+
+    document.getElementById('cbCoDoScore').disabled = lockCD;
+    document.getElementById('cbHocTapScore').disabled = lockHT;
+    const allowSubmit = !manualLocked && (!lockCD || !lockHT);
+    document.getElementById('cbReporterNote').disabled = !allowSubmit;
+    const btnSubEl = document.getElementById('btnSubmitClassCoDo');
+    if (btnSubEl) {
+      btnSubEl.disabled = !allowSubmit;
+      btnSubEl.style.opacity = allowSubmit ? "1" : "0.55";
+      btnSubEl.innerHTML = allowSubmit
+        ? `📤 Gửi báo điểm Cờ đỏ & Học tập của lớp <span id="lblSubmitLop">${lop}</span>`
+        : `🔒 Đã chốt / khóa mục báo điểm của lớp <span id="lblSubmitLop">${lop}</span>`;
+    }
+
+    const bothLogs = [...cLogs, ...hLogs];
+    const histBox = document.getElementById('myClassCoDoHistory');
+    if (!bothLogs.length) {
+      histBox.innerHTML = `<div style="color:#64748b; padding:12px; text-align:center;">Lớp ${lop} chưa gửi báo điểm Cờ đỏ & Học tập cho Tuần ${tuan} (Điểm học tập chưa báo đang tính 0đ).</div>`;
+      return;
+    }
+    histBox.innerHTML = bothLogs.map(e => `
+      <div class="log-item">
+        <div>
+          <span style="font-size:11.5px; font-weight:700; padding:2px 7px; border-radius:6px; background:#dcfce7; color:#166534;">${e.nguon}</span>
+          <span style="font-weight:600; margin-left:6px;">${e.noiDung}</span>
+          ${e.ngayGhi ? `<small style="color:#64748b; margin-left:6px;">(${e.ngayGhi})</small>` : ''}
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <b style="color:#0369a1;">${e.nguon === 'Cờ đỏ' ? currentCoDo + '/80đ' : currentHocTap + '/20đ'}</b>
+          ${ADMIN_UNLOCKED ? `<button class="btn-del" onclick="delEntry('${e.id}')">✕</button>` : ''}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function pickReportClass(lop) {
+    document.getElementById('cbLop').value = lop;
+    localStorage.setItem('yd3_doan_selected_class', lop);
+    renderClassReportForm();
+  }
+
+  async function submitClassScores() {
+    const tuan = Number(document.getElementById('selWeek').value || getAutoCurrentWeek());
+    const lop = document.getElementById('cbLop').value;
+    const manualLocked = isManualWeekLocked(tuan);
+    const isLateRedFlag = isPastRedFlagSaturday23h(tuan);
+    if (!ADMIN_UNLOCKED && manualLocked) {
+      return alert(`🔒 Tuần ${tuan} đã khóa sổ toàn bộ. Vui lòng liên hệ Đoàn trường nếu cần hỗ trợ!`);
+    }
+    const existingCD = (STATE.logs || []).find(l => Number(l.tuan) === tuan && String(l.lop || "").trim().toUpperCase() === lop && l.nguon === "Cờ đỏ");
+    const existingHT = (STATE.logs || []).find(l => Number(l.tuan) === tuan && String(l.lop || "").trim().toUpperCase() === lop && l.nguon === "Điểm học tập");
+
+    const existingCDVal = existingCD ? Number(Math.max(0, Math.min(MAX_CODO, MAX_CODO + toNum(existingCD.thanhTien))).toFixed(2)) : 0;
+    const existingHTVal = existingHT ? Number(Math.max(0, Math.min(MAX_HOCTAP, MAX_HOCTAP + toNum(existingHT.thanhTien))).toFixed(2)) : 0;
+    const lockCD = !ADMIN_UNLOCKED && (manualLocked || existingCDVal > 0);
+    const lockHT = !ADMIN_UNLOCKED && (manualLocked || existingHTVal > 0);
+
+    const rawCD = document.getElementById('cbCoDoScore').value.trim();
+    const rawHT = document.getElementById('cbHocTapScore').value.trim();
+    const hasInputCD = !lockCD && rawCD !== "";
+    const hasInputHT = !lockHT && rawHT !== "";
+
+    if (lockCD && lockHT) {
+      return alert(`🔒 Lớp ${lop} đã chốt đủ cả Điểm cờ đỏ và Điểm học tập Tuần ${tuan}. Vui lòng liên hệ Đoàn trường nếu cần sửa!`);
+    }
+    if (!hasInputCD && !hasInputHT) {
+      return alert(`Vui lòng nhập Điểm cờ đỏ (0 – ${MAX_CODO}) hoặc Điểm học tập (0 – ${MAX_HOCTAP})!`);
+    }
+
+    const scoreCD = hasInputCD ? Number(rawCD) : 0;
+    const scoreHT = hasInputHT ? Number(rawHT) : 0;
+    const note = document.getElementById('cbReporterNote').value.trim();
+
+    if (hasInputCD && (isNaN(scoreCD) || scoreCD < 0 || scoreCD > MAX_CODO)) {
+      return alert(`Vui lòng nhập Điểm cờ đỏ hợp lệ từ 0 đến ${MAX_CODO} điểm!`);
+    }
+    if (hasInputHT && (isNaN(scoreHT) || scoreHT < 0 || scoreHT > MAX_HOCTAP)) {
+      return alert(`Vui lòng nhập Điểm học tập hợp lệ từ 0 đến ${MAX_HOCTAP} điểm!`);
+    }
+
+    const applyLatePenalty = hasInputCD && isLateRedFlag && !ADMIN_UNLOCKED;
+    const latePenaltyReason = "Tự động trừ điểm nộp muộn điểm cờ đỏ sau 23:00 Thứ Bảy (-1đ)";
+    const alreadyHasLatePenalty = (STATE.logs || []).some(l =>
+      Number(l.tuan) === tuan &&
+      String(l.lop || "").trim().toUpperCase() === lop &&
+      l.nguon === "Điểm trừ" &&
+      String(l.noiDung || "").includes("nộp muộn điểm cờ đỏ")
+    );
+
+    const diffCD = Number((scoreCD - MAX_CODO).toFixed(2));
+    const diffHT = Number((scoreHT - MAX_HOCTAP).toFixed(2));
+
+    const noiDungCD = note
+      ? `Cán bộ lớp báo điểm cờ đỏ${applyLatePenalty ? ' (nộp muộn sau 23h T7)' : ''}: ${scoreCD}/${MAX_CODO}đ — ${note}`
+      : `Cán bộ lớp báo điểm cờ đỏ${applyLatePenalty ? ' (nộp muộn sau 23h T7)' : ''}: ${scoreCD}/${MAX_CODO}đ`;
+    const noiDungHT = note
+      ? `GVCN / lớp bổ sung điểm học tập: ${scoreHT}/${MAX_HOCTAP}đ — ${note}`
+      : `GVCN / lớp bổ sung điểm học tập: ${scoreHT}/${MAX_HOCTAP}đ`;
+
+    const summaryParts = [];
+    if (hasInputCD) summaryParts.push(`• Điểm cờ đỏ: ${scoreCD}/${MAX_CODO}đ`);
+    if (applyLatePenalty) summaryParts.push(`• Tự động trừ điểm nộp muộn (sau 23:00 Thứ Bảy): -1đ`);
+    if (hasInputHT) summaryParts.push(`• Điểm học tập: ${scoreHT}/${MAX_HOCTAP}đ`);
+    if (note) summaryParts.push(`• Ghi chú: ${note}`);
+
+    const okConfirm = confirm(
+      `Xác nhận gửi và chốt báo điểm cho lớp ${lop} (Tuần ${tuan})?\n\n` +
+      summaryParts.join("\n") +
+      `\n\n⚠️ Lưu ý: Sau khi bấm OK, các mục đã gửi sẽ tự động KHÓA CHỐT (cán bộ lớp không thể tự sửa lại).`
+    );
+    if (!okConfirm) return;
+
+    const btn = document.getElementById('btnSubmitClassCoDo');
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = `⏳ Đang gửi báo điểm lớp <span id="lblSubmitLop">${lop}</span>...`;
+    }
+    try {
+      let resOk = true;
+      if (hasInputCD) {
+        const payloadCD = existingCD
+          ? { action: "updateEntry", id: existingCD.id, tuan, lop, nguon: "Cờ đỏ", hoTenHS: "", noiDung: noiDungCD, soLuong: 1, diemDonVi: diffCD }
+          : { action: "addEntry", tuan, lop, nguon: "Cờ đỏ", hoTenHS: "", noiDung: noiDungCD, soLuong: 1, diemDonVi: diffCD };
+        const resCD = await postApi(payloadCD);
+        resOk = resOk && (resCD && resCD.success);
+
+        if (applyLatePenalty && !alreadyHasLatePenalty) {
+          const resLate = await postApi({
+            action: "addEntry",
+            tuan,
+            lop,
+            nguon: "Điểm trừ",
+            hoTenHS: "",
+            noiDung: latePenaltyReason,
+            soLuong: 1,
+            diemDonVi: -1
+          });
+          resOk = resOk && (resLate && resLate.success);
+        }
+      }
+
+      if (hasInputHT) {
+        const payloadHT = existingHT
+          ? { action: "updateEntry", id: existingHT.id, tuan, lop, nguon: "Điểm học tập", hoTenHS: "", noiDung: noiDungHT, soLuong: 1, diemDonVi: diffHT }
+          : { action: "addEntry", tuan, lop, nguon: "Điểm học tập", hoTenHS: "", noiDung: noiDungHT, soLuong: 1, diemDonVi: diffHT };
+        const resHT = await postApi(payloadHT);
+        resOk = resOk && (resHT && resHT.success);
+      }
+
+      if (resOk) {
+        STATE.logs = (STATE.logs || []).filter(l => !(
+          Number(l.tuan) === tuan &&
+          String(l.lop || "").trim().toUpperCase() === lop &&
+          ((hasInputCD && l.nguon === "Cờ đỏ") || (hasInputHT && l.nguon === "Điểm học tập"))
+        ));
+        if (hasInputCD) {
+          STATE.logs.push({
+            id: `W${tuan}_${lop}_CD`,
+            tuan: tuan,
+            lop: lop,
+            nguon: "Cờ đỏ",
+            hoTenHS: "",
+            noiDung: noiDungCD,
+            soLuong: 1,
+            diemDonVi: diffCD,
+            thanhTien: diffCD,
+            ngayGhi: ""
+          });
+          if (applyLatePenalty && !alreadyHasLatePenalty) {
+            STATE.logs.push({
+              id: `W${tuan}_${lop}_LATE_CD`,
+              tuan: tuan,
+              lop: lop,
+              nguon: "Điểm trừ",
+              hoTenHS: "",
+              noiDung: latePenaltyReason,
+              soLuong: 1,
+              diemDonVi: -1,
+              thanhTien: -1,
+              ngayGhi: ""
+            });
+          }
+        }
+        if (hasInputHT) {
+          STATE.logs.push({
+            id: `W${tuan}_${lop}_HT`,
+            tuan: tuan,
+            lop: lop,
+            nguon: "Điểm học tập",
+            hoTenHS: "",
+            noiDung: noiDungHT,
+            soLuong: 1,
+            diemDonVi: diffHT,
+            thanhTien: diffHT,
+            ngayGhi: ""
+          });
+        }
+        try { localStorage.setItem("yd3_doan_state_cache_v7", JSON.stringify(STATE)); } catch (e) {}
+        document.getElementById('cbReporterNote').value = "";
+        renderAll();
+      }
+      alert(`✅ Đã ghi nhận báo điểm lớp ${lop} Tuần ${tuan}:
+- Điểm cờ đỏ: ${hasInputCD ? scoreCD : existingCDVal}/${MAX_CODO}đ${applyLatePenalty ? ' (Tự động trừ -1đ do nộp muộn sau 23:00 Thứ Bảy)' : ''}
+- Điểm học tập: ${hasInputHT ? scoreHT : existingHTVal}/${MAX_HOCTAP}đ`);
+      if (resOk) {
+        loadData(false);
+      }
+    } catch (e) {
+      alert("Lỗi kết nối: " + e.message);
+    } finally {
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = `📤 Gửi báo điểm Cờ đỏ & Học tập của lớp <span id="lblSubmitLop">${lop}</span>`;
+      }
+      renderClassReportForm();
+    }
+  }
+
+  function renderClassLogs() {
+    const tuan = Number(document.getElementById('selWeek').value || 11);
+    const lop = document.getElementById('inLop').value;
+    document.getElementById('lblCurLop').innerText = lop;
+    document.getElementById('lblCurWeek').innerText = `Tuần ${tuan}`;
+
+    const list = (STATE.logs || []).filter(l => Number(l.tuan) === tuan && String(l.lop || "").trim().toUpperCase() === lop);
+    const box = document.getElementById('classLogs');
+    if (!list.length) {
+      box.innerHTML = `<div style="text-align:center; color:#64748b; padding:18px;">Lớp ${lop} chưa có mục điểm nào được ghi trong Tuần ${tuan}.</div>`;
+      return;
+    }
+    box.innerHTML = list.map(e => `
+      <div class="log-item">
+        <div>
+          <span style="font-size:11.5px; font-weight:700; padding:2px 7px; border-radius:6px; background:#e2e8f0;">${e.nguon}</span>
+          ${e.hoTenHS ? `<b style="margin-left:6px; color:#0369a1;">[${e.hoTenHS}]</b>` : ''}
+          <span style="font-weight:500; margin-left:6px;">${e.noiDung} (SL: ${e.soLuong})</span>
+          ${e.ngayGhi ? `<small style="color:#64748b; margin-left:6px;">(${e.ngayGhi})</small>` : ''}
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; flex-shrink:0;">
+          <b style="color:${e.thanhTien >= 0 ? '#15803d' : '#b91c1c'};">${e.thanhTien >= 0 ? '+' + e.thanhTien : e.thanhTien}đ</b>
+          ${ADMIN_UNLOCKED ? `<button class="btn-edit" onclick="startEditEntry('${e.id}')">✏️ Sửa</button>` : ''}
+          ${ADMIN_UNLOCKED ? `<button class="btn-del" title="Xóa" onclick="delEntry('${e.id}')">✕</button>` : ''}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function startEditEntry(id) {
+    if (!ADMIN_UNLOCKED) return;
+    const item = STATE.logs.find(l => l.id === id);
+    if (!item) return;
+    EDITING_ID = id;
+    document.getElementById('inLop').value = item.lop;
+    document.getElementById('inNguon').value = item.nguon;
+    updatePresetList();
+    document.getElementById('inQty').value = item.soLuong || 1;
+    document.getElementById('inPts').value = Math.abs(item.diemDonVi || 0);
+    document.getElementById('inHoTenHS').value = item.hoTenHS || "";
+    document.getElementById('inNote').value = item.noiDung || "";
+    document.getElementById('editBanner').style.display = "block";
+    document.getElementById('btnCancelEdit').style.display = "inline-block";
+    document.getElementById('btnSave').innerText = "💾 Cập nhật đính chính";
+    switchTab('admin');
+  }
+
+  function cancelEdit() {
+    EDITING_ID = null;
+    document.getElementById('editBanner').style.display = "none";
+    document.getElementById('btnCancelEdit').style.display = "none";
+    document.getElementById('btnSave').innerText = "💾 Lưu vào hệ thống";
+    document.getElementById('inQty').value = 1;
+    document.getElementById('inPts').value = "";
+    document.getElementById('inHoTenHS').value = "";
+    document.getElementById('inNote').value = "";
+    document.getElementById('inPreset').value = "";
+  }
+
+  function renderBienBans() {
+    const khoi = document.getElementById('selKhoi').value;
+    let list = STATE.bienBans || [];
+    if (khoi !== "ALL") list = list.filter(b => b.lop.startsWith(khoi));
+
+    const tbody = document.getElementById('tbodyBB');
+    if (!list.length) {
+      tbody.innerHTML = `<tr><td colspan="6" style="padding:20px; color:#64748b;">Chưa có dữ liệu biên bản.</td></tr>`;
+      return;
+    }
+    tbody.innerHTML = list.map((b, i) => `
+      <tr>
+        <td>${i + 1}</td>
+        <td style="text-align:left; font-weight:600;">${b.hoTen}</td>
+        <td><b>${b.lop}</b></td>
+        <td style="text-align:left;">${b.noiDung}</td>
+        <td>${b.ngayBB}</td>
+        <td class="col-bb-admin" style="${ADMIN_UNLOCKED ? '' : 'display:none;'}">
+          <button type="button" class="btn-edit" onclick="startEditBienBan(${b.rowIdx})">✏️ Sửa</button>
+          <button type="button" class="btn-del" title="Xóa" onclick="delBienBan(${b.rowIdx})">✕</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  async function saveEntry() {
+    if (!ADMIN_UNLOCKED) return;
+    const tuan = Number(document.getElementById('selWeek').value || 11);
+    const lop = document.getElementById('inLop').value;
+    const nguon = document.getElementById('inNguon').value;
+    const soLuong = Math.max(1, Number(document.getElementById('inQty').value || 1));
+    const rawPts = Number(document.getElementById('inPts').value);
+    const hoTenHS = document.getElementById('inHoTenHS').value.trim();
+    const noiDung = document.getElementById('inNote').value.trim();
+
+    if (!noiDung || isNaN(rawPts) || rawPts === 0) return alert("Vui lòng nhập đầy đủ mức điểm và nội dung!");
+
+    let diemDonVi = rawPts;
+    if (nguon === "Cờ đỏ" || nguon === "Điểm học tập" || nguon === "Điểm trừ" || nguon === "Không báo điểm") diemDonVi = -Math.abs(rawPts);
+    else if (nguon === "Điểm cộng") diemDonVi = Math.abs(rawPts);
+
+    const btn = document.getElementById('btnSave');
+    btn.disabled = true; btn.innerText = "⏳ Đang lưu...";
+    try {
+      const payload = EDITING_ID
+        ? { action: "updateEntry", id: EDITING_ID, tuan, lop, nguon, hoTenHS, noiDung, soLuong, diemDonVi }
+        : { action: "addEntry", tuan, lop, nguon, hoTenHS, noiDung, soLuong, diemDonVi };
+      const res = await postApi(payload);
+      alert(res.msg);
+      if (res.success) {
+        cancelEdit();
+        await loadData(false);
+      }
+    } catch (e) {
+      alert("Lỗi: " + e.message);
+    } finally {
+      btn.disabled = false;
+      if (!EDITING_ID) btn.innerText = "💾 Lưu vào hệ thống";
+    }
+  }
+
+  async function delEntry(id) {
+    if (!ADMIN_UNLOCKED || !confirm("Xóa mục điểm này?")) return;
+    try {
+      STATE.logs = (STATE.logs || []).filter(item => item.id !== id);
+      try { localStorage.setItem("yd3_doan_state_cache_v7", JSON.stringify(STATE)); } catch (e) {}
+      if (EDITING_ID === id) cancelEdit();
+      renderAll();
+
+      const res = await postApi({ action: "deleteEntry", id });
+      if (res && res.msg) alert(res.msg);
+      await loadData(false);
+    } catch (e) {
+      alert("Lỗi kết nối: " + e.message);
+    }
+  }
+
+  function startEditBienBan(rowIdx) {
+    if (!ADMIN_UNLOCKED) return;
+    const item = (STATE.bienBans || []).find(b => Number(b.rowIdx) === Number(rowIdx));
+    if (!item) return;
+    EDITING_BB_ROW = Number(rowIdx);
+    document.getElementById('bbHoTen').value = item.hoTen || "";
+    if (item.lop && STATE.classes.includes(item.lop)) {
+      document.getElementById('bbLop').value = item.lop;
+    }
+    document.getElementById('bbNgay').value = item.ngayBB || "";
+    document.getElementById('bbNoiDung').value = item.noiDung || "";
+    document.getElementById('bbLoiNang').checked = false;
+    document.getElementById('bbEditBanner').style.display = "block";
+    document.getElementById('btnCancelEditBB').style.display = "inline-block";
+    document.getElementById('btnSaveBB').innerText = "💾 Lưu thay đổi biên bản";
+    switchTab('bb');
+    document.getElementById('bbFormCard').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function cancelEditBienBan() {
+    EDITING_BB_ROW = null;
+    document.getElementById('bbEditBanner').style.display = "none";
+    document.getElementById('btnCancelEditBB').style.display = "none";
+    document.getElementById('btnSaveBB').innerText = "💾 Cập nhật biên bản vi phạm";
+    document.getElementById('bbHoTen').value = "";
+    document.getElementById('bbNgay').value = "";
+    document.getElementById('bbNoiDung').value = "";
+    document.getElementById('bbLoiNang').checked = false;
+  }
+
+  async function saveBienBan() {
+    if (!ADMIN_UNLOCKED) return;
+    const tuan = Number(document.getElementById('selWeek').value || 11);
+    const hoTen = document.getElementById('bbHoTen').value.trim();
+    const lop = document.getElementById('bbLop').value;
+    const ngayBB = document.getElementById('bbNgay').value.trim();
+    const noiDung = document.getElementById('bbNoiDung').value.trim();
+    const isLoiNang = document.getElementById('bbLoiNang').checked;
+
+    if (!hoTen || !noiDung) return alert("Vui lòng nhập họ tên học sinh và nội dung biên bản!");
+    const btn = document.getElementById('btnSaveBB');
+    btn.disabled = true; btn.innerText = "⏳ Đang lưu...";
+    try {
+      const payload = EDITING_BB_ROW
+        ? { action: "updateBienBan", rowIdx: EDITING_BB_ROW, tuan, hoTen, lop, ngayBB, noiDung, isLoiNang }
+        : { action: "addBienBan", tuan, hoTen, lop, ngayBB, noiDung, isLoiNang };
+      const res = await postApi(payload);
+      alert(res.msg);
+      if (res.success) {
+        cancelEditBienBan();
+        await loadData(false);
+      }
+    } finally {
+      btn.disabled = false;
+      if (!EDITING_BB_ROW) btn.innerText = "💾 Cập nhật biên bản vi phạm";
+    }
+  }
+
+  async function delBienBan(rowIdx) {
+    if (!ADMIN_UNLOCKED || !confirm("Xóa biên bản này?")) return;
+    try {
+      const res = await postApi({ action: "deleteBienBan", rowIdx });
+      alert(res.msg);
+      if (res.success) await loadData(false);
+    } catch (e) {
+      alert("Lỗi kết nối: " + e.message);
+    }
+  }
+
+  async function saveWeekMeta() {
+    if (!ADMIN_UNLOCKED) return;
+    const tuan = Number(document.getElementById('selWeek').value || getAutoCurrentWeek());
+    const danhGiaTuan = document.getElementById('txtDanhGiaTuan').value.trim();
+    try {
+      const res = await postApi({ action: "saveWeekMeta", tuan, danhGiaTuan });
+      alert(res.msg);
+      if (res && res.success) {
+        if (!STATE.danhGiaTheoTuan) STATE.danhGiaTheoTuan = {};
+        STATE.danhGiaTheoTuan[tuan] = danhGiaTuan;
+        if (tuan === Number(STATE.tuanHienTai)) STATE.danhGiaTuan = danhGiaTuan;
+        try { localStorage.setItem("yd3_doan_state_cache_v7", JSON.stringify(STATE)); } catch (e) {}
+        await loadData(false);
+      }
+    } catch (e) {
+      alert("Lỗi kết nối: " + e.message);
+    }
+  }
+
+  async function exportFullWeekExcel() {
+    if (!RANKED_LIST.length) return alert("Chưa có dữ liệu!");
+    const tuan = Number(document.getElementById('selWeek').value || 11);
+    const rangeStr = getWeekDateRange(tuan);
+    const weekNoteExact = getWeekComment(tuan);
+    const wb = XLSX.utils.book_new();
+    const border = {
+      top: { style: "thin", color: { rgb: "000000" } },
+      bottom: { style: "thin", color: { rgb: "000000" } },
+      left: { style: "thin", color: { rgb: "000000" } },
+      right: { style: "thin", color: { rgb: "000000" } }
+    };
+
+    const tdRows = [
+      ["ĐOÀN THANH NIÊN CỘNG SẢN HỒ CHÍ MINH", "", "", "", "", "", "", "", "", ""],
+      ["ĐOÀN TRƯỜNG THPT YÊN DŨNG SỐ 3", "", "", "", "", "", "", "", "", ""],
+      [`TỔNG HỢP KẾT QUẢ THI ĐUA NĂM HỌC ${STATE.namHoc} - TUẦN ${tuan} (${rangeStr})`, "", "", "", "", "", "", "", "", ""],
+      ["STT", "Lớp", "Điểm cờ đỏ (80)", "Điểm học tập (20)", "Điểm Cộng", "Điểm Trừ", "Tổng điểm", "Xếp TT", "Nhóm xếp hạng", "Hiện tượng chính (Đoàn Trường đánh giá)"]
+    ];
+
+    RANKED_LIST.forEach((r, idx) => {
+      tdRows.push([
+        r.stt,
+        r.lop,
+        r.diemCoDo,
+        r.diemHocTap,
+        r.diemCong || 0,
+        r.diemTruVal > 0 ? -r.diemTruVal : 0,
+        r.tong,
+        r.rank,
+        r.group.short,
+        idx === 0 ? weekNoteExact : ""
+      ]);
+    });
+
+    const wsTD = XLSX.utils.aoa_to_sheet(tdRows);
+    wsTD["!merges"] = [
+      { s: { r: 0, c: 0 }, e: { r: 0, c: 9 } },
+      { s: { r: 1, c: 0 }, e: { r: 1, c: 9 } },
+      { s: { r: 2, c: 0 }, e: { r: 2, c: 9 } },
+      { s: { r: 4, c: 9 }, e: { r: 33, c: 9 } }
+    ];
+    wsTD["!cols"] = [{ wch: 6 }, { wch: 9 }, { wch: 16 }, { wch: 17 }, { wch: 12 }, { wch: 12 }, { wch: 12 }, { wch: 9 }, { wch: 16 }, { wch: 42 }];
+
+    for (let r = 0; r < tdRows.length; r++) {
+      const bgHex = r >= 4 ? RANKED_LIST[r - 4].group.hex : (r === 3 ? "1E293B" : "FFFFFF");
+      for (let c = 0; c < 10; c++) {
+        const addr = XLSX.utils.encode_cell({ r, c });
+        if (!wsTD[addr]) wsTD[addr] = { v: "", t: "s" };
+        wsTD[addr].s = {
+          font: {
+            name: "Times New Roman",
+            sz: r <= 2 ? 14 : 13,
+            bold: r <= 3 || c === 1 || c === 6 || (r >= 4 && c !== 9 && RANKED_LIST[r - 4].group.code !== "TB"),
+            color: { rgb: r === 3 ? "FFFFFF" : "000000" }
+          },
+          fill: r >= 3 ? { fgColor: { rgb: c === 9 && r >= 4 ? "FFFFFF" : bgHex } } : undefined,
+          alignment: { horizontal: (c === 9 && r >= 4) ? "left" : "center", vertical: (c === 9 && r >= 4) ? "top" : "center", wrapText: true },
+          border: r >= 3 ? border : undefined
+        };
+      }
+    }
+    XLSX.utils.book_append_sheet(wb, wsTD, "Tong_diem");
+
+    const bbRows = [
+      ["CẬP NHẬT VI PHẠM BIÊN BẢN", "", "", "", ""],
+      ["STT", "Họ và tên", "Lớp", "Nội dung vi phạm", "Ngày biên bản"]
+    ];
+    (STATE.bienBans || []).forEach((b, i) => {
+      bbRows.push([i + 1, b.hoTen, b.lop, b.noiDung, b.ngayBB]);
+    });
+    const wsBB = XLSX.utils.aoa_to_sheet(bbRows);
+    wsBB["!merges"] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 4 } }];
+    wsBB["!cols"] = [{ wch: 6 }, { wch: 25 }, { wch: 10 }, { wch: 42 }, { wch: 15 }];
+    for (let r = 0; r < bbRows.length; r++) {
+      for (let c = 0; c < 5; c++) {
+        const addr = XLSX.utils.encode_cell({ r, c });
+        if (!wsBB[addr]) wsBB[addr] = { v: "", t: "s" };
+        wsBB[addr].s = {
+          font: { name: "Times New Roman", sz: r === 0 ? 14 : 12, bold: r <= 1 },
+          alignment: { horizontal: (c === 1 || c === 3) && r >= 2 ? "left" : "center", vertical: "center", wrapText: true },
+          border: r >= 1 ? border : undefined
+        };
+      }
+    }
+    XLSX.utils.book_append_sheet(wb, wsBB, "Vi_pham_bien_ban");
+
+    const tkRows = [
+      ["ĐOÀN TRƯỜNG THPT YÊN DŨNG SỐ 3", "", "", "", "", ""],
+      [`THỐNG KÊ CHI TIẾT ĐIỂM CỘNG, ĐIỂM TRỪ THEO LỚP — TUẦN ${tuan} (${rangeStr})`, "", "", "", "", ""],
+      ["STT", "Lớp", "Điểm cộng", "Điểm trừ", "Tổng cộng/trừ", "Chi tiết lý do cộng / trừ điểm (từ sổ nhật ký)"]
+    ];
+
+    let hasAnyAdj = false;
+    let sttTk = 0;
+    RANKED_LIST.forEach((r) => {
+      const adjLogs = (r.logs || []).filter(l => l.nguon === "Điểm cộng" || l.nguon === "Điểm trừ" || l.nguon === "Không báo điểm");
+      if (r.diemCong > 0 || r.diemTruVal > 0 || adjLogs.length > 0) {
+        hasAnyAdj = true;
+        sttTk++;
+        const detailParts = adjLogs.map(item => {
+          const ptsStr = item.thanhTien >= 0 ? `+${item.thanhTien}đ` : `${item.thanhTien}đ`;
+          const who = item.hoTenHS ? `[${item.hoTenHS}] ` : "";
+          const slStr = item.soLuong > 1 ? ` (SL: ${item.soLuong})` : "";
+          return `• [${item.nguon}] ${who}${item.noiDung}${slStr}: ${ptsStr}`;
+        });
+        const netAdj = Number(((r.diemCong || 0) - (r.diemTruVal || 0)).toFixed(2));
+        tkRows.push([
+          sttTk,
+          r.lop,
+          r.diemCong > 0 ? `+${r.diemCong}` : 0,
+          r.diemTruVal > 0 ? -r.diemTruVal : 0,
+          netAdj > 0 ? `+${netAdj}` : netAdj,
+          detailParts.join("\n") || "Không ghi chú chi tiết"
+        ]);
+      }
+    });
+
+    if (!hasAnyAdj) {
+      tkRows.push(["-", "Tất cả", 0, 0, 0, `Tuần ${tuan} chưa có lớp nào phát sinh điểm cộng hoặc điểm trừ.`]);
+    }
+
+    const wsTK = XLSX.utils.aoa_to_sheet(tkRows);
+    wsTK["!merges"] = [
+      { s: { r: 0, c: 0 }, e: { r: 0, c: 5 } },
+      { s: { r: 1, c: 0 }, e: { r: 1, c: 5 } }
+    ];
+    wsTK["!cols"] = [{ wch: 6 }, { wch: 10 }, { wch: 13 }, { wch: 13 }, { wch: 15 }, { wch: 58 }];
+
+    for (let r = 0; r < tkRows.length; r++) {
+      for (let c = 0; c < 6; c++) {
+        const addr = XLSX.utils.encode_cell({ r, c });
+        if (!wsTK[addr]) wsTK[addr] = { v: "", t: "s" };
+        let cellColor = "000000";
+        let bgFill = undefined;
+        if (r === 2) {
+          cellColor = "FFFFFF";
+          bgFill = { fgColor: { rgb: "1E293B" } };
+        } else if (r >= 3 && hasAnyAdj) {
+          if (c === 2 && String(tkRows[r][2]).startsWith("+")) cellColor = "15803D";
+          if (c === 3 && Number(tkRows[r][3]) < 0) cellColor = "B91C1C";
+          if (c === 4) {
+            const vNum = Number(String(tkRows[r][4]).replace("+", ""));
+            if (vNum > 0) cellColor = "15803D";
+            else if (vNum < 0) cellColor = "B91C1C";
+          }
+          if (r % 2 === 1) bgFill = { fgColor: { rgb: "F8FAFC" } };
+        }
+        wsTK[addr].s = {
+          font: {
+            name: "Times New Roman",
+            sz: r <= 1 ? 14 : 12,
+            bold: r <= 2 || c === 1 || c === 4,
+            color: { rgb: cellColor }
+          },
+          fill: bgFill,
+          alignment: {
+            horizontal: (c === 5 && r >= 3) ? "left" : "center",
+            vertical: "center",
+            wrapText: true
+          },
+          border: r >= 2 ? border : undefined
+        };
+      }
+    }
+    XLSX.utils.book_append_sheet(wb, wsTK, "Thong_ke_cong_tru");
+
+    XLSX.writeFile(wb, `Tuan_${tuan}_Thi_Dua_Doan_Truong_YD3.xlsx`);
+  }
 </script>
 </body>
 </html>
