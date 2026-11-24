@@ -383,6 +383,7 @@
   const DEFAULT_ADMIN_PIN = "2026";
   const MAX_CODO = 80;
   const MAX_HOCTAP = 20;
+  const CACHE_KEY = "yd3_doan_state_cache_v7";
 
   // Bắt đầu áp dụng tự động trừ điểm nộp muộn điểm cờ đỏ sau 23:00 Thứ Bảy từ Tuần 12 trở đi
   // (Tuần 11 mới triển khai app nên không trừ điểm nộp muộn).
@@ -521,7 +522,7 @@
 
     updatePresetList();
     try {
-      const cachedRaw = localStorage.getItem("yd3_doan_state_cache_v7");
+      const cachedRaw = localStorage.getItem(CACHE_KEY);
       if (cachedRaw) {
         const cachedObj = JSON.parse(cachedRaw);
         if (cachedObj && Array.isArray(cachedObj.classes)) {
@@ -670,18 +671,29 @@
 
   async function loadData(manual) {
     const btn = document.getElementById('btnRef');
-    if (manual && btn) { btn.disabled = true; btn.innerText = "⏳ Đang tải..."; }
+    if (manual) {
+      try { localStorage.removeItem(CACHE_KEY); } catch (e) {}
+      STATE.logs = [];
+      STATE.bienBans = [];
+      STATE.danhGiaTuan = "";
+      STATE.danhGiaTheoTuan = {};
+      renderAll();
+      if (btn) { btn.disabled = true; btn.innerText = "⏳ Đang đồng bộ..."; }
+    }
     const ctrl = new AbortController();
-    const timeoutId = setTimeout(() => ctrl.abort(), 12000);
+    const timeoutId = setTimeout(() => ctrl.abort(), 25000);
     try {
-      const r = await fetch(API_URL + "?t=" + Date.now(), { signal: ctrl.signal });
+      const r = await fetch(API_URL + "?nocache=1&t=" + Date.now(), {
+        signal: ctrl.signal,
+        cache: "no-store"
+      });
       const res = await r.json();
       if (res && res.classes) {
         STATE = {
           ...res,
           danhGiaTheoTuan: (res.danhGiaTheoTuan && typeof res.danhGiaTheoTuan === "object") ? res.danhGiaTheoTuan : {}
         };
-        try { localStorage.setItem("yd3_doan_state_cache_v7", JSON.stringify(STATE)); } catch (e) {}
+        try { localStorage.setItem(CACHE_KEY, JSON.stringify(STATE)); } catch (e) {}
         document.getElementById('lblHeader').innerText = `THEO DÕI ĐIỂM THI ĐUA ĐOÀN TRƯỜNG THPT YÊN DŨNG SỐ 3(${STATE.namHoc || "2026 - 2027"})`;
         const selW = Number(document.getElementById('selWeek').value || getAutoCurrentWeek());
         const ta = document.getElementById('txtDanhGiaTuan');
@@ -694,7 +706,7 @@
     } catch (e) {
       if (manual) {
         alert(e.name === "AbortError"
-          ? "Máy chủ Google Sheets phản hồi chậm, đang hiển thị dữ liệu đã lưu gần nhất."
+          ? "Máy chủ Google Sheets phản hồi quá 25 giây. Vui lòng thử bấm Làm mới lại sau vài giây."
           : "Lỗi kết nối dữ liệu: " + e.message);
       }
       renderAll();
@@ -1264,7 +1276,7 @@
             ngayGhi: ""
           });
         }
-        try { localStorage.setItem("yd3_doan_state_cache_v7", JSON.stringify(STATE)); } catch (e) {}
+        try { localStorage.setItem(CACHE_KEY, JSON.stringify(STATE)); } catch (e) {}
         document.getElementById('cbReporterNote').value = "";
         renderAll();
       }
@@ -1415,7 +1427,7 @@
     if (!ADMIN_UNLOCKED || !confirm("Xóa mục điểm này?")) return;
     try {
       STATE.logs = (STATE.logs || []).filter(item => item.id !== id);
-      try { localStorage.setItem("yd3_doan_state_cache_v7", JSON.stringify(STATE)); } catch (e) {}
+      try { localStorage.setItem(CACHE_KEY, JSON.stringify(STATE)); } catch (e) {}
       if (EDITING_ID === id) cancelEdit();
       renderAll();
 
@@ -1507,7 +1519,7 @@
         if (!STATE.danhGiaTheoTuan) STATE.danhGiaTheoTuan = {};
         STATE.danhGiaTheoTuan[tuan] = danhGiaTuan;
         if (tuan === Number(STATE.tuanHienTai)) STATE.danhGiaTuan = danhGiaTuan;
-        try { localStorage.setItem("yd3_doan_state_cache_v7", JSON.stringify(STATE)); } catch (e) {}
+        try { localStorage.setItem(CACHE_KEY, JSON.stringify(STATE)); } catch (e) {}
         await loadData(false);
       }
     } catch (e) {
