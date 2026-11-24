@@ -42,6 +42,22 @@
     .btn-excel { background: #15803d; color: #fff; border: none; font-weight: 600; cursor: pointer; }
     .btn-ref { background: #fff; color: var(--primary); border: 1px solid var(--primary); font-weight: 600; cursor: pointer; }
 
+    .week-mismatch-banner {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      background: #fef2f2;
+      border: 2px solid #dc2626;
+      color: #991b1b;
+      padding: 11px 14px;
+      border-radius: 12px;
+      margin-bottom: 14px;
+      font-weight: 700;
+      font-size: 13.5px;
+    }
+
     .nav-tabs { display: flex; flex-wrap: wrap; gap: 6px; background: #f1f5f9; padding: 5px; border-radius: 12px; margin-bottom: 14px; }
     .tab-btn { flex: 1; min-width: 170px; padding: 10px 8px; border: none; border-radius: 9px; font-weight: 600; font-size: 13.5px; cursor: pointer; background: transparent; color: #475569; }
     .tab-btn.active { background: #ffffff; color: var(--primary); font-weight: 700; box-shadow: 0 2px 6px rgba(0,0,0,0.07); }
@@ -145,6 +161,12 @@
       <button class="btn-ref" id="btnRef" onclick="loadData(true)">🔄 Làm mới</button>
       <button class="btn-excel" onclick="exportFullWeekExcel()">📥 Xuất Excel tuần</button>
     </div>
+  </div>
+
+  <!-- CẢNH BÁO KHI CHỌN LỆCH TUẦN HIỆN TẠI -->
+  <div id="weekMismatchBanner" class="week-mismatch-banner">
+    <span id="weekMismatchText">⚠️ CẢNH BÁO: Bạn đang chọn khác tuần thi đua hiện tại!</span>
+    <button type="button" class="btn-primary" style="padding:6px 12px; font-size:12.5px;" onclick="switchToCurrentSystemWeek()">↩️ Quay về đúng tuần hiện tại</button>
   </div>
 
   <div class="nav-tabs">
@@ -711,17 +733,39 @@
 
   function renderWeekDropdown(selectedWeek) {
     const wSel = document.getElementById('selWeek');
-    const curVal = Number(selectedWeek || wSel.value || getAutoCurrentWeek());
+    const autoW = getAutoCurrentWeek();
+    const curVal = Number(selectedWeek || wSel.value || autoW);
     let wHtml = "";
     for (let i = 1; i <= 37; i++) {
       const isLateCD = isPastRedFlagSaturday23h(i);
       const allLocked = isWeekLocked(i);
+      const curTag = (i === autoW) ? ' ★ HIỆN TẠI' : '';
       const statusText = allLocked
         ? '🔒 (Đã khóa sổ)'
         : (isLateCD ? '⚠️ (Nộp muộn cờ đỏ -1đ • Mở)' : '🟢 (Đang mở)');
-      wHtml += `<option value="${i}" ${i === curVal ? 'selected' : ''}>Tuần ${i} ${statusText}</option>`;
+      wHtml += `<option value="${i}" ${i === curVal ? 'selected' : ''}>Tuần ${i} (${getWeekDateRange(i)})${curTag} ${statusText}</option>`;
     }
     wSel.innerHTML = wHtml;
+  }
+
+  function updateWeekMismatchWarning(tuan) {
+    const banner = document.getElementById('weekMismatchBanner');
+    const txt = document.getElementById('weekMismatchText');
+    if (!banner || !txt) return;
+    const autoW = getAutoCurrentWeek();
+    if (Number(tuan) === autoW) {
+      banner.style.display = "none";
+    } else {
+      banner.style.display = "flex";
+      const rel = Number(tuan) < autoW ? "tuần trước" : "tuần sau";
+      txt.innerText = `⚠️ CẢNH BÁO CHỌN LỆCH TUẦN: Bạn đang chọn Tuần ${tuan} (${getWeekDateRange(tuan)} — ${rel}), trong khi tuần thi đua hiện tại là Tuần ${autoW} (${getWeekDateRange(autoW)})!`;
+    }
+  }
+
+  function switchToCurrentSystemWeek() {
+    const autoW = getAutoCurrentWeek();
+    renderWeekDropdown(autoW);
+    renderAll();
   }
 
   async function toggleLockCurrentWeek() {
@@ -793,6 +837,7 @@
 
   function renderAll() {
     const tuan = Number(document.getElementById('selWeek').value || getAutoCurrentWeek());
+    updateWeekMismatchWarning(tuan);
     const ta = document.getElementById('txtDanhGiaTuan');
     if (ta && document.activeElement !== ta) {
       ta.value = getWeekComment(tuan);
@@ -1060,6 +1105,7 @@
 
   async function submitClassScores() {
     const tuan = Number(document.getElementById('selWeek').value || getAutoCurrentWeek());
+    const autoW = getAutoCurrentWeek();
     const lop = document.getElementById('cbLop').value;
     const manualLocked = isManualWeekLocked(tuan);
     const isLateRedFlag = isPastRedFlagSaturday23h(tuan);
@@ -1117,13 +1163,17 @@
       : `GVCN / lớp bổ sung điểm học tập: ${scoreHT}/${MAX_HOCTAP}đ`;
 
     const summaryParts = [];
+    summaryParts.push(`• Tuần thi đua: TUẦN ${tuan} (${getWeekDateRange(tuan)})`);
+    if (tuan !== autoW) {
+      summaryParts.push(`🚨 CHÚ Ý LỆCH TUẦN: Tuần đang chọn là Tuần ${tuan}, KHÁC với tuần hiện tại (Tuần ${autoW})!`);
+    }
     if (hasInputCD) summaryParts.push(`• Điểm cờ đỏ: ${scoreCD}/${MAX_CODO}đ`);
     if (applyLatePenalty) summaryParts.push(`• Tự động trừ điểm nộp muộn (sau 23:00 Thứ Bảy): -1đ`);
     if (hasInputHT) summaryParts.push(`• Điểm học tập: ${scoreHT}/${MAX_HOCTAP}đ`);
     if (note) summaryParts.push(`• Ghi chú: ${note}`);
 
     const okConfirm = confirm(
-      `Xác nhận gửi và chốt báo điểm cho lớp ${lop} (Tuần ${tuan})?\n\n` +
+      `Xác nhận gửi và chốt báo điểm cho lớp ${lop} — TUẦN ${tuan}?\n\n` +
       summaryParts.join("\n") +
       `\n\n⚠️ Lưu ý: Sau khi bấm OK, các mục đã gửi sẽ tự động KHÓA CHỐT (cán bộ lớp không thể tự sửa lại).`
     );
@@ -1322,6 +1372,7 @@
   async function saveEntry() {
     if (!ADMIN_UNLOCKED) return;
     const tuan = Number(document.getElementById('selWeek').value || 11);
+    const autoW = getAutoCurrentWeek();
     const lop = document.getElementById('inLop').value;
     const nguon = document.getElementById('inNguon').value;
     const soLuong = Math.max(1, Number(document.getElementById('inQty').value || 1));
@@ -1330,6 +1381,11 @@
     const noiDung = document.getElementById('inNote').value.trim();
 
     if (!noiDung || isNaN(rawPts) || rawPts === 0) return alert("Vui lòng nhập đầy đủ mức điểm và nội dung!");
+
+    if (tuan !== autoW) {
+      const okWeek = confirm(`⚠️ CẢNH BÁO LỆCH TUẦN: Bạn đang lưu mục "${nguon}" cho lớp ${lop} vào TUẦN ${tuan} (${getWeekDateRange(tuan)}), khác với tuần hiện tại (Tuần ${autoW}).\n\nBấm OK nếu chắc chắn muốn lưu vào Tuần ${tuan}!`);
+      if (!okWeek) return;
+    }
 
     let diemDonVi = rawPts;
     if (nguon === "Cờ đỏ" || nguon === "Điểm học tập" || nguon === "Điểm trừ" || nguon === "Không báo điểm") diemDonVi = -Math.abs(rawPts);
