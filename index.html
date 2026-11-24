@@ -899,8 +899,9 @@
       const cLogs = wLogs.filter(l => String(l.lop || "").trim().toUpperCase() === lop);
       const isKhongBao = cLogs.some(l => l.nguon === "Không báo điểm");
 
-      const coDoDelta = Number(cLogs.filter(l => l.nguon === "Cờ đỏ").reduce((s, l) => s + toNum(l.thanhTien), 0).toFixed(2));
-      const diemCoDo = isKhongBao ? 0 : Number(Math.max(0, Math.min(MAX_CODO, MAX_CODO + coDoDelta)).toFixed(2));
+      const cdLogs = cLogs.filter(l => l.nguon === "Cờ đỏ");
+      const coDoDelta = Number(cdLogs.reduce((s, l) => s + toNum(l.thanhTien), 0).toFixed(2));
+      const diemCoDo = (isKhongBao || cdLogs.length === 0) ? 0 : Number(Math.max(0, Math.min(MAX_CODO, MAX_CODO + coDoDelta)).toFixed(2));
 
       const htLogs = cLogs.filter(l => l.nguon === "Điểm học tập");
       const hocTapDelta = Number(htLogs.reduce((s, l) => s + toNum(l.thanhTien), 0).toFixed(2));
